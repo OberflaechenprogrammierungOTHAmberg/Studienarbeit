@@ -1,13 +1,13 @@
 ﻿namespace MathArts
 {
-    partial class FrmMathArts
+    partial class Ctl_MathArtsDisp
     {
-        /// <summary>
+        /// <summary> 
         /// Erforderliche Designervariable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Verwendete Ressourcen bereinigen.
         /// </summary>
         /// <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
@@ -20,23 +20,20 @@
             base.Dispose(disposing);
         }
 
-        #region Vom Windows Form-Designer generierter Code
+        #region Vom Komponenten-Designer generierter Code
 
-        /// <summary>
-        /// Erforderliche Methode für die Designerunterstützung.
+        /// <summary> 
+        /// Erforderliche Methode für die Designerunterstützung. 
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
             // 
-            // FrmMathArts
+            // Ctl_MathArtsDisp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "FrmMathArts";
-            this.Text = "Mathematik Kunst";
+            this.Name = "Ctl_MathArtsDisp";
+            this.Size = new System.Drawing.Size(316, 192);
             this.ResumeLayout(false);
 
         }
@@ -44,4 +41,3 @@
         #endregion
     }
 }
-

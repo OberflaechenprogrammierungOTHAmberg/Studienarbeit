@@ -45,16 +45,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmMathArts.cs">
+    <Compile Include="Ctl_MathArtsDisp.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ctl_MathArtsDisp.Designer.cs">
+      <DependentUpon>Ctl_MathArtsDisp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_MathArts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMathArts.Designer.cs">
-      <DependentUpon>FrmMathArts.cs</DependentUpon>
+    <Compile Include="Frm_MathArts.Designer.cs">
+      <DependentUpon>Frm_MathArts.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmMathArts.resx">
-      <DependentUpon>FrmMathArts.cs</DependentUpon>
+    <EmbeddedResource Include="Ctl_MathArtsDisp.resx">
+      <DependentUpon>Ctl_MathArtsDisp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_MathArts.resx">
+      <DependentUpon>Frm_MathArts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

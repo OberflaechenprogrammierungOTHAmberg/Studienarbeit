@@ -16,7 +16,7 @@ namespace MathArts
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMathArts());
+            Application.Run(new Frm_MathArts());
         }
     }
 }
