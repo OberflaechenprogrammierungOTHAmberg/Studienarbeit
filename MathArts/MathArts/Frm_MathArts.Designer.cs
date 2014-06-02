@@ -40,6 +40,7 @@
             this.menuItem_Function = new System.Windows.Forms.MenuItem();
             this.menuItem_Settings = new System.Windows.Forms.MenuItem();
             this.menuItem_FrameVisible = new System.Windows.Forms.MenuItem();
+            this.MathArtsDisp_Container = new MathArts.Ctl_MathArtsDisp();
             this.SuspendLayout();
             // 
             // menu_MathArts
@@ -91,6 +92,7 @@
             // 
             this.menuItem_Color.Index = 0;
             this.menuItem_Color.Text = "F&arbe";
+            this.menuItem_Color.Click += new System.EventHandler(this.menuItem_Color_Click);
             // 
             // menuItem_Function
             // 
@@ -106,16 +108,28 @@
             // 
             // menuItem_FrameVisible
             // 
+            this.menuItem_FrameVisible.Checked = true;
             this.menuItem_FrameVisible.Index = 0;
             this.menuItem_FrameVisible.Text = "&Rahmen sichtbar";
+            this.menuItem_FrameVisible.Click += new System.EventHandler(this.menuItem_FrameVisible_Click);
+            // 
+            // MathArtsDisp_Container
+            // 
+            this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
+            this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
+            this.MathArtsDisp_Container.Size = new System.Drawing.Size(514, 241);
+            this.MathArtsDisp_Container.TabIndex = 0;
             // 
             // Frm_MathArts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 377);
+            this.ClientSize = new System.Drawing.Size(514, 241);
+            this.Controls.Add(this.MathArtsDisp_Container);
             this.Menu = this.menu_MathArts;
             this.Name = "Frm_MathArts";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mathematik Kunst";
             this.ResumeLayout(false);
 
@@ -134,6 +148,7 @@
         private System.Windows.Forms.MenuItem menuItem_Function;
         private System.Windows.Forms.MenuItem menuItem_Settings;
         private System.Windows.Forms.MenuItem menuItem_FrameVisible;
+        private Ctl_MathArtsDisp MathArtsDisp_Container;
     }
 }
 

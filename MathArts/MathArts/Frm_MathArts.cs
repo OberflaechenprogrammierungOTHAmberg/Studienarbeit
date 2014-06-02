@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathArts.MathArtsColor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,5 +17,21 @@ namespace MathArts
         {
             InitializeComponent();
         }
+
+        #region MenuEvents
+        private void menuItem_Color_Click(object sender, EventArgs e)
+        {
+            Ctl_MathArtsColor color = new Ctl_MathArtsColor();
+            color.Location = new Point(5, 5);
+
+            this.MathArtsDisp_Container.AddMathArtsObject(color as Ctl_MathArtsObject);
+        }
+
+        private void menuItem_FrameVisible_Click(object sender, EventArgs e)
+        {
+            this.menuItem_FrameVisible.Checked = !this.menuItem_FrameVisible.Checked;
+            this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+        }
+        #endregion
     }
 }

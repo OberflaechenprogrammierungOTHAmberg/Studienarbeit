@@ -1,6 +1,6 @@
-﻿namespace MathArts
+﻿namespace MathArts.MathArtsColor
 {
-    partial class Ctl_MathArtsDisp
+    partial class Ctl_MathArtsColor
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -30,12 +30,16 @@
         {
             this.SuspendLayout();
             // 
-            // Ctl_MathArtsDisp
+            // Ctl_MathArtsColor
             // 
-            this.Name = "Ctl_MathArtsDisp";
-            this.Size = new System.Drawing.Size(316, 192);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsDisp_Paint);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "Ctl_MathArtsColor";
+            this.Size = new System.Drawing.Size(201, 164);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsColor_Paint);
+            this.DoubleClick += new System.EventHandler(this.Ctl_MathArtsColor_DoubleClick);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

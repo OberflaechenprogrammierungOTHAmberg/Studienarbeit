@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,13 +43,40 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TransParentLib">
+      <HintPath>..\..\..\..\..\Downloads\TransParentLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MathArtsColor\Ctl_MathArtsColor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MathArtsColor\Ctl_MathArtsColor.Designer.cs">
+      <DependentUpon>Ctl_MathArtsColor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ctl_MathArtsDisp.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Ctl_MathArtsDisp.Designer.cs">
       <DependentUpon>Ctl_MathArtsDisp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MathArtsColor\Frm_MathArtsColorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MathArtsColor\Frm_MathArtsColorDialog.Designer.cs">
+      <DependentUpon>Frm_MathArtsColorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MathArtsFunction\Ctl_MathArtsFunction.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MathArtsFunction\Ctl_MathArtsFunction.Designer.cs">
+      <DependentUpon>Ctl_MathArtsFunction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ctl_MathArtsObject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ctl_MathArtsObject.Designer.cs">
+      <DependentUpon>Ctl_MathArtsObject.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_MathArts.cs">
       <SubType>Form</SubType>
@@ -57,13 +84,28 @@
     <Compile Include="Frm_MathArts.Designer.cs">
       <DependentUpon>Frm_MathArts.cs</DependentUpon>
     </Compile>
+    <Compile Include="MathArtsFunction\Frm_MathArtsFunctionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MathArtsFunction\Frm_MathArtsFunctionDialog.Designer.cs">
+      <DependentUpon>Frm_MathArtsFunctionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MathArtsColor\Ctl_MathArtsColor.resx">
+      <DependentUpon>Ctl_MathArtsColor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ctl_MathArtsDisp.resx">
       <DependentUpon>Ctl_MathArtsDisp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ctl_MathArtsObject.resx">
+      <DependentUpon>Ctl_MathArtsObject.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm_MathArts.resx">
       <DependentUpon>Frm_MathArts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MathArtsColor\Frm_MathArtsColorDialog.resx">
+      <DependentUpon>Frm_MathArtsColorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
