@@ -34,7 +34,7 @@
             // Lbl_DebugInfo
             // 
             this.Lbl_DebugInfo.AutoSize = true;
-            this.Lbl_DebugInfo.Location = new System.Drawing.Point(29, 67);
+            this.Lbl_DebugInfo.Location = new System.Drawing.Point(30, 56);
             this.Lbl_DebugInfo.Name = "Lbl_DebugInfo";
             this.Lbl_DebugInfo.Size = new System.Drawing.Size(0, 13);
             this.Lbl_DebugInfo.TabIndex = 0;

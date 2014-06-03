@@ -1,4 +1,20 @@
-﻿using System;
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// <copyright file="Ctl_MathArtsColor.cs">
+// Copyright (c) 2014
+// </copyright>
+//
+// <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
+// <date>02-06-2014</date>
+//
+// <professor>Prof. Dr. Josef Poesl</professor>
+// <studyCourse>Angewandte Informatik</studyCourse>
+// <branchOfStudy>Industrieinformatik</branchOfStudy>
+// <subject>Oberflaechenprogrammierung</subject>
+//
+// <summary></summary>
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -13,18 +29,34 @@ namespace MathArts.MathArtsColor
 {
     public partial class Ctl_MathArtsColor : Ctl_MathArtsObject
     {
+        #region constants
+        //color can not be defined as const 
+        static readonly private Color DEFAULT_COLOR = Color.White;
+        private const ColTypes DEFAULT_COLTYPE = ColTypes.High;
+        #endregion constants
+
         #region member
         private Color color;
         private ColTypes colType;
         #endregion
 
         #region constructors
+
         public Ctl_MathArtsColor()
         {
             InitializeComponent();
-            this.color = Color.White;
-            this.colType = ColTypes.Low;
+
+            //initialize member and finally use property to trigger ValueChanged event
+            this.color = DEFAULT_COLOR;
+            this.ColType = DEFAULT_COLTYPE;
         }
+
+        public Ctl_MathArtsColor(int _x,int _y)
+            :this()
+        {
+            this.Location = new Point(_x, _y);
+        }
+
         #endregion
 
         #region properties
@@ -58,14 +90,6 @@ namespace MathArts.MathArtsColor
 
         #region events
         public event EventHandler ValueChanged;
-        #endregion
-
-        #region enums
-        public enum ColTypes
-        {
-            Low, High
-        }
-        #endregion
 
         private void Ctl_MathArtsColor_Paint(object sender, PaintEventArgs e)
         {
@@ -76,7 +100,7 @@ namespace MathArts.MathArtsColor
 
         private void Ctl_MathArtsColor_DoubleClick(object sender, EventArgs e)
         {
-            Frm_MathArtsColorDialog coldlg = new Frm_MathArtsColorDialog(this.color);
+            Frm_MathArtsColorDialog coldlg = new Frm_MathArtsColorDialog(this.color, this.colType);
             coldlg.ColorChanged += coldlg_ColorChanged;
             coldlg.ShowDialog();
         }
@@ -84,12 +108,32 @@ namespace MathArts.MathArtsColor
         void coldlg_ColorChanged(object sender, ColorChangedEventArgs e)
         {
             this.Color = e.NewColor;
+            this.ColType = e.NewColType;
         }
+        #endregion
 
+        #region enums
+        public enum ColTypes
+        {
+            Low, High
+        }
+        #endregion
+
+        #region debug methods
         [ConditionalAttribute("DEBUG")]
         private void drawFilledEllipse(PaintEventArgs e,SolidBrush _solidBrush, int _x1, int _y1, int _x2, int _y2)
         {
             e.Graphics.FillEllipse(_solidBrush, _x1, _y1,_x2, _y2);
+            //DEBUG
+            showDebugInformationColor("C: " + this.Color.ToString() + " CType" + this.ColType.ToString());
         }
+
+        [ConditionalAttribute("DEBUG")]
+        private void showDebugInformationColor(string _info)
+        {
+            Lbl_DebugInfoColor.Text = _info;
+        }
+        
+        #endregion debug methods
     }
 }

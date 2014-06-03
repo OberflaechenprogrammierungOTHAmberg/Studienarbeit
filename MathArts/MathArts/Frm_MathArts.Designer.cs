@@ -98,6 +98,7 @@
             // 
             this.menuItem_Function.Index = 1;
             this.menuItem_Function.Text = "&Funktion";
+            this.menuItem_Function.Click += new System.EventHandler(this.menuItem_Function_Click);
             // 
             // menuItem_Settings
             // 
@@ -118,14 +119,14 @@
             this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
             this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
-            this.MathArtsDisp_Container.Size = new System.Drawing.Size(514, 241);
+            this.MathArtsDisp_Container.Size = new System.Drawing.Size(509, 182);
             this.MathArtsDisp_Container.TabIndex = 0;
             // 
             // Frm_MathArts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 241);
+            this.ClientSize = new System.Drawing.Size(509, 182);
             this.Controls.Add(this.MathArtsDisp_Container);
             this.Menu = this.menu_MathArts;
             this.Name = "Frm_MathArts";

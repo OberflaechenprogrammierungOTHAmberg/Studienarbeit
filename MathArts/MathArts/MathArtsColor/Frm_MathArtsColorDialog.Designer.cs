@@ -33,6 +33,7 @@
             this.Pnl_ColorPreview = new System.Windows.Forms.Panel();
             this.Btn_Color = new System.Windows.Forms.Button();
             this.Cb_Type = new System.Windows.Forms.ComboBox();
+            this.Lbl_DebugInfoColType = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Lbl_Color
@@ -78,12 +79,22 @@
             this.Cb_Type.Name = "Cb_Type";
             this.Cb_Type.Size = new System.Drawing.Size(112, 21);
             this.Cb_Type.TabIndex = 4;
+            this.Cb_Type.SelectedIndexChanged += new System.EventHandler(this.Cb_Type_SelectedIndexChanged);
+            // 
+            // Lbl_DebugInfoColType
+            // 
+            this.Lbl_DebugInfoColType.AutoSize = true;
+            this.Lbl_DebugInfoColType.Location = new System.Drawing.Point(86, 66);
+            this.Lbl_DebugInfoColType.Name = "Lbl_DebugInfoColType";
+            this.Lbl_DebugInfoColType.Size = new System.Drawing.Size(0, 13);
+            this.Lbl_DebugInfoColType.TabIndex = 5;
             // 
             // Frm_MathArtsColorDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(215, 75);
+            this.Controls.Add(this.Lbl_DebugInfoColType);
             this.Controls.Add(this.Cb_Type);
             this.Controls.Add(this.Btn_Color);
             this.Controls.Add(this.Pnl_ColorPreview);
@@ -108,5 +119,6 @@
         private System.Windows.Forms.Panel Pnl_ColorPreview;
         private System.Windows.Forms.Button Btn_Color;
         private System.Windows.Forms.ComboBox Cb_Type;
+        private System.Windows.Forms.Label Lbl_DebugInfoColType;
     }
 }

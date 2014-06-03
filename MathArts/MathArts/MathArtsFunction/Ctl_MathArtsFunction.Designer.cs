@@ -28,10 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.Lbl_DebugInfoFuncVal = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // Lbl_DebugInfoFuncVal
+            // 
+            this.Lbl_DebugInfoFuncVal.AutoSize = true;
+            this.Lbl_DebugInfoFuncVal.Location = new System.Drawing.Point(3, 87);
+            this.Lbl_DebugInfoFuncVal.Name = "Lbl_DebugInfoFuncVal";
+            this.Lbl_DebugInfoFuncVal.Size = new System.Drawing.Size(0, 13);
+            this.Lbl_DebugInfoFuncVal.TabIndex = 1;
+            // 
+            // Ctl_MathArtsFunction
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Lbl_DebugInfoFuncVal);
+            this.Name = "Ctl_MathArtsFunction";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsFunction_Paint);
+            this.DoubleClick += new System.EventHandler(this.Ctl_MathArtsFunction_DoubleClick);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ctl_MathArtsFunction_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Ctl_MathArtsFunction_MouseUp);
+            this.Controls.SetChildIndex(this.Lbl_DebugInfoFuncVal, 0);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label Lbl_DebugInfoFuncVal;
     }
 }

@@ -1,4 +1,20 @@
-﻿using System;
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// <copyright file="Ctl_MathArtsObject.cs">
+// Copyright (c) 2014
+// </copyright>
+//
+// <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
+// <date>02-06-2014</date>
+//
+// <professor>Prof. Dr. Josef Poesl</professor>
+// <studyCourse>Angewandte Informatik</studyCourse>
+// <branchOfStudy>Industrieinformatik</branchOfStudy>
+// <subject>Oberflaechenprogrammierung</subject>
+//
+// <summary></summary>
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -23,12 +39,25 @@ namespace MathArts
         {
             InitializeComponent();
         }
+
+
+        //better: use this constructor instead of implement it with default location in each child
+        //problem: how to set default values? need to call -> Ctl_MathArtsObject(int _x,int _y) -> Child() 
+        /*
+        public Ctl_MathArtsObject(int _x,int _y)
+        {
+            InitializeComponent();
+            this.Location = new Point(_x, _y);
+        }
+        */
         #endregion
 
+        #region enumerations
         private enum MouseClickType
         {
             None, Move, Resize
         }
+        #endregion enumerations
 
         #region Mouse Events
         private void Ctl_MathArtsObject_MouseDown(object sender, MouseEventArgs e)
@@ -75,13 +104,14 @@ namespace MathArts
         } 
         #endregion
 
-
+        #region debug methods
         [ConditionalAttribute("DEBUG")]
         private void showDebugInformation(string info)
         {
             Lbl_DebugInfo.Text = info;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         }
+        #endregion debug methods
 
     }
 }
