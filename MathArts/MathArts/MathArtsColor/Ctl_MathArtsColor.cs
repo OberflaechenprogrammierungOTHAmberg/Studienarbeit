@@ -137,19 +137,7 @@ namespace MathArts.MathArtsColor
         private void drawFilledEllipse(PaintEventArgs e,SolidBrush _solidBrush, int _x1, int _y1, int _x2, int _y2)
         {
             e.Graphics.FillEllipse(_solidBrush, _x1, _y1,_x2, _y2);
-            //DEBUG
-            showDebugInformationColor("C: " + this.Color.ToString() + " CType" + this.ColType.ToString());
         }
-
-        /// <summary>
-        /// Displays info string for easier error tracing
-        /// </summary>
-        /// <param name="_info"></param>
-        [ConditionalAttribute("DEBUG")]
-        private void showDebugInformationColor(string _info)
-        {
-            Lbl_DebugInfoColor.Text = _info;
-        }
-        #endregion debug methods
+        #endregion
     }
 }

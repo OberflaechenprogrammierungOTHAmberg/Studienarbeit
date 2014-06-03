@@ -109,15 +109,19 @@ namespace MathArts.Debug
             //get selected math arts object by chosen index 
             selectedMathArtsObj=displayedMathArtsObjects[mathArtsObjIndex];
 
-            //subscribe to new math arts object events
+            //subscribe to new math arts object events and set specific value labels
             selectedMathArtsObj.ShapeValueChanged += selectedMathArtsObj_ShapeValueChanged;
             if (selectedMathArtsObj is Ctl_MathArtsColor)
             {
                 (selectedMathArtsObj as Ctl_MathArtsColor).ValueChanged += Frm_MathArtsObjTracing_ValueChanged;
+                Lbl_MathArtsObjTypeSpecific_1.Text = "Farbe:" + (selectedMathArtsObj as Ctl_MathArtsColor).Color.ToString();
+                Lbl_MathArtsObjTypeSpecific_2.Text = "Farbtyp:" + (selectedMathArtsObj as Ctl_MathArtsColor).ColType.ToString();
             }
             else if (selectedMathArtsObj is Ctl_MathArtsFunction)
             {
                 (selectedMathArtsObj as Ctl_MathArtsFunction).ValueChanged += Frm_MathArtsObjTracing_ValueChanged;
+                Lbl_MathArtsObjTypeSpecific_1.Text = "Funkionstyp:" + (selectedMathArtsObj as Ctl_MathArtsFunction).FuncType.ToString();
+                Lbl_MathArtsObjTypeSpecific_2.Text = "Invertiert:" + ((selectedMathArtsObj as Ctl_MathArtsFunction).FuncInverse ? "Ja" : "Nein");
             }
 
             //set all debug values for visualization
