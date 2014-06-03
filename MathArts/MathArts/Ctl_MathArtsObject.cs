@@ -129,7 +129,7 @@ namespace MathArts
         private void showDebugInformation(string info)
         {
             Lbl_DebugInfo.Text = info;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            if (this is MathArtsColor.Ctl_MathArtsColor) this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
         }
         #endregion
     }

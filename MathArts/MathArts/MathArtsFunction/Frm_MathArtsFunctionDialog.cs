@@ -29,8 +29,10 @@ namespace MathArts.MathArtsFunction
         {
             InitializeComponent();
 
+            //initialize default func Inverse value
             Chb_Inverse.Checked = _funcInverse;
 
+            //load enumeration for combobox dynamically
             Cb_Function.DataSource = Enum.GetNames(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes));
 
             //initialize current color type

@@ -187,7 +187,7 @@ namespace MathArts.MathArtsFunction
         /// <param name="_x">X position</param>
         /// <param name="_y">Y position</param>
         /// <returns></returns>
-        public double GetFuncVal_3b(int _x, int _y)
+        public double GetFuncVal(int _x, int _y)
         {
             double funcVal = 0.0;
 
@@ -224,12 +224,12 @@ namespace MathArts.MathArtsFunction
         }
 
         /// <summary>
-        /// Calculates fund values by returning value array (fast version)
+        /// Calculates func values by returning value array (fast version)
         /// </summary>
         /// <param name="_x">X postion</param>
         /// <param name="_y">Y position</param>
         /// <returns></returns>
-        public double GetFuncVal(int _x, int _y)
+        public double GetFuncValFromArray(int _x, int _y)
         {
             return valArr[_x, _y];
         }
@@ -246,7 +246,7 @@ namespace MathArts.MathArtsFunction
         {
             if (e.Button != System.Windows.Forms.MouseButtons.Left)
             {
-                showDebugInformationFunctionValue(GetFuncVal(e.X, e.Y).ToString());
+                showDebugInformationFunctionValue(GetFuncValFromArray(e.X, e.Y).ToString());
             }
         }      
         #endregion debug methods

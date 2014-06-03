@@ -63,7 +63,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TransParentLib">
-      <HintPath>..\..\..\..\..\Downloads\TransParentLib.dll</HintPath>
+      <HintPath>.\TransParentLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

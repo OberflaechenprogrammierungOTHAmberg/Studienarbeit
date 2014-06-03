@@ -39,7 +39,6 @@ namespace MathArts.MathArtsColor
             coldlg.Color = _currentColor;
             this.Pnl_ColorPreview.BackColor = _currentColor;
 
-
             //load enumeration for combobox dynamically
             Cb_Type.DataSource = Enum.GetNames(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes));
 
@@ -121,12 +120,10 @@ namespace MathArts.MathArtsColor
             set { newColType = value; }
         }
 
-
         public ColorChangedEventArgs(Color _newColor, MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes _newColType)
         {
             this.newColor = _newColor;
             this.newColType = _newColType;
         }
-        
     }
 }
