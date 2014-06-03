@@ -58,5 +58,6 @@
         #endregion
 
         private System.Windows.Forms.Label Lbl_DebugInfoFuncVal;
+
     }
 }

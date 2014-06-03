@@ -62,9 +62,6 @@ namespace MathArts.MathArtsColor
         {
             if (coldlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                //DEBUG
-                showDebugInformationColType(Cb_Type.SelectedItem.ToString());
-
                 if (ColorChanged != null) ColorChanged(this, new ColorChangedEventArgs(coldlg.Color,
                     (MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes)Enum.Parse(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes), Cb_Type.SelectedItem.ToString())));
                 
@@ -80,22 +77,10 @@ namespace MathArts.MathArtsColor
         /// <param name="e"></param>
         private void Cb_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //DEBUG
-            showDebugInformationColType(Cb_Type.SelectedItem.ToString());
-
             if (ColorChanged != null) ColorChanged(this, new ColorChangedEventArgs(coldlg.Color,
                 (MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes)Enum.Parse(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes), Cb_Type.SelectedItem.ToString())));
         }
         #endregion events
-
-        #region debug methods
-        [ConditionalAttribute("DEBUG")]
-        private void showDebugInformationColType(string _info)
-        {
-            Lbl_DebugInfoColType.Text = _info;
-        }
-
-        #endregion debug methods
 
     }
 

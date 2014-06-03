@@ -35,6 +35,7 @@
             this.Name = "Ctl_MathArtsDisp";
             this.Size = new System.Drawing.Size(316, 192);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsDisp_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ctl_MathArtsDisp_MouseMove);
             this.ResumeLayout(false);
 
         }

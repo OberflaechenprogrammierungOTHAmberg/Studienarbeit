@@ -67,6 +67,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tracing\CTracing_ValueChangedEventArgs.cs" />
+    <Compile Include="Tracing\Frm_MathArtsObjTracing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tracing\Frm_MathArtsObjTracing.Designer.cs">
+      <DependentUpon>Frm_MathArtsObjTracing.cs</DependentUpon>
+    </Compile>
     <Compile Include="MathArtsColor\Ctl_MathArtsColor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -111,6 +118,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Tracing\Frm_MathArtsObjTracing.resx">
+      <DependentUpon>Frm_MathArtsObjTracing.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MathArtsColor\Ctl_MathArtsColor.resx">
       <DependentUpon>Ctl_MathArtsColor.cs</DependentUpon>
     </EmbeddedResource>

@@ -84,7 +84,7 @@ namespace MathArts.MathArtsColor
         #endregion
 
         #region Events
-        public event EventHandler ValueChanged; 
+        public event EventHandler ValueChanged;
         #endregion
 
         #region enums
@@ -132,7 +132,7 @@ namespace MathArts.MathArtsColor
         }
         #endregion
 
-        #region debug methods
+        #region debug
         [ConditionalAttribute("DEBUG")]
         private void drawFilledEllipse(PaintEventArgs e,SolidBrush _solidBrush, int _x1, int _y1, int _x2, int _y2)
         {

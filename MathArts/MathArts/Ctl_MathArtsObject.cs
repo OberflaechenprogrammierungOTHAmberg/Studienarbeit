@@ -28,13 +28,23 @@ namespace MathArts
     {
         #region members
         private Point mouseDownLocation;
-        private MouseClickType mouseClickType = MouseClickType.None;
+        private MouseClickTypes mouseClickType = MouseClickTypes.None;
+
+        #region debug
+        //creating incremental id for debugging
+        private static uint  mathArtsCounter = 0;
+        private uint mathArts;
+        #endregion
+
         #endregion
 
         #region constructors
         public Ctl_MathArtsObject()
         {
             InitializeComponent();
+            #region debug
+            mathArts = mathArtsCounter++;
+            #endregion debug
         }
 
         //better: use this constructor instead of implement it with default location in each child
@@ -49,7 +59,7 @@ namespace MathArts
         #endregion
 
         #region enumerations
-        private enum MouseClickType
+        public enum MouseClickTypes
         {
             None, Move, Resize
         }
@@ -68,12 +78,12 @@ namespace MathArts
                 mouseDownLocation = e.Location;
                 if (e.X > this.Width - 10 && e.Y > this.Height - 10)
                 {
-                    this.mouseClickType = MouseClickType.Resize;
+                    this.mouseClickType = MouseClickTypes.Resize;
                 }
-                else this.mouseClickType = MouseClickType.Move;
+                else this.mouseClickType = MouseClickTypes.Move;
             }
 
-            else this.mouseClickType = MouseClickType.None;
+            else this.mouseClickType = MouseClickTypes.None;
         }
 
         /// <summary>
@@ -83,7 +93,7 @@ namespace MathArts
         /// <param name="e"></param>
         private void Ctl_MathArtsObject_MouseUp(object sender, MouseEventArgs e)
         {
-            this.mouseClickType = MouseClickType.None;
+            this.mouseClickType = MouseClickTypes.None;
         }
 
         /// <summary>
@@ -95,18 +105,21 @@ namespace MathArts
         {
             this.Cursor = (e.X > this.Width - 10 && e.Y > this.Height - 10) ? Cursors.SizeNWSE : Cursors.SizeAll;
 
-            showDebugInformation(e.X + " " + e.Y + " w/h " + this.Width + " " + this.Height + " p " + this.Location.X + " " + this.Location.Y + "  " + this.mouseClickType.ToString());
-
-            if (this.mouseClickType == MouseClickType.Move)
+            if (this.mouseClickType == MouseClickTypes.Move)
             {
                 this.Left = e.X + this.Left - mouseDownLocation.X;
                 this.Top = e.Y + this.Top - mouseDownLocation.Y;
             }
-            else if (this.mouseClickType == MouseClickType.Resize)
+            else if (this.mouseClickType == MouseClickTypes.Resize)
             {
                 this.Width = e.X;
                 this.Height = e.Y;
             }
+
+            #region debug
+            Tracing_TriggerShapeValueChanged();
+            #endregion
+
         }
 
         /// <summary>
@@ -120,16 +133,28 @@ namespace MathArts
         } 
         #endregion
 
-        #region debug methods
-        /// <summary>
-        /// Displays info string for easier error tracing
-        /// </summary>
-        /// <param name="info"></param>
-        [ConditionalAttribute("DEBUG")]
-        private void showDebugInformation(string info)
+        #region debug
+        public event EventHandler ShapeValueChanged;
+
+        //[ConditionalAttribute("DEBUG")]
+        //not possible only for debug - workaround or MouseClickType() property only for debug issues?
+        public MouseClickTypes GetMouseClickType()
         {
-            Lbl_DebugInfo.Text = info;
-            if (this is MathArtsColor.Ctl_MathArtsColor) this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            return this.mouseClickType;
+        }
+
+        [ConditionalAttribute("DEBUG")]
+        private void Tracing_TriggerShapeValueChanged()
+        {
+            if (ShapeValueChanged != null)
+            {
+                ShapeValueChanged(this, EventArgs.Empty);
+            }
+        }
+
+        public override string ToString()
+        {
+            return "MathArtsObj_" + this.mathArts;
         }
         #endregion
     }

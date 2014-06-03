@@ -14,7 +14,9 @@
 // <summary></summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace MathArts
@@ -36,6 +38,11 @@ namespace MathArts
         {
             InitializeComponent();
             this.allContainedMathArtsObjects = new List<Ctl_MathArtsObject>();
+
+            #region debug
+            showTracingDialog();
+            #endregion
+
         }
         #endregion
 
@@ -57,6 +64,10 @@ namespace MathArts
         {
             this.allContainedMathArtsObjects.Add(_object);
             Refresh();
+
+            #region debug
+            Tracing_TriggerValueChanged(_object);
+            #endregion
         }
 
         /// <summary>
@@ -89,5 +100,31 @@ namespace MathArts
             }
         }
         #endregion
+
+        #region debug
+
+        private void Ctl_MathArtsDisp_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Tracing_ValueChanged != null) Tracing_ValueChanged(this, new MathArts.Debug.Tracing_ValueChangedEventArgs(e.X, e.Y));
+        }
+        
+        [ConditionalAttribute("DEBUG")]
+        private void showTracingDialog()
+        {
+            MathArts.Debug.Frm_MathArtsObjTracing tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
+            tracingDialog.Show();
+        }
+
+        public delegate void Tracing_ValueChangedEventHandler(object sender, MathArts.Debug.Tracing_ValueChangedEventArgs e);
+        public event Tracing_ValueChangedEventHandler Tracing_ValueChanged;
+
+        [ConditionalAttribute("DEBUG")]
+        private void Tracing_TriggerValueChanged(Ctl_MathArtsObject _object)
+        {
+            if (Tracing_ValueChanged != null) Tracing_ValueChanged(this, new MathArts.Debug.Tracing_ValueChangedEventArgs(_object));
+        }
+
+        #endregion
     }
+
 }
