@@ -14,18 +14,14 @@
 // <summary></summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MathArts
 {
+    /// <summary>
+    /// Container for all MathArts objects
+    /// </summary>
     public partial class Ctl_MathArtsDisp : UserControl
     {
         #region member
@@ -33,6 +29,9 @@ namespace MathArts
         #endregion
 
         #region constructors
+        /// <summary>
+        /// Default constructor initializing GUI and MathArts object list
+        /// </summary>
         public Ctl_MathArtsDisp()
         {
             InitializeComponent();
@@ -40,18 +39,32 @@ namespace MathArts
         }
         #endregion
 
-        #region methods
+        #region public methods
+        /// <summary>
+        /// Changes the visibility of all MathArts objects inside the container
+        /// </summary>
+        /// <param name="showControls">Visibility value for the objects</param>
         public void ShowControls(bool showControls)
         {
             this.allContainedMathArtsObjects.ForEach(n => n.Visible = showControls);
         }
    
+        /// <summary>
+        /// Adds a new MathArts object to the container
+        /// </summary>
+        /// <param name="_object">MathArts object to add</param>
         public void AddMathArtsObject(Ctl_MathArtsObject _object)
         {
             this.allContainedMathArtsObjects.Add(_object);
             Refresh();
         }
 
+        /// <summary>
+        /// Calculates the color value at a position inside the container
+        /// </summary>
+        /// <param name="_x">X position</param>
+        /// <param name="_y">Y position</param>
+        /// <param name="val">Value calculated from product of functions</param>
         public void ColorFromVal(int _x,int _y,double val)
         {
             //TODO
@@ -59,7 +72,12 @@ namespace MathArts
         }
         #endregion
 
-        #region events
+        #region GUI event methods
+        /// <summary>
+        /// Paint method of the container. Paints all MathArts objects inside the container
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ctl_MathArtsDisp_Paint(object sender, PaintEventArgs e)
         {
             foreach (Ctl_MathArtsObject item in this.allContainedMathArtsObjects)
@@ -70,6 +88,6 @@ namespace MathArts
                 }
             }
         }
-        #endregion events
+        #endregion
     }
 }

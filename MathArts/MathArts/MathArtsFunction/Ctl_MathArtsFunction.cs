@@ -15,18 +15,15 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
 namespace MathArts.MathArtsFunction
 {
+    /// <summary>
+    /// MathArts function object
+    /// </summary>
     public partial class Ctl_MathArtsFunction : Ctl_MathArtsObject
     {
         #region constants
@@ -59,7 +56,49 @@ namespace MathArts.MathArtsFunction
         }
         #endregion
 
+        #region properties
+        public FuncTypes FuncType
+        {
+            get { return funcType; }
+            set
+            {
+                if (funcType != value)
+                {
+                    funcType = value;
+                    if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool FuncInverse
+        {
+            get { return funcInverse; }
+            set
+            {
+                if (funcInverse != value)
+                {
+                    funcInverse = value;
+                    if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+        #endregion
+
+        #region events
+        public event EventHandler ValueChanged;
+        #endregion
+
+        #region enums
+        public enum FuncTypes
+        {
+            SinCos, Gauss, Garbor
+        }
+        #endregion
+
         #region internal methods
+        /// <summary>
+        /// Redefines the value array for the fast verion
+        /// </summary>
         private void updateFuncValArr()
         {
             valArr = new double[this.Width, this.Height];
@@ -72,7 +111,7 @@ namespace MathArts.MathArtsFunction
                     double normY = ((2.0 * j) / this.Height * 1.0) - 1.0;
 
                     //set Gauss as default because needed in all funtions
-                    valArr[i,j] = Math.Exp(-4 * (normX * normX + normY * normY));
+                    valArr[i, j] = Math.Exp(-4 * (normX * normX + normY * normY));
 
                     switch (funcType)
                     {
@@ -96,7 +135,58 @@ namespace MathArts.MathArtsFunction
         }
         #endregion internal methods
 
-        #region methods
+        #region GUI event methods
+        /// <summary>
+        /// Paint event method. Draws a ellipse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Ctl_MathArtsFunction_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawRectangle(Pens.Green, 0, 0, this.Width - 1, this.Height - 1);
+        }
+
+        /// <summary>
+        /// Mouse up event method. Updates the function array.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Ctl_MathArtsFunction_MouseUp(object sender, MouseEventArgs e)
+        {
+            updateFuncValArr();
+        }
+
+        /// <summary>
+        /// Opens the property dialog to change functype and inverse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Ctl_MathArtsFunction_DoubleClick(object sender, EventArgs e)
+        {
+            Frm_MathArtsFunctionDialog funcDlg = new Frm_MathArtsFunctionDialog(this.funcInverse, this.funcType);
+            funcDlg.FunctionChanged += funcDlg_FunctionChanged;
+            funcDlg.ShowDialog();
+        }
+
+        /// <summary>
+        /// Event method to recognize changes inside the property dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void funcDlg_FunctionChanged(object sender, FunctionChangedEventArgs e)
+        {
+            this.FuncInverse = e.NewInverseValue;
+            this.FuncType = e.NewFuncType;
+        } 
+        #endregion
+
+        #region public methods
+        /// <summary>
+        /// Calculates func value at a specific position (slow version)
+        /// </summary>
+        /// <param name="_x">X position</param>
+        /// <param name="_y">Y position</param>
+        /// <returns></returns>
         public double GetFuncVal_3b(int _x, int _y)
         {
             double funcVal = 0.0;
@@ -133,75 +223,15 @@ namespace MathArts.MathArtsFunction
             return funcVal;
         }
 
+        /// <summary>
+        /// Calculates fund values by returning value array (fast version)
+        /// </summary>
+        /// <param name="_x">X postion</param>
+        /// <param name="_y">Y position</param>
+        /// <returns></returns>
         public double GetFuncVal(int _x, int _y)
         {
             return valArr[_x, _y];
-        }
-
-
-        #endregion
-
-        #region properties
-        public FuncTypes FuncType
-        {
-            get { return funcType; }
-            set
-            {
-                if (funcType != value)
-                {
-                    funcType = value;
-                    if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        public bool FuncInverse
-        {
-            get { return funcInverse; }
-            set
-            {
-                if (funcInverse != value)
-                {
-                    funcInverse = value;
-                    if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        #endregion
-
-        #region events
-        public event EventHandler ValueChanged;
-
-        private void Ctl_MathArtsFunction_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawRectangle(Pens.Green, 0, 0, this.Width - 1, this.Height - 1);
-        }
-
-        private void Ctl_MathArtsFunction_MouseUp(object sender, MouseEventArgs e)
-        {
-            updateFuncValArr();
-        }
-
-        private void Ctl_MathArtsFunction_DoubleClick(object sender, EventArgs e)
-        {
-            Frm_MathArtsFunctionDialog funcDlg = new Frm_MathArtsFunctionDialog(this.funcInverse, this.funcType);
-            funcDlg.FunctionChanged += funcDlg_FunctionChanged;      
-            funcDlg.ShowDialog();
-        }
-
-        void funcDlg_FunctionChanged(object sender, FunctionChangedEventArgs e)
-        {
-            this.FuncInverse= e.NewInverseValue;
-            this.FuncType= e.NewFuncType;
-        }
-
-        #endregion events
-
-        #region enums
-        public enum FuncTypes
-        {
-            SinCos, Gauss, Garbor
         }
         #endregion
 
@@ -218,8 +248,7 @@ namespace MathArts.MathArtsFunction
             {
                 showDebugInformationFunctionValue(GetFuncVal(e.X, e.Y).ToString());
             }
-        }
-        
+        }      
         #endregion debug methods
     }
 }

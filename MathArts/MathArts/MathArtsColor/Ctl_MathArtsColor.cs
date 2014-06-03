@@ -15,18 +15,15 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
 namespace MathArts.MathArtsColor
 {
+    /// <summary>
+    /// MathArts color object
+    /// </summary>
     public partial class Ctl_MathArtsColor : Ctl_MathArtsObject
     {
         #region constants
@@ -41,7 +38,6 @@ namespace MathArts.MathArtsColor
         #endregion
 
         #region constructors
-
         public Ctl_MathArtsColor()
         {
             InitializeComponent();
@@ -56,7 +52,6 @@ namespace MathArts.MathArtsColor
         {
             this.Location = new Point(_x, _y);
         }
-
         #endregion
 
         #region properties
@@ -88,16 +83,36 @@ namespace MathArts.MathArtsColor
         }
         #endregion
 
-        #region events
-        public event EventHandler ValueChanged;
+        #region Events
+        public event EventHandler ValueChanged; 
+        #endregion
 
+        #region enums
+        public enum ColTypes
+        {
+            Low, High
+        }
+        #endregion
+
+        #region GUI event methods
+        /// <summary>
+        /// Paint event method. Draws a ellipse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ctl_MathArtsColor_Paint(object sender, PaintEventArgs e)
         {
+            //  debug method
             drawFilledEllipse(e, new SolidBrush(this.color), 0, 0, this.Width - 1, this.Height - 1);
 
             e.Graphics.DrawEllipse(Pens.Green, 0, 0, this.Width - 1, this.Height - 1);
         }
 
+        /// <summary>
+        /// Opens a property dialog to change the controls properties
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ctl_MathArtsColor_DoubleClick(object sender, EventArgs e)
         {
             Frm_MathArtsColorDialog coldlg = new Frm_MathArtsColorDialog(this.color, this.colType);
@@ -105,17 +120,15 @@ namespace MathArts.MathArtsColor
             coldlg.ShowDialog();
         }
 
+        /// <summary>
+        /// Event method to recognize changes inside the property dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void coldlg_ColorChanged(object sender, ColorChangedEventArgs e)
         {
             this.Color = e.NewColor;
             this.ColType = e.NewColType;
-        }
-        #endregion
-
-        #region enums
-        public enum ColTypes
-        {
-            Low, High
         }
         #endregion
 
@@ -128,12 +141,15 @@ namespace MathArts.MathArtsColor
             showDebugInformationColor("C: " + this.Color.ToString() + " CType" + this.ColType.ToString());
         }
 
+        /// <summary>
+        /// Displays info string for easier error tracing
+        /// </summary>
+        /// <param name="_info"></param>
         [ConditionalAttribute("DEBUG")]
         private void showDebugInformationColor(string _info)
         {
             Lbl_DebugInfoColor.Text = _info;
         }
-        
         #endregion debug methods
     }
 }

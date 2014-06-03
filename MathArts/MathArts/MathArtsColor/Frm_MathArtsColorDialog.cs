@@ -15,22 +15,22 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MathArts.MathArtsColor
 {
+    /// <summary>
+    /// MathArtsColor property dialog
+    /// </summary>
     public partial class Frm_MathArtsColorDialog : Form
     {
-        private static ColorDialog coldlg = new ColorDialog();
+        #region static member
+        private static ColorDialog coldlg = new ColorDialog(); 
+        #endregion
 
+        #region constructors
         public Frm_MathArtsColorDialog(Color _currentColor, MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes _ColType)
         {
             InitializeComponent();
@@ -45,13 +45,20 @@ namespace MathArts.MathArtsColor
 
             //initialize current color type
             Cb_Type.SelectedIndex = (int)_ColType;
-            
-        }
+        } 
+        #endregion
 
+        #region Events + Delegates
         public delegate void ColorChangedEventHandler(object sender, ColorChangedEventArgs e);
-        public event ColorChangedEventHandler ColorChanged;
+        public event ColorChangedEventHandler ColorChanged; 
+        #endregion
 
-        #region events
+        #region GUI event methods
+        /// <summary>
+        /// Starts a color dialog on button click to change the object's color. Then fires the event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Color_Click(object sender, EventArgs e)
         {
             if (coldlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -67,6 +74,11 @@ namespace MathArts.MathArtsColor
             }
         }
 
+        /// <summary>
+        /// Fires value changed event on changing colortype value in combo box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cb_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
             //DEBUG
@@ -88,6 +100,9 @@ namespace MathArts.MathArtsColor
 
     }
 
+    /// <summary>
+    /// Color changed EventArgs
+    /// </summary>
     public class ColorChangedEventArgs : EventArgs
     {
         private Color newColor;

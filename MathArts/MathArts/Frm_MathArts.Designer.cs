@@ -119,14 +119,14 @@
             this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
             this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
-            this.MathArtsDisp_Container.Size = new System.Drawing.Size(509, 182);
+            this.MathArtsDisp_Container.Size = new System.Drawing.Size(509, 369);
             this.MathArtsDisp_Container.TabIndex = 0;
             // 
             // Frm_MathArts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 182);
+            this.ClientSize = new System.Drawing.Size(509, 369);
             this.Controls.Add(this.MathArtsDisp_Container);
             this.Menu = this.menu_MathArts;
             this.Name = "Frm_MathArts";
