@@ -38,6 +38,7 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsFunction_Paint);
             this.DoubleClick += new System.EventHandler(this.Ctl_MathArtsFunction_DoubleClick);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Ctl_MathArtsFunction_MouseUp);
+            this.Resize += new System.EventHandler(this.Ctl_MathArtsFunction_Resize);
             this.ResumeLayout(false);
 
         }

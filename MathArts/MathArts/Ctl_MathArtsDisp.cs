@@ -190,6 +190,12 @@ namespace MathArts
             return Color.FromArgb(RedColor, GreenColor,BlueColor);
         }
 
+        private void UpdateColorArray()
+        {
+            UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes.Low);
+            UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes.High);
+        }
+
         private void UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes _coltype)
         {
             if(_coltype == MathArtsColor.Ctl_MathArtsColor.ColTypes.Low)
@@ -238,9 +244,7 @@ namespace MathArts
                 if (_x >= _object.Location.X
                     && _x < _object.Location.X + _object.Width
                     && _y >= _object.Location.Y
-                    && _y < _object.Location.Y + _object.Height
-                    && _object.GetMouseClickType()==MathArts.Ctl_MathArtsObject.MouseClickTypes.None) funcResult *= _object.GetFuncValFromArray(_x - _object.Location.X, _y - _object.Location.Y);
-
+                    && _y < _object.Location.Y + _object.Height) funcResult *= _object.GetFuncValFromArray(_x - _object.Location.X, _y - _object.Location.Y);
             }
 
             return funcResult;
@@ -330,6 +334,7 @@ namespace MathArts
                 valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
                 valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
 
+                UpdateColorArray();
                 Ctl_MathArtsDisp_ValueChanged(sender, e);
             }
 

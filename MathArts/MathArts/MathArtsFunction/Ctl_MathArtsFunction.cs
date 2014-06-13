@@ -65,6 +65,7 @@ namespace MathArts.MathArtsFunction
                 if (funcType != value)
                 {
                     funcType = value;
+                    updateFuncValArr();
                     if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
                 }
             }
@@ -78,6 +79,7 @@ namespace MathArts.MathArtsFunction
                 if (funcInverse != value)
                 {
                     funcInverse = value;
+                    updateFuncValArr();
                     if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
                 }
             }
@@ -240,5 +242,10 @@ namespace MathArts.MathArtsFunction
             return valArr[_x, _y];
         }
         #endregion
+
+        private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)
+        {
+            updateFuncValArr();
+        }
     }
 }
