@@ -16,6 +16,7 @@ using MathArts.MathArtsColor;
 using MathArts.MathArtsFunction;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MathArts
@@ -100,5 +101,38 @@ namespace MathArts
             tracingDialog.Show();
         } 
         #endregion
+
+        private void menuItem_Exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void menuItem_New_Click(object sender, EventArgs e)
+        {
+            this.MathArtsDisp_Container.ClearWorkspace();
+        }
+
+        private void menuItem_Save_Click(object sender, EventArgs e)
+        {
+            if (this.MathArtsDisp_Container.bitMap != null)
+            {
+                SaveFileDialog fd = new SaveFileDialog();
+                fd.Filter = "Image Files | *.bmp";
+                fd.DefaultExt = "bmp";
+                fd.FileName = "MathArtsPicture.bmp";
+                fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+                if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    this.MathArtsDisp_Container.bitMap.Save(fd.FileName);
+                }
+                
+            }
+        }
+
+        private void menuItem_Demo1_Click(object sender, EventArgs e)
+        {
+            this.MathArtsDisp_Container.DisplayDemo1();
+        }
     }
 }

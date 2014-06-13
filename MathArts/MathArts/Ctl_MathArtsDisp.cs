@@ -55,14 +55,10 @@ namespace MathArts
             valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
 
             this.allContainedMathArtsObjects = new List<Ctl_MathArtsObject>();
-            InitializeColorArrays();
 
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
-        private void InitializeColorArrays()
-        {
-        }
         #endregion
 
         #region public methods
@@ -95,13 +91,65 @@ namespace MathArts
             #endregion
         }
 
+        public void ClearWorkspace()
+        {
+            this.allContainedMathArtsObjects.Clear();
+            this.Controls.Clear();
+            valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+        }
+
+        public void DisplayDemo1()
+        {
+            ClearWorkspace();
+
+            Ctl_MathArtsColor colblack = new Ctl_MathArtsColor(200, 30);
+            colblack.Color = Color.Black;
+            colblack.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            Ctl_MathArtsColor colred = new Ctl_MathArtsColor(200, 100);
+            colred.Color = Color.Red;
+            colred.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            Ctl_MathArtsColor colyellow = new Ctl_MathArtsColor(200, 170);
+            colyellow.Color = Color.Yellow;
+            colyellow.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            Ctl_MathArtsFunction funcSinCos = new Ctl_MathArtsFunction(5, 5);
+            funcSinCos.Width= 500;
+            funcSinCos.Height= 250;
+            funcSinCos.FuncType = Ctl_MathArtsFunction.FuncTypes.SinCos;
+            funcSinCos.FuncInverse = true;
+
+            //  add it to internal list
+            this.allContainedMathArtsObjects.Add(colblack);
+            this.allContainedMathArtsObjects.Add(colred);
+            this.allContainedMathArtsObjects.Add(colyellow);
+
+            this.allContainedMathArtsObjects.Add(funcSinCos);
+
+            //  subscribe to math arts object events
+            this.allContainedMathArtsObjects.ForEach(n => n.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged);
+            this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor).ToList().ForEach(n => (n as Ctl_MathArtsColor).ValueChanged+= Ctl_MathArtsDisp_ValueChanged);
+            this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsFunction).ToList().ForEach(n => (n as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged);
+
+            //  add to control list
+            this.allContainedMathArtsObjects.ForEach(n => this.Controls.Add(n));
+            this.UpdateColorArray();
+            this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region private functions
         /// <summary>
         /// Calculates the color value at a position inside the container
         /// </summary>
         /// <param name="_x">X position</param>
         /// <param name="_y">Y position</param>
         /// <param name="val">Value calculated from product of functions</param>
-        public Color ColorFromVal(int _x,int _y,double _val)
+        public Color ColorFromVal(int _x, int _y, double _val)
         {
             //need temporary list because explicit cast of lambda expression result from List<Ctl_MathArtsObj> to List<Ctl_MathArtsColor> is not possible
 
@@ -186,8 +234,8 @@ namespace MathArts
             byte RedColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_RED] + (1 - _val) * valLowArr[_x, _y, COLOR_RED])) % 256);
             byte GreenColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_GREEN] + (1 - _val) * valLowArr[_x, _y, COLOR_GREEN])) % 256);
             byte BlueColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_BLUE] + (1 - _val) * valLowArr[_x, _y, COLOR_BLUE])) % 256);
-            
-            return Color.FromArgb(RedColor, GreenColor,BlueColor);
+
+            return Color.FromArgb(RedColor, GreenColor, BlueColor);
         }
 
         private void UpdateColorArray()
@@ -198,11 +246,11 @@ namespace MathArts
 
         private void UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes _coltype)
         {
-            if(_coltype == MathArtsColor.Ctl_MathArtsColor.ColTypes.Low)
+            if (_coltype == MathArtsColor.Ctl_MathArtsColor.ColTypes.Low)
             {
                 List<Ctl_MathArtsColor> lMathArtsColors_Low = new List<Ctl_MathArtsColor>();
                 this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor && (n as Ctl_MathArtsColor).ColType == Ctl_MathArtsColor.ColTypes.Low).ToList().ForEach(n => lMathArtsColors_Low.Add(n as Ctl_MathArtsColor));
-                
+
                 for (int x = 0; x < this.Width; x++)
                 {
                     for (int y = 0; y < this.Height; y++)
@@ -250,9 +298,6 @@ namespace MathArts
             return funcResult;
         }
 
-        #endregion
-
-        #region private functions
         /// <summary>
         /// calculate color regarding to expression in 4a) for a list of MathArtsColor
         /// </summary>

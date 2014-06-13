@@ -32,6 +32,7 @@
             this.menu_MathArts = new System.Windows.Forms.MainMenu(this.components);
             this.menuItem_File = new System.Windows.Forms.MenuItem();
             this.menuItem_New = new System.Windows.Forms.MenuItem();
+            this.menuItem_Save = new System.Windows.Forms.MenuItem();
             this.menuItem_Demo1 = new System.Windows.Forms.MenuItem();
             this.menuItem_Demo2 = new System.Windows.Forms.MenuItem();
             this.menuItem_Exit = new System.Windows.Forms.MenuItem();
@@ -55,6 +56,7 @@
             this.menuItem_File.Index = 0;
             this.menuItem_File.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem_New,
+            this.menuItem_Save,
             this.menuItem_Demo1,
             this.menuItem_Demo2,
             this.menuItem_Exit});
@@ -64,21 +66,30 @@
             // 
             this.menuItem_New.Index = 0;
             this.menuItem_New.Text = "&Neu";
+            this.menuItem_New.Click += new System.EventHandler(this.menuItem_New_Click);
+            // 
+            // menuItem_Save
+            // 
+            this.menuItem_Save.Index = 1;
+            this.menuItem_Save.Text = "&Speichern unter ";
+            this.menuItem_Save.Click += new System.EventHandler(this.menuItem_Save_Click);
             // 
             // menuItem_Demo1
             // 
-            this.menuItem_Demo1.Index = 1;
+            this.menuItem_Demo1.Index = 2;
             this.menuItem_Demo1.Text = "Demo &1";
+            this.menuItem_Demo1.Click += new System.EventHandler(this.menuItem_Demo1_Click);
             // 
             // menuItem_Demo2
             // 
-            this.menuItem_Demo2.Index = 2;
+            this.menuItem_Demo2.Index = 3;
             this.menuItem_Demo2.Text = "Demo &2";
             // 
             // menuItem_Exit
             // 
-            this.menuItem_Exit.Index = 3;
+            this.menuItem_Exit.Index = 4;
             this.menuItem_Exit.Text = "&Beenden";
+            this.menuItem_Exit.Click += new System.EventHandler(this.menuItem_Exit_Click);
             // 
             // menuItem_Insert
             // 
@@ -151,6 +162,7 @@
         private System.Windows.Forms.MenuItem menuItem_Settings;
         private System.Windows.Forms.MenuItem menuItem_FrameVisible;
         private Ctl_MathArtsDisp MathArtsDisp_Container;
+        private System.Windows.Forms.MenuItem menuItem_Save;
     }
 }
 
