@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "Ctl_MathArtsColor";
-            this.Size = new System.Drawing.Size(154, 154);
+            this.Size = new System.Drawing.Size(26, 26);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsColor_Paint);
             this.DoubleClick += new System.EventHandler(this.Ctl_MathArtsColor_DoubleClick);
             this.ResumeLayout(false);

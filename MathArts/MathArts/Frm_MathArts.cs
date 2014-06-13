@@ -15,6 +15,7 @@
 using MathArts.MathArtsColor;
 using MathArts.MathArtsFunction;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace MathArts
@@ -29,7 +30,7 @@ namespace MathArts
         private const int  DEFAULT_X = 5;
         private const int  DEFAULT_Y = 5;
         #endregion constants
-
+        
         #region constructors
         /// <summary>
         /// Default constructor initializing GUI
@@ -37,10 +38,22 @@ namespace MathArts
         public Frm_MathArts()
         {
             InitializeComponent();
+
+            #region debug
+            showTracingDialog(); 
+            #endregion
         }
         #endregion
 
-        #region MenuEvents
+        #region properties
+        public Ctl_MathArtsDisp MathArtsDispContainer
+        {
+            get { return MathArtsDisp_Container; }
+            set{}
+        }
+        #endregion
+
+        #region menu event methods
         /// <summary>
         /// Adds a color MathArts object to the container
         /// </summary>
@@ -77,6 +90,15 @@ namespace MathArts
             this.menuItem_FrameVisible.Checked = !this.menuItem_FrameVisible.Checked;
             this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
         }
+        #endregion
+
+        #region debug
+        [ConditionalAttribute("DEBUG")]
+        private void showTracingDialog()
+        {
+            MathArts.Debug.Frm_MathArtsObjTracing tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
+            tracingDialog.Show();
+        } 
         #endregion
     }
 }

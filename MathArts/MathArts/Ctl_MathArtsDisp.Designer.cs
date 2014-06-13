@@ -36,6 +36,7 @@
             this.Size = new System.Drawing.Size(316, 192);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Ctl_MathArtsDisp_Paint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ctl_MathArtsDisp_MouseMove);
+            this.Resize += new System.EventHandler(this.Ctl_MathArtsDisp_Resize);
             this.ResumeLayout(false);
 
         }

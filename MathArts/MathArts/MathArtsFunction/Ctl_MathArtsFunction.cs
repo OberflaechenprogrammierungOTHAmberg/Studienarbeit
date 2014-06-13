@@ -143,7 +143,7 @@ namespace MathArts.MathArtsFunction
         /// <param name="e"></param>
         private void Ctl_MathArtsFunction_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawRectangle(Pens.Green, 0, 0, this.Width - 1, this.Height - 1);
+            e.Graphics.DrawRectangle(Pens.Red, 0, 0, this.Width - 1, this.Height - 1);
         }
 
         /// <summary>
@@ -166,6 +166,7 @@ namespace MathArts.MathArtsFunction
             Frm_MathArtsFunctionDialog funcDlg = new Frm_MathArtsFunctionDialog(this.funcInverse, this.funcType);
             funcDlg.FunctionChanged += funcDlg_FunctionChanged;
             funcDlg.ShowDialog();
+            funcDlg.FunctionChanged -= funcDlg_FunctionChanged;
         }
 
         /// <summary>
@@ -231,24 +232,13 @@ namespace MathArts.MathArtsFunction
         /// <returns></returns>
         public double GetFuncValFromArray(int _x, int _y)
         {
+            //[!Under investigation!] workaround or bugfix - while fast mouse motions we get index error 
+            //because the 2D array is not already as large as the mouse position
+            //if (this.mouseClickType != MouseClickTypes.None) return 0.0;
+            //another solution: pre condition for this method - only call while MouseClickTypes.None = true
+            
             return valArr[_x, _y];
         }
         #endregion
-
-        #region debug methods/events
-        [ConditionalAttribute("DEBUG")]
-        private void showDebugInformationFunctionValue(string _info)
-        {
-            Lbl_DebugInfoFuncVal.Text = _info;
-        }
-
-        private void Ctl_MathArtsFunction_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button != System.Windows.Forms.MouseButtons.Left)
-            {
-                showDebugInformationFunctionValue(GetFuncValFromArray(e.X, e.Y).ToString());
-            }
-        }      
-        #endregion debug methods
     }
 }

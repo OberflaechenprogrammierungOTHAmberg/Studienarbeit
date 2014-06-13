@@ -28,11 +28,11 @@ namespace MathArts
     {
         #region members
         private Point mouseDownLocation;
-        private MouseClickTypes mouseClickType = MouseClickTypes.None;
+        protected MouseClickTypes mouseClickType = MouseClickTypes.None;
 
         #region debug
         //creating incremental id for debugging
-        private static uint  mathArtsCounter = 0;
+        private static uint mathArtsCounter = 0;
         private uint mathArts;
         #endregion
 
@@ -79,8 +79,13 @@ namespace MathArts
                 if (e.X > this.Width - 10 && e.Y > this.Height - 10)
                 {
                     this.mouseClickType = MouseClickTypes.Resize;
+                    this.Cursor = Cursors.SizeNWSE;
                 }
-                else this.mouseClickType = MouseClickTypes.Move;
+                else
+                {
+                    this.mouseClickType = MouseClickTypes.Move;
+                    this.Cursor = Cursors.SizeAll;
+                }
             }
 
             else this.mouseClickType = MouseClickTypes.None;
@@ -94,6 +99,9 @@ namespace MathArts
         private void Ctl_MathArtsObject_MouseUp(object sender, MouseEventArgs e)
         {
             this.mouseClickType = MouseClickTypes.None;
+            //reset cursor
+            this.Cursor = Cursors.Default;
+            ShapeValueChanged(this, e);
         }
 
         /// <summary>
@@ -103,7 +111,8 @@ namespace MathArts
         /// <param name="e"></param>
         private void Ctl_MathArtsObject_MouseMove(object sender, MouseEventArgs e)
         {
-            this.Cursor = (e.X > this.Width - 10 && e.Y > this.Height - 10) ? Cursors.SizeNWSE : Cursors.SizeAll;
+            //only change "mouse over" cursor type if left mouse button is not pressed
+            if(e.Button != System.Windows.Forms.MouseButtons.Left) this.Cursor = (e.X > this.Width - 10 && e.Y > this.Height - 10) ? Cursors.SizeNWSE : Cursors.SizeAll;
 
             if (this.mouseClickType == MouseClickTypes.Move)
             {
@@ -116,10 +125,12 @@ namespace MathArts
                 this.Height = e.Y;
             }
 
+            if (this.mouseClickType != MouseClickTypes.None) ShapeValueChanged(this, e);
+            
             #region debug
-            Tracing_TriggerShapeValueChanged();
+            Tracing_TriggerShapeValueChanged(e);
             #endregion
-
+            
         }
 
         /// <summary>
@@ -130,7 +141,7 @@ namespace MathArts
         private void Ctl_MathArtsObject_Resize(object sender, EventArgs e)
         {
             Refresh();
-        } 
+        }
         #endregion
 
         #region debug
@@ -144,11 +155,11 @@ namespace MathArts
         }
 
         [ConditionalAttribute("DEBUG")]
-        private void Tracing_TriggerShapeValueChanged()
+        private void Tracing_TriggerShapeValueChanged(EventArgs e)
         {
             if (ShapeValueChanged != null)
             {
-                ShapeValueChanged(this, EventArgs.Empty);
+                ShapeValueChanged(this, e);
             }
         }
 

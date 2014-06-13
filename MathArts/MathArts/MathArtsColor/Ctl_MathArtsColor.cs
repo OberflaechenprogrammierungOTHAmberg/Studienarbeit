@@ -43,8 +43,9 @@ namespace MathArts.MathArtsColor
             InitializeComponent();
 
             //initialize member and finally use property to trigger ValueChanged event
+            // ==> does not work -> constructor -> after object creation disp subscribes for its ValueChanged event
             this.color = DEFAULT_COLOR;
-            this.ColType = DEFAULT_COLTYPE;
+            this.colType = DEFAULT_COLTYPE;
         }
 
         public Ctl_MathArtsColor(int _x,int _y)
@@ -103,9 +104,9 @@ namespace MathArts.MathArtsColor
         private void Ctl_MathArtsColor_Paint(object sender, PaintEventArgs e)
         {
             //  debug method
-            drawFilledEllipse(e, new SolidBrush(this.color), 0, 0, this.Width - 1, this.Height - 1);
+            //drawFilledEllipse(e, new SolidBrush(Color.FromArgb(30, 255, 255, 0)), 0, 0, this.Width - 3, this.Height - 3);
 
-            e.Graphics.DrawEllipse(Pens.Green, 0, 0, this.Width - 1, this.Height - 1);
+            e.Graphics.DrawEllipse(Pens.Red, 0, 0, this.Width - 2, this.Height - 2);
         }
 
         /// <summary>
@@ -129,14 +130,6 @@ namespace MathArts.MathArtsColor
         {
             this.Color = e.NewColor;
             this.ColType = e.NewColType;
-        }
-        #endregion
-
-        #region debug
-        [ConditionalAttribute("DEBUG")]
-        private void drawFilledEllipse(PaintEventArgs e,SolidBrush _solidBrush, int _x1, int _y1, int _x2, int _y2)
-        {
-            e.Graphics.FillEllipse(_solidBrush, _x1, _y1,_x2, _y2);
         }
         #endregion
     }
