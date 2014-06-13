@@ -99,7 +99,7 @@ namespace MathArts.MathArtsFunction
 
         #region internal methods
         /// <summary>
-        /// Redefines the value array for the fast verion
+        /// Redefines the value array for the fast version
         /// </summary>
         private void updateFuncValArr()
         {
