@@ -18,6 +18,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Xml;
 
 namespace MathArts.MathArtsColor
 {
@@ -81,6 +82,27 @@ namespace MathArts.MathArtsColor
                     this.Refresh();
                 }
             }
+        }
+        #endregion
+
+        #region public methods
+        public override XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode,out XmlNode currentNode)
+        {
+            XmlNode currentMathArtsObjNode;
+
+            //call base for common math art object attributes
+            _doc = base.SaveMathArtsObj(_doc, _mathArtsObjNode, out currentMathArtsObjNode);
+
+            //add specific color attributes to node
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("MathArtsObjType")).Value = "Color";
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Color_R")).Value = this.Color.R.ToString();
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Color_G")).Value = this.Color.G.ToString();
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Color_B")).Value = this.Color.B.ToString();
+
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("ColType")).Value = this.ColType.ToString();
+            
+            currentNode=currentMathArtsObjNode;
+            return _doc;
         }
         #endregion
 

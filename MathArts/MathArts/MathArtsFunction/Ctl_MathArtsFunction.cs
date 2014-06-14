@@ -17,7 +17,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
+using System.Xml;
 
 namespace MathArts.MathArtsFunction
 {
@@ -241,6 +241,20 @@ namespace MathArts.MathArtsFunction
             
             return valArr[_x, _y];
         }
+
+        public override XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode, out XmlNode currentNode)
+        {
+            XmlNode currentMathArtsObjNode;
+            _doc = base.SaveMathArtsObj(_doc, _mathArtsObjNode, out currentMathArtsObjNode);
+
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("MathArtsObjType")).Value = "Function";
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("FuncType")).Value = this.FuncType.ToString();
+            currentMathArtsObjNode.Attributes.Append(_doc.CreateAttribute("FuncInverse")).Value = this.FuncInverse.ToString();
+
+            currentNode = currentMathArtsObjNode;
+            return _doc;
+        }
+
         #endregion
 
         private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)

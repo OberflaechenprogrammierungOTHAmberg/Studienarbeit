@@ -15,13 +15,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using MathArts.MathArtsColor;
+using MathArts.MathArtsFunction;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
-using System.Linq;
 using System.Drawing;
-using MathArts.MathArtsFunction;
+using System.Linq;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace MathArts
 {
@@ -83,13 +84,14 @@ namespace MathArts
             if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
             if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
             _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
-
             Ctl_MathArtsDisp_ValueChanged(_object, EventArgs.Empty);
 
             #region debug
             Tracing_TriggerValueChanged(_object);
             #endregion
         }
+
+
 
         public void ClearWorkspace()
         {
@@ -98,6 +100,27 @@ namespace MathArts
             valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+        }
+
+        public void LoadMathArtObjects(List<Ctl_MathArtsObject> _lMathArtObjs)
+        {
+            foreach(Ctl_MathArtsObject _object in _lMathArtObjs)
+            {
+                this.Controls.Add(_object);
+                this.allContainedMathArtsObjects.Add(_object);
+
+                if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
+                if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
+                _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
+
+                #region debug
+                Tracing_TriggerValueChanged(_object);
+                #endregion
+            }
+
+            this.UpdateColorArray();
+            this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+
         }
 
         public void DisplayDemo1()
@@ -137,12 +160,14 @@ namespace MathArts
             //  add to control list
             this.allContainedMathArtsObjects.ForEach(n => this.Controls.Add(n));
             this.UpdateColorArray();
+
+            #region debug
+            this.allContainedMathArtsObjects.ForEach(n => Tracing_TriggerValueChanged(n));
+            #endregion
+
             this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
-        #endregion
-
-        #region private functions
         /// <summary>
         /// Calculates the color value at a position inside the container
         /// </summary>
@@ -237,6 +262,10 @@ namespace MathArts
 
             return Color.FromArgb(RedColor, GreenColor, BlueColor);
         }
+
+        #endregion
+
+        #region private functions
 
         private void UpdateColorArray()
         {
@@ -344,6 +373,22 @@ namespace MathArts
             double dy = ((midy * 1.0) - _y) / _object.Height;
 
             return Math.Exp(-(dx * dx + dy * dy) / 10);
+        }
+
+
+        public XmlDocument SaveMathArtsDisp(XmlDocument _doc)
+        {
+            XmlNode MathArtsDispNode = _doc.DocumentElement.AppendChild(_doc.CreateElement("MathArtsDisp"));
+
+            MathArtsDispNode.Attributes.Append(_doc.CreateAttribute("Width")).Value = this.Width.ToString();
+            MathArtsDispNode.Attributes.Append(_doc.CreateAttribute("Height")).Value = this.Height.ToString();
+
+            XmlNode MathArtsObjsNode=MathArtsDispNode.AppendChild(_doc.CreateElement("MathArtsObjects"));
+
+            XmlNode currentNode;
+            this.allContainedMathArtsObjects.ForEach(n => n.SaveMathArtsObj(_doc, MathArtsObjsNode, out currentNode));
+
+            return _doc;
         }
         #endregion
 

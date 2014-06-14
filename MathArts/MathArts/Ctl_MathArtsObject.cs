@@ -15,9 +15,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
+using System.Xml;
 
 namespace MathArts
 {
@@ -56,6 +57,23 @@ namespace MathArts
             this.Location = new Point(_x, _y);
         }
         */
+        #endregion
+
+        #region protected methods
+        public virtual XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode, out XmlNode _currentMathArtsObjNode)
+        {
+            XmlNode MathArtsObjNode = _doc.CreateElement(this.ToString());
+            _mathArtsObjNode.AppendChild(MathArtsObjNode);
+
+            MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Height")).Value = this.Height.ToString();
+            MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Width")).Value = this.Width.ToString();
+
+            MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("X")).Value = this.Location.X.ToString();
+            MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Y")).Value = this.Location.Y.ToString();
+            
+            _currentMathArtsObjNode=MathArtsObjNode;
+            return _doc;
+        }
         #endregion
 
         #region enumerations
@@ -124,7 +142,7 @@ namespace MathArts
                 this.Height = e.Y;
             }
 
-            if (this.mouseClickType != MouseClickTypes.None) ShapeValueChanged(this, e);
+            if (this.mouseClickType != MouseClickTypes.None) if(ShapeValueChanged!=null) ShapeValueChanged(this, e);
             
             #region debug
             Tracing_TriggerShapeValueChanged(e);
