@@ -64,7 +64,7 @@ namespace MathArts.MathArtsColor
                 if (value != color)
                 {
                     color = value;
-                    if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
+                    if (ValueChanged != null) ValueChanged(this, new MathArtsColorValueChangedEventArgs(color));
                     this.Refresh();
                 }
             }
@@ -77,7 +77,7 @@ namespace MathArts.MathArtsColor
                 if (value != colType)
                 {
                     colType = value;
-                    if (ValueChanged != null) ValueChanged(this, EventArgs.Empty);
+                    if (ValueChanged != null) ValueChanged(this, new MathArtsColorValueChangedEventArgs(colType));
                     this.Refresh();
                 }
             }
@@ -151,5 +151,48 @@ namespace MathArts.MathArtsColor
             this.ColType = e.NewColType;
         }
         #endregion
+    }
+
+    public class MathArtsColorValueChangedEventArgs : EventArgs
+    {
+        private ValueChangeTypes changeType;
+        private Color color;
+        private MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes colType;
+
+        public ValueChangeTypes ChangeType
+        {
+            get { return changeType; }
+            set { changeType = value; }
+        }
+
+        public Color Color
+        {
+            get { return color; }
+            set { color = value; }
+        }
+
+        public MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes ColType
+        {
+            get { return colType; }
+            set { colType = value; }
+        }
+
+        public MathArtsColorValueChangedEventArgs (Color _color)
+        {
+            ChangeType = ValueChangeTypes.Color;
+            Color = _color;
+        }
+
+        public MathArtsColorValueChangedEventArgs (MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes _colType)
+        {
+            ChangeType = ValueChangeTypes.ColType;
+            ColType = _colType;
+        }
+
+        public enum ValueChangeTypes
+        {
+            Color = 0,
+            ColType = 1,
+        }
     }
 }

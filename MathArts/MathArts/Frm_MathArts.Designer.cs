@@ -92,6 +92,7 @@
             // 
             this.menuItem_Demo2.Index = 4;
             this.menuItem_Demo2.Text = "Demo &2";
+            this.menuItem_Demo2.Click += new System.EventHandler(this.menuItem_Demo2_Click);
             // 
             // menuItem_Exit
             // 
@@ -138,17 +139,17 @@
             this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
             this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
-            this.MathArtsDisp_Container.Size = new System.Drawing.Size(509, 262);
+            this.MathArtsDisp_Container.Size = new System.Drawing.Size(336, 292);
             this.MathArtsDisp_Container.TabIndex = 0;
             // 
             // Frm_MathArts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 262);
+            this.ClientSize = new System.Drawing.Size(336, 292);
             this.Controls.Add(this.MathArtsDisp_Container);
             this.Menu = this.menu_MathArts;
-            this.MinimumSize = new System.Drawing.Size(500, 300);
+            this.MinimumSize = new System.Drawing.Size(250, 200);
             this.Name = "Frm_MathArts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mathematik Kunst";

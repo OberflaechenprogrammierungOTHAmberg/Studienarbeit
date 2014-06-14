@@ -41,9 +41,11 @@ namespace MathArts
         #region member
         private List<Ctl_MathArtsObject> allContainedMathArtsObjects;
         public Bitmap bitMap;
-        private double[,,] valHighArr;
-        private double[,,] valLowArr;
+        private byte[,,] valHighArr;
+        private byte[, ,] valLowArr;
         private double[,] valFuncArr;
+
+        private static System.Timers.Timer aTimer = new System.Timers.Timer();
         #endregion
 
         #region constructors
@@ -53,9 +55,13 @@ namespace MathArts
         public Ctl_MathArtsDisp()
         {
             InitializeComponent();
-            valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
-            valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
+            valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
             valFuncArr = new double[this.Width, this.Height];
+
+            // Set the Interval to 100ms -> 10 updates per second while moving.
+            aTimer.Interval = 100;
+            aTimer.Enabled = true;
 
             this.allContainedMathArtsObjects = new List<Ctl_MathArtsObject>();
 
@@ -82,10 +88,13 @@ namespace MathArts
         {
             this.Controls.Add(_object);
             this.allContainedMathArtsObjects.Add(_object);
+            _object.subscribeToTimer(aTimer);
 
             if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
             if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
             _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
+            _object.subscribeToTimer(aTimer);
+
             Ctl_MathArtsDisp_ValueChanged(_object, EventArgs.Empty);
 
             #region debug
@@ -97,9 +106,12 @@ namespace MathArts
         {
             this.allContainedMathArtsObjects.Clear();
             this.Controls.Clear();
-            valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
-            valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
+            valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
             valFuncArr = new double[this.Width, this.Height];
+
+            this.UpdateColorArray();
+            this.UpdateFuncValArray();
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
@@ -110,9 +122,11 @@ namespace MathArts
                 this.Controls.Add(_object);
                 this.allContainedMathArtsObjects.Add(_object);
 
+               
                 if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
                 if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
                 _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
+                _object.subscribeToTimer(aTimer);
 
                 #region debug
                 Tracing_TriggerValueChanged(_object);
@@ -129,21 +143,21 @@ namespace MathArts
         {
             ClearWorkspace();
 
-            Ctl_MathArtsColor colblack = new Ctl_MathArtsColor(200, 30);
+            Ctl_MathArtsColor colblack = new Ctl_MathArtsColor(155, 70);
             colblack.Color = Color.Black;
             colblack.ColType = Ctl_MathArtsColor.ColTypes.High;
 
-            Ctl_MathArtsColor colred = new Ctl_MathArtsColor(200, 100);
+            Ctl_MathArtsColor colred = new Ctl_MathArtsColor(155, 140);
             colred.Color = Color.Red;
             colred.ColType = Ctl_MathArtsColor.ColTypes.High;
 
-            Ctl_MathArtsColor colyellow = new Ctl_MathArtsColor(200, 170);
+            Ctl_MathArtsColor colyellow = new Ctl_MathArtsColor(155, 210);
             colyellow.Color = Color.Yellow;
             colyellow.ColType = Ctl_MathArtsColor.ColTypes.High;
 
             Ctl_MathArtsFunction funcSinCos = new Ctl_MathArtsFunction(5, 5);
-            funcSinCos.Width= 500;
-            funcSinCos.Height= 250;
+            funcSinCos.Width= 325;
+            funcSinCos.Height= 280;
             funcSinCos.FuncType = Ctl_MathArtsFunction.FuncTypes.SinCos;
             funcSinCos.FuncInverse = true;
 
@@ -155,6 +169,7 @@ namespace MathArts
             this.allContainedMathArtsObjects.Add(funcSinCos);
 
             //  subscribe to math arts object events
+            this.allContainedMathArtsObjects.ForEach(n => n.subscribeToTimer(aTimer));
             this.allContainedMathArtsObjects.ForEach(n => n.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged);
             this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor).ToList().ForEach(n => (n as Ctl_MathArtsColor).ValueChanged+= Ctl_MathArtsDisp_ValueChanged);
             this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsFunction).ToList().ForEach(n => (n as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged);
@@ -410,8 +425,20 @@ namespace MathArts
         {
             //first try - calculate image for whole disp 
             if(bitMap == null) bitMap = new Bitmap(this.Width, this.Height);
+
             
-            if (sender is Ctl_MathArtsColor) UpdateColorArray((sender as Ctl_MathArtsColor).ColType);
+            if (sender is Ctl_MathArtsColor)
+            {
+                //if col type has changed 
+                if ((e is MathArtsColorValueChangedEventArgs) && (e as MathArtsColorValueChangedEventArgs).ChangeType == MathArtsColorValueChangedEventArgs.ValueChangeTypes.ColType)
+                {
+                    UpdateColorArray();
+                }
+                else
+                {
+                    UpdateColorArray((sender as Ctl_MathArtsColor).ColType);
+                }
+            }
             else if (sender is Ctl_MathArtsFunction) UpdateFuncValArray();
 
             for (int x = 0; x < this.Width; x++)
@@ -433,8 +460,8 @@ namespace MathArts
                 bitMap.Dispose();
                 bitMap = new Bitmap(this.Width, this.Height);
 
-                valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
-                valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+                valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
+                valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
                 valFuncArr = new double[this.Width, this.Height];
 
                 UpdateColorArray();

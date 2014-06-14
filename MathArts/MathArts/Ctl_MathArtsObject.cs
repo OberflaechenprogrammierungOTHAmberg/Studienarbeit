@@ -17,6 +17,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Timers;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -30,6 +31,9 @@ namespace MathArts
         #region members
         private Point mouseDownLocation;
         protected MouseClickTypes mouseClickType = MouseClickTypes.None;
+        
+
+        private bool readyForShapeValueChange=true;
 
         #region debug
         //creating incremental id for debugging
@@ -43,6 +47,9 @@ namespace MathArts
         public Ctl_MathArtsObject()
         {
             InitializeComponent();
+
+            readyForShapeValueChange = true;
+
             #region debug
             mathArts = mathArtsCounter++;
             #endregion debug
@@ -142,11 +149,30 @@ namespace MathArts
                 this.Height = e.Y;
             }
 
-            if (this.mouseClickType != MouseClickTypes.None) if(ShapeValueChanged!=null) ShapeValueChanged(this, e);
-            
+            if (this.mouseClickType != MouseClickTypes.None)
+            {
+                lock (this)
+                {
+                    if (readyForShapeValueChange)
+                    {
+                        if (ShapeValueChanged != null) ShapeValueChanged(this, e);
+                        readyForShapeValueChange = false;
+                    }
+                }
+            }
             #region debug
             Tracing_TriggerShapeValueChanged(e);
             #endregion
+            
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            //do something with the timer
+            lock (this)
+            {
+                readyForShapeValueChange = true;
+            }
             
         }
 
@@ -160,6 +186,12 @@ namespace MathArts
             Refresh();
         }
         #endregion
+
+
+        public void subscribeToTimer(System.Timers.Timer aTimer)
+        {
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+        }
 
         #region debug
         public event EventHandler ShapeValueChanged;

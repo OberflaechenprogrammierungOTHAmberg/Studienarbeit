@@ -285,5 +285,10 @@ namespace MathArts
         } 
         #endregion
 
+        private void menuItem_Demo2_Click(object sender, EventArgs e)
+        {
+            loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts");
+        }
+
     }
 }
