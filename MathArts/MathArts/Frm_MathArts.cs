@@ -96,16 +96,6 @@ namespace MathArts
             this.menuItem_FrameVisible.Checked = !this.menuItem_FrameVisible.Checked;
             this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
         }
-        #endregion
-
-        #region debug
-        [ConditionalAttribute("DEBUG")]
-        private void showTracingDialog()
-        {
-            MathArts.Debug.Frm_MathArtsObjTracing tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
-            tracingDialog.Show();
-        } 
-        #endregion
 
         private void menuItem_Exit_Click(object sender, EventArgs e)
         {
@@ -150,12 +140,12 @@ namespace MathArts
                     MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Height")).Value = this.Height.ToString();
 
                     //display container will add any further properties
-                    xmlDoc=this.MathArtsDisp_Container.SaveMathArtsDisp(xmlDoc);
-                    
+                    xmlDoc = this.MathArtsDisp_Container.SaveMathArtsDisp(xmlDoc);
+
                     xmlDoc.Save(fd.FileName);
                 }
             }
-            
+
         }
 
         private void menuItem_Demo1_Click(object sender, EventArgs e)
@@ -170,110 +160,130 @@ namespace MathArts
             fd.Filter = "MathArts Files|*.marts";
             fd.AddExtension = true;
             fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            
+
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                //clear old workspace
-                this.MathArtsDisp_Container.ClearWorkspace();
-
-                //load xml
-                XmlDocument mathArtsXml = new XmlDocument();
-
-                //try to open .marts xml file
-                try
-                {
-                    mathArtsXml.Load(fd.FileName);
-
-                    //parse math arts main frame properties
-                    uint uintVal;
-                    UInt32.TryParse(mathArtsXml.DocumentElement.Attributes["Width"].InnerText, out uintVal);
-                    this.Width = (int)uintVal;
-
-                    UInt32.TryParse(mathArtsXml.DocumentElement.Attributes["Height"].InnerText, out uintVal);
-                    this.Height = (int)uintVal;
-
-                    foreach (XmlNode mathArtsDispNode in mathArtsXml.DocumentElement.ChildNodes)
-                    {
-                        //parse math arts display properties
-                        if (mathArtsDispNode.Name == "MathArtsDisp")
-                        {
-                            UInt32.TryParse(mathArtsDispNode.Attributes["Width"].InnerText, out uintVal);
-                            this.MathArtsDisp_Container.Width = (int)uintVal;
-
-                            UInt32.TryParse(mathArtsDispNode.Attributes["Height"].InnerText, out uintVal);
-                            this.MathArtsDisp_Container.Height = (int)uintVal;
-
-                            List<Ctl_MathArtsObject> lMathArtsObjs = new List<Ctl_MathArtsObject>();
-                            
-                            //parse all math art objects and append them to list
-                            foreach (XmlNode mathArtsObjNode in mathArtsDispNode.FirstChild.ChildNodes)
-                            {
-                                if (mathArtsObjNode.Name.Contains("MathArtsObj_"))
-                                {
-                                    int xPosition;
-                                    int yPosition;
-
-                                    uint width;
-                                    uint height;
-
-                                    Int32.TryParse(mathArtsObjNode.Attributes["X"].InnerText, out xPosition);
-                                    Int32.TryParse(mathArtsObjNode.Attributes["Y"].InnerText, out yPosition);
-
-                                    UInt32.TryParse(mathArtsObjNode.Attributes["Width"].InnerText, out width);
-                                    UInt32.TryParse(mathArtsObjNode.Attributes["Height"].InnerText, out height);
-
-                                    if (mathArtsObjNode.Attributes["MathArtsObjType"].InnerText == "Color")
-                                    {
-                                        byte colorRed;
-                                        byte colorGreen;
-                                        byte colorYellow;
-
-                                        byte.TryParse(mathArtsObjNode.Attributes["Color_R"].InnerText, out colorRed);
-                                        byte.TryParse(mathArtsObjNode.Attributes["Color_G"].InnerText, out colorGreen);
-                                        byte.TryParse(mathArtsObjNode.Attributes["Color_B"].InnerText, out colorYellow);
-
-                                        Ctl_MathArtsColor newMathArtsColor = new Ctl_MathArtsColor(xPosition, yPosition);
-
-                                        newMathArtsColor.Width = (int)width;
-                                        newMathArtsColor.Height = (int)height;
-
-                                        newMathArtsColor.Color = Color.FromArgb(colorRed, colorGreen, colorYellow);
-
-                                        if (mathArtsObjNode.Attributes["ColType"].InnerText == "High") newMathArtsColor.ColType = Ctl_MathArtsColor.ColTypes.High;
-                                        else if (mathArtsObjNode.Attributes["ColType"].InnerText == "Low") newMathArtsColor.ColType = Ctl_MathArtsColor.ColTypes.Low;
-
-                                        lMathArtsObjs.Add(newMathArtsColor);
-                                    }
-                                    else if (mathArtsObjNode.Attributes["MathArtsObjType"].InnerText == "Function")
-                                    {
-                                        Ctl_MathArtsFunction newMathArtsFunction = new Ctl_MathArtsFunction(xPosition, yPosition);
-
-                                        newMathArtsFunction.Width = (int)width;
-                                        newMathArtsFunction.Height = (int)height;
-
-                                        if (mathArtsObjNode.Attributes["FuncType"].InnerText == "SinCos") newMathArtsFunction.FuncType = Ctl_MathArtsFunction.FuncTypes.SinCos;
-                                        else if (mathArtsObjNode.Attributes["FuncType"].InnerText == "Gauss") newMathArtsFunction.FuncType = Ctl_MathArtsFunction.FuncTypes.Gauss;
-                                        else if (mathArtsObjNode.Attributes["FuncType"].InnerText == "Garbor") newMathArtsFunction.FuncType = Ctl_MathArtsFunction.FuncTypes.Garbor;
-
-
-                                        if (mathArtsObjNode.Attributes["FuncInverse"].InnerText == "True") newMathArtsFunction.FuncInverse = true;
-                                        else if (mathArtsObjNode.Attributes["FuncInverse"].InnerText == "False") newMathArtsFunction.FuncInverse = false;
-
-                                        lMathArtsObjs.Add(newMathArtsFunction);
-                                    }
-                                }
-                            }
-
-                            //finally load all math art objects in display
-                            this.MathArtsDisp_Container.LoadMathArtObjects(lMathArtsObjs);
-                        }
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Corrupted file - invalid format", "Error opening file",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                loadFromXml(fd.FileName);
             }
         }
+        #endregion
+
+        #region internal private methods
+        private bool loadFromXml(string martsFile)
+        {
+            //clear old workspace
+            this.MathArtsDisp_Container.ClearWorkspace();
+
+            //load xml
+            XmlDocument mathArtsXml = new XmlDocument();
+
+            //try to open .marts xml file
+            try
+            {
+                mathArtsXml.Load(martsFile);
+
+                //parse math arts main frame properties
+                uint uintVal;
+                UInt32.TryParse(mathArtsXml.DocumentElement.Attributes["Width"].InnerText, out uintVal);
+                this.Width = (int)uintVal;
+
+                UInt32.TryParse(mathArtsXml.DocumentElement.Attributes["Height"].InnerText, out uintVal);
+                this.Height = (int)uintVal;
+
+                foreach (XmlNode mathArtsDispNode in mathArtsXml.DocumentElement.ChildNodes)
+                {
+                    //parse math arts display properties
+                    if (mathArtsDispNode.Name == "MathArtsDisp")
+                    {
+                        UInt32.TryParse(mathArtsDispNode.Attributes["Width"].InnerText, out uintVal);
+                        this.MathArtsDisp_Container.Width = (int)uintVal;
+
+                        UInt32.TryParse(mathArtsDispNode.Attributes["Height"].InnerText, out uintVal);
+                        this.MathArtsDisp_Container.Height = (int)uintVal;
+
+                        List<Ctl_MathArtsObject> lMathArtsObjs = new List<Ctl_MathArtsObject>();
+
+                        //parse all math art objects and append them to list
+                        foreach (XmlNode mathArtsObjNode in mathArtsDispNode.FirstChild.ChildNodes)
+                        {
+                            if (mathArtsObjNode.Name.Contains("MathArtsObj_"))
+                            {
+                                int xPosition;
+                                int yPosition;
+
+                                uint width;
+                                uint height;
+
+                                Int32.TryParse(mathArtsObjNode.Attributes["X"].InnerText, out xPosition);
+                                Int32.TryParse(mathArtsObjNode.Attributes["Y"].InnerText, out yPosition);
+
+                                UInt32.TryParse(mathArtsObjNode.Attributes["Width"].InnerText, out width);
+                                UInt32.TryParse(mathArtsObjNode.Attributes["Height"].InnerText, out height);
+
+                                if (mathArtsObjNode.Attributes["MathArtsObjType"].InnerText == "Color")
+                                {
+                                    byte colorRed;
+                                    byte colorGreen;
+                                    byte colorYellow;
+
+                                    byte.TryParse(mathArtsObjNode.Attributes["Color_R"].InnerText, out colorRed);
+                                    byte.TryParse(mathArtsObjNode.Attributes["Color_G"].InnerText, out colorGreen);
+                                    byte.TryParse(mathArtsObjNode.Attributes["Color_B"].InnerText, out colorYellow);
+
+                                    Ctl_MathArtsColor newMathArtsColor = new Ctl_MathArtsColor(xPosition, yPosition);
+
+                                    newMathArtsColor.Width = (int)width;
+                                    newMathArtsColor.Height = (int)height;
+
+                                    newMathArtsColor.Color = Color.FromArgb(colorRed, colorGreen, colorYellow);
+
+                                    if (mathArtsObjNode.Attributes["ColType"].InnerText == "High") newMathArtsColor.ColType = Ctl_MathArtsColor.ColTypes.High;
+                                    else if (mathArtsObjNode.Attributes["ColType"].InnerText == "Low") newMathArtsColor.ColType = Ctl_MathArtsColor.ColTypes.Low;
+
+                                    lMathArtsObjs.Add(newMathArtsColor);
+                                }
+                                else if (mathArtsObjNode.Attributes["MathArtsObjType"].InnerText == "Function")
+                                {
+                                    Ctl_MathArtsFunction newMathArtsFunction = new Ctl_MathArtsFunction(xPosition, yPosition);
+
+                                    newMathArtsFunction.Width = (int)width;
+                                    newMathArtsFunction.Height = (int)height;
+
+                                    if (mathArtsObjNode.Attributes["FuncType"].InnerText == "SinCos") newMathArtsFunction.FuncType = Ctl_MathArtsFunction.FuncTypes.SinCos;
+                                    else if (mathArtsObjNode.Attributes["FuncType"].InnerText == "Gauss") newMathArtsFunction.FuncType = Ctl_MathArtsFunction.FuncTypes.Gauss;
+                                    else if (mathArtsObjNode.Attributes["FuncType"].InnerText == "Garbor") newMathArtsFunction.FuncType = Ctl_MathArtsFunction.FuncTypes.Garbor;
+
+
+                                    if (mathArtsObjNode.Attributes["FuncInverse"].InnerText == "True") newMathArtsFunction.FuncInverse = true;
+                                    else if (mathArtsObjNode.Attributes["FuncInverse"].InnerText == "False") newMathArtsFunction.FuncInverse = false;
+
+                                    lMathArtsObjs.Add(newMathArtsFunction);
+                                }
+                            }
+                        }
+
+                        //finally load all math art objects in display
+                        this.MathArtsDisp_Container.LoadMathArtObjects(lMathArtsObjs);
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Corrupted file - invalid format", "Error opening file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region debug
+        [ConditionalAttribute("DEBUG")]
+        private void showTracingDialog()
+        {
+            MathArts.Debug.Frm_MathArtsObjTracing tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
+            tracingDialog.Show();
+        } 
+        #endregion
+
     }
 }
