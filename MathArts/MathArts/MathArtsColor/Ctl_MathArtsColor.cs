@@ -124,7 +124,7 @@ namespace MathArts.MathArtsColor
         /// <param name="e"></param>
         private void Ctl_MathArtsColor_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillEllipse(new SolidBrush(this.Color),0, 0, this.Width - 3, this.Height - 3);
+            e.Graphics.FillEllipse(new SolidBrush(this.Color),0, 0, this.Width - 2, this.Height - 2);
             e.Graphics.DrawEllipse(Pens.Red, 0, 0, this.Width - 2, this.Height - 2);
         }
 
