@@ -61,11 +61,12 @@ namespace MathArts.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
-        internal static string TraceViewerRessources {
+        internal static System.Drawing.Icon MathArts {
             get {
-                return ResourceManager.GetString("TraceViewerRessources", resourceCulture);
+                object obj = ResourceManager.GetObject("MathArts", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

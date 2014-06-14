@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -40,6 +41,8 @@ namespace MathArts
         /// </summary>
         public Frm_MathArts()
         {
+            //use custom MathArts icon
+            this.Icon = MathArts.Properties.Resources.MathArts;
             InitializeComponent();
 
             #region debug
@@ -126,7 +129,7 @@ namespace MathArts
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //depending on choosen file type we either save the image or save all necessary information to .marts file which can be loaded
-                if (fd.DefaultExt == "bmp")
+                if (Path.GetExtension(fd.FileName) == ".bmp")
                 {
                     if (this.MathArtsDisp_Container.bitMap != null) this.MathArtsDisp_Container.bitMap.Save(fd.FileName);
                 }
