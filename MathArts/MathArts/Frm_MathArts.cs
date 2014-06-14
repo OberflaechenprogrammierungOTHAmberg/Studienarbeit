@@ -51,7 +51,7 @@ namespace MathArts
         #region properties
         public Ctl_MathArtsDisp MathArtsDispContainer
         {
-            get { return MathArtsDisp_Container; }
+            get{ return MathArtsDisp_Container; }
             set{}
         }
         #endregion

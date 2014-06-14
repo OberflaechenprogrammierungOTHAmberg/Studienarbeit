@@ -43,6 +43,7 @@ namespace MathArts
         public Bitmap bitMap;
         private double[,,] valHighArr;
         private double[,,] valLowArr;
+        private double[,] valFuncArr;
         #endregion
 
         #region constructors
@@ -54,6 +55,7 @@ namespace MathArts
             InitializeComponent();
             valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valFuncArr = new double[this.Width, this.Height];
 
             this.allContainedMathArtsObjects = new List<Ctl_MathArtsObject>();
 
@@ -91,14 +93,13 @@ namespace MathArts
             #endregion
         }
 
-
-
         public void ClearWorkspace()
         {
             this.allContainedMathArtsObjects.Clear();
             this.Controls.Clear();
             valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valFuncArr = new double[this.Width, this.Height];
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
@@ -119,6 +120,7 @@ namespace MathArts
             }
 
             this.UpdateColorArray();
+            this.UpdateFuncValArray();
             this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
 
         }
@@ -160,6 +162,7 @@ namespace MathArts
             //  add to control list
             this.allContainedMathArtsObjects.ForEach(n => this.Controls.Add(n));
             this.UpdateColorArray();
+            this.UpdateFuncValArray();
 
             #region debug
             this.allContainedMathArtsObjects.ForEach(n => Tracing_TriggerValueChanged(n));
@@ -176,10 +179,9 @@ namespace MathArts
         /// <param name="val">Value calculated from product of functions</param>
         public Color ColorFromVal(int _x, int _y, double _val)
         {
-            //need temporary list because explicit cast of lambda expression result from List<Ctl_MathArtsObj> to List<Ctl_MathArtsColor> is not possible
-
             #region slow calculation of color values
             /*
+            //need temporary list because explicit cast of lambda expression result from List<Ctl_MathArtsObj> to List<Ctl_MathArtsColor> is not possible
             List<Ctl_MathArtsColor> lMathArtsColors_High = new List<Ctl_MathArtsColor>();
             this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor && (n as Ctl_MathArtsColor).ColType == Ctl_MathArtsColor.ColTypes.High).ToList().ForEach(n => lMathArtsColors_High.Add(n as Ctl_MathArtsColor));
             Color CHigh=CalculateColor(lMathArtsColors_High,_x,_y);
@@ -266,6 +268,17 @@ namespace MathArts
         #endregion
 
         #region private functions
+
+        private void UpdateFuncValArray()
+        {
+            for (int x = 0; x < this.Width; x++)
+            {
+                    for (int y = 0; y < this.Height; y++)
+                    {
+                        valFuncArr[x, y] = CalculateFunctionValue(x, y);
+                    }
+            }
+        }
 
         private void UpdateColorArray()
         {
@@ -399,14 +412,13 @@ namespace MathArts
             if(bitMap == null) bitMap = new Bitmap(this.Width, this.Height);
             
             if (sender is Ctl_MathArtsColor) UpdateColorArray((sender as Ctl_MathArtsColor).ColType);
-            else if (sender is Ctl_MathArtsFunction) { }
+            else if (sender is Ctl_MathArtsFunction) UpdateFuncValArray();
 
-            
             for (int x = 0; x < this.Width; x++)
             {
                 for (int y = 0; y < this.Height; y++)
                 {
-                    bitMap.SetPixel(x, y, ColorFromVal(x, y, CalculateFunctionValue(x, y)));
+                    bitMap.SetPixel(x, y, ColorFromVal(x, y, valFuncArr[x, y]));
                 }
             }
             Refresh();
@@ -423,8 +435,10 @@ namespace MathArts
 
                 valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
                 valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+                valFuncArr = new double[this.Width, this.Height];
 
                 UpdateColorArray();
+                UpdateFuncValArray();
                 Ctl_MathArtsDisp_ValueChanged(sender, e);
             }
 
