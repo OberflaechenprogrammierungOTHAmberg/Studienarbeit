@@ -27,7 +27,7 @@ namespace MathArts
 
         private void tb_ColorModulator_TextChanged(object sender, EventArgs e)
         {
-            //if (tb_ColorModulator.Text == "") tb_ColorModulator.Text = "1"; 
+            if (tb_ColorModulator.Text == "") tb_ColorModulator.Text = "1"; 
             int currentValue;
             Int32.TryParse(tb_ColorModulator.Text, out currentValue);
             trb_ColorModulator.Value = currentValue;
