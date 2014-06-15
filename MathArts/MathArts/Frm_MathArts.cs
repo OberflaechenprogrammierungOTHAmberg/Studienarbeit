@@ -173,8 +173,18 @@ namespace MathArts
         {
             Frm_MathArtsPropertiesDialog mathArtsPropertiesDialog = new Frm_MathArtsPropertiesDialog(this.MathArtsDisp_Container.ColorModulator);
             mathArtsPropertiesDialog.PropertiesChanged += mathArtsPropertiesDialog_PropertiesChanged;
+
+            //hide math arts frames
+            bool frameVisability = menuItem_FrameVisible.Checked;
+            this.menuItem_FrameVisible.Checked = false;
+            this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+
             mathArtsPropertiesDialog.ShowDialog();
             mathArtsPropertiesDialog.PropertiesChanged -= mathArtsPropertiesDialog_PropertiesChanged;
+
+            //recover old math arts frame visability value
+            this.menuItem_FrameVisible.Checked = frameVisability;
+            this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
 
         }
 
