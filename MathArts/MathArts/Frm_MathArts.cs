@@ -105,6 +105,9 @@ namespace MathArts
         private void menuItem_New_Click(object sender, EventArgs e)
         {
             this.MathArtsDisp_Container.ClearWorkspace();
+
+            //after clearing workspace we set math arts variables to default value
+            this.menuItem_FrameVisible.Checked = true;
         }
 
         private void menuItem_Save_Click(object sender, EventArgs e)
@@ -151,6 +154,34 @@ namespace MathArts
         private void menuItem_Demo1_Click(object sender, EventArgs e)
         {
             this.MathArtsDisp_Container.DisplayDemo1();
+
+            //after loading demo 1 show math art object frames
+            this.menuItem_FrameVisible.Checked = true;
+            this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+        }
+
+        private void menuItem_Demo2_Click(object sender, EventArgs e)
+        {
+            loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts");
+
+            //after loading demo 1 show math art object frames
+            this.menuItem_FrameVisible.Checked = true;
+            this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+        }
+
+        private void menuItem_Properties_Click(object sender, EventArgs e)
+        {
+            Frm_MathArtsPropertiesDialog mathArtsPropertiesDialog = new Frm_MathArtsPropertiesDialog(this.MathArtsDisp_Container.ColorModulator);
+            mathArtsPropertiesDialog.PropertiesChanged += mathArtsPropertiesDialog_PropertiesChanged;
+            mathArtsPropertiesDialog.ShowDialog();
+            mathArtsPropertiesDialog.PropertiesChanged -= mathArtsPropertiesDialog_PropertiesChanged;
+
+        }
+
+        void mathArtsPropertiesDialog_PropertiesChanged(object sender, MathArtsPropertiesEventArgs e)
+        {
+            this.MathArtsDisp_Container.ColorModulator = e.ColorModulator;
+            this.MathArtsDisp_Container.RefreshDisplay();
         }
 
         private void menuItem_Open_Click(object sender, EventArgs e)
@@ -200,6 +231,17 @@ namespace MathArts
 
                         UInt32.TryParse(mathArtsDispNode.Attributes["Height"].InnerText, out uintVal);
                         this.MathArtsDisp_Container.Height = (int)uintVal;
+
+                        try
+                        {
+                            UInt32.TryParse(mathArtsDispNode.Attributes["ColorModulator"].InnerText, out uintVal);
+                            this.MathArtsDisp_Container.ColorModulator = uintVal;
+                        }
+                        catch
+                        {
+                            this.MathArtsDisp_Container.ColorModulator = 1;
+                        }
+                        
 
                         List<Ctl_MathArtsObject> lMathArtsObjs = new List<Ctl_MathArtsObject>();
 
@@ -284,11 +326,5 @@ namespace MathArts
             tracingDialog.Show();
         } 
         #endregion
-
-        private void menuItem_Demo2_Click(object sender, EventArgs e)
-        {
-            loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts");
-        }
-
     }
 }

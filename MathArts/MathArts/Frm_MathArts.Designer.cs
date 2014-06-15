@@ -42,6 +42,7 @@
             this.menuItem_Function = new System.Windows.Forms.MenuItem();
             this.menuItem_Settings = new System.Windows.Forms.MenuItem();
             this.menuItem_FrameVisible = new System.Windows.Forms.MenuItem();
+            this.menuItem_Properties = new System.Windows.Forms.MenuItem();
             this.MathArtsDisp_Container = new MathArts.Ctl_MathArtsDisp();
             this.SuspendLayout();
             // 
@@ -124,7 +125,8 @@
             // 
             this.menuItem_Settings.Index = 2;
             this.menuItem_Settings.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem_FrameVisible});
+            this.menuItem_FrameVisible,
+            this.menuItem_Properties});
             this.menuItem_Settings.Text = "Ein&stellungen";
             // 
             // menuItem_FrameVisible
@@ -134,8 +136,15 @@
             this.menuItem_FrameVisible.Text = "&Rahmen sichtbar";
             this.menuItem_FrameVisible.Click += new System.EventHandler(this.menuItem_FrameVisible_Click);
             // 
+            // menuItem_Properties
+            // 
+            this.menuItem_Properties.Index = 1;
+            this.menuItem_Properties.Text = "&Eigenschaften";
+            this.menuItem_Properties.Click += new System.EventHandler(this.menuItem_Properties_Click);
+            // 
             // MathArtsDisp_Container
             // 
+            this.MathArtsDisp_Container.ColorModulator = ((uint)(1u));
             this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
             this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
@@ -173,6 +182,7 @@
         private Ctl_MathArtsDisp MathArtsDisp_Container;
         private System.Windows.Forms.MenuItem menuItem_Save;
         private System.Windows.Forms.MenuItem menuItem_Open;
+        private System.Windows.Forms.MenuItem menuItem_Properties;
     }
 }
 

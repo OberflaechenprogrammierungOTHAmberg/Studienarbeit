@@ -45,6 +45,15 @@ namespace MathArts
         private byte[, ,] valLowArr;
         private double[,] valFuncArr;
 
+        private uint colorModulator=1;
+
+        public uint ColorModulator
+        {
+            get { return colorModulator; }
+            set { if(value<=256 && value>0) colorModulator=value; }
+        }
+
+        //create timer which is running in separate thread
         private static System.Timers.Timer aTimer = new System.Timers.Timer();
         #endregion
 
@@ -106,6 +115,9 @@ namespace MathArts
         {
             this.allContainedMathArtsObjects.Clear();
             this.Controls.Clear();
+
+            this.colorModulator = 1;
+
             valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
             valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
             valFuncArr = new double[this.Width, this.Height];
@@ -184,6 +196,11 @@ namespace MathArts
             #endregion
 
             this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+        }
+
+        public void RefreshDisplay()
+        {
+            Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -273,9 +290,9 @@ namespace MathArts
             */
             #endregion
 
-            byte RedColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_RED] + (1 - _val) * valLowArr[_x, _y, COLOR_RED])) % 256);
-            byte GreenColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_GREEN] + (1 - _val) * valLowArr[_x, _y, COLOR_GREEN])) % 256);
-            byte BlueColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_BLUE] + (1 - _val) * valLowArr[_x, _y, COLOR_BLUE])) % 256);
+            byte RedColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_RED] + (1 - _val) * valLowArr[_x, _y, COLOR_RED])) * colorModulator % 256);
+            byte GreenColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_GREEN] + (1 - _val) * valLowArr[_x, _y, COLOR_GREEN])) * colorModulator % 256);
+            byte BlueColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_BLUE] + (1 - _val) * valLowArr[_x, _y, COLOR_BLUE])) * colorModulator % 256);
 
             return Color.FromArgb(RedColor, GreenColor, BlueColor);
         }
@@ -410,6 +427,7 @@ namespace MathArts
 
             MathArtsDispNode.Attributes.Append(_doc.CreateAttribute("Width")).Value = this.Width.ToString();
             MathArtsDispNode.Attributes.Append(_doc.CreateAttribute("Height")).Value = this.Height.ToString();
+            MathArtsDispNode.Attributes.Append(_doc.CreateAttribute("ColorModulator")).Value = this.colorModulator.ToString();
 
             XmlNode MathArtsObjsNode=MathArtsDispNode.AppendChild(_doc.CreateElement("MathArtsObjects"));
 
