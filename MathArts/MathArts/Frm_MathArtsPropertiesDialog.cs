@@ -19,17 +19,17 @@ namespace MathArts
         #endregion
 
         #region constructors
-        public Frm_MathArtsPropertiesDialog(uint _defaultTimerVal, uint _timerInterval = 200, bool _defaultTimer = true, uint _colorModulator = 1)
+        public Frm_MathArtsPropertiesDialog(uint _defaultTimerInterval, uint _timerInterval = 200, bool _defaultTimer = true, uint _colorModulator = 1)
         {
             InitializeComponent();
             colorModulator = (int)_colorModulator;
             Tb_ColorModulator.Text = _colorModulator.ToString();
 
-            defaultTimerInterval = _defaultTimerVal;
+            defaultTimerInterval = _defaultTimerInterval;
             timerInterval = (int)_timerInterval;
             Chb_DefaultTimer.Checked = _defaultTimer;
 
-            Tb_TimerModulator.Text = Chb_DefaultTimer.Checked ? _defaultTimerVal.ToString() : _timerInterval.ToString();
+            Tb_TimerModulator.Text = Chb_DefaultTimer.Checked ? _defaultTimerInterval.ToString() : _timerInterval.ToString();
         }
         #endregion
 
