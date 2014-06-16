@@ -560,6 +560,8 @@ namespace MathArts
         #endregion
 
         #region debug
+        public double GetFuncValue(int _x,int _y){ return valFuncArr[_x,_y];}
+
         private void Ctl_MathArtsDisp_MouseMove(object sender, MouseEventArgs e)
         {
             if (Tracing_ValueChanged != null) Tracing_ValueChanged(this, new MathArts.Debug.Tracing_ValueChangedEventArgs(this,e.X, e.Y));

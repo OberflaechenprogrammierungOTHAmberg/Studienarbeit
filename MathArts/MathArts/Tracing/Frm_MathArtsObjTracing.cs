@@ -76,8 +76,8 @@ namespace MathArts.Debug
                     Lbl_MathArtsDispBitmapWidth.Text = LBL_BITMAP_INFORAMATION + " " + LBL_WIDTH_INFORAMATION + e.DisplayContainer.Width + " " + e.DisplayContainer.bitMap.Width;
                     Lbl_MathArtsDispBitmapHeight.Text = LBL_BITMAP_INFORAMATION + " " + LBL_HEIGHT_INFORAMATION + e.DisplayContainer.Height + " " + e.DisplayContainer.bitMap.Height;
 
-                    Lbl_MathArtsDispColor.Text = LBL_COLOR_INFORAMATION + e.DisplayContainer.ColorFromVal(e.X, e.Y, e.DisplayContainer.CalculateFunctionValue(e.X, e.Y));
-                    Lbl_MathArtsDispFuncResult.Text = LBL_FUNC_RES_INFORAMATION + e.DisplayContainer.CalculateFunctionValue(e.X, e.Y);
+                    Lbl_MathArtsDispColor.Text = LBL_COLOR_INFORAMATION + e.DisplayContainer.ColorFromVal(e.X, e.Y, e.DisplayContainer.GetFuncValue(e.X, e.Y));
+                    Lbl_MathArtsDispFuncResult.Text = LBL_FUNC_RES_INFORAMATION + e.DisplayContainer.GetFuncValue(e.X, e.Y);
                     break;
 
                 case (MathArts.Debug.Tracing_ValueChangedEventArgs.ValueChangeTypes.MathArtsObjShapeChanged):
@@ -199,7 +199,7 @@ namespace MathArts.Debug
                 (selectedMathArtsObj as Ctl_MathArtsFunction).ValueChanged += Frm_MathArtsObjTracing_ValueChanged;
                 Lbl_MathArtsObjTypeSpecific_1.Text = "Funkionstyp:"     + (selectedMathArtsObj as Ctl_MathArtsFunction).FuncType.ToString();
                 Lbl_MathArtsObjTypeSpecific_2.Text = "Invertiert:"      + ((selectedMathArtsObj as Ctl_MathArtsFunction).FuncInverse ? "Ja" : "Nein");
-                Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:";
+                Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:"   + ((selectedMathArtsObj as Ctl_MathArtsFunction).GetFuncValFromArray(selectedMathArtsObj.Location.X,selectedMathArtsObj.Location.Y).ToString());
             }
 
             //set all debug values for visualization
