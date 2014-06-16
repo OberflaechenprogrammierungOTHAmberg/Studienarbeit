@@ -126,6 +126,8 @@ namespace MathArts
             this.mouseClickType = MouseClickTypes.None;
             //reset cursor
             this.Cursor = Cursors.Default;
+
+            if (ShapeValueChanged != null) ShapeValueChanged(this, e);
         }
 
         /// <summary>

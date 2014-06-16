@@ -46,7 +46,6 @@ namespace MathArts
         private double[,] valFuncArr;
 
         private uint colorModulator=1;
-
         public uint ColorModulator
         {
             get { return colorModulator; }
@@ -55,6 +54,41 @@ namespace MathArts
 
         //create timer which is running in separate thread
         private static System.Timers.Timer aTimer = new System.Timers.Timer();
+        private const int DEFAULT_TIMERINTERVAL=50;
+        private const int DEFAULT_WIDTH = 352;
+        private const int DEFAULT_HEIGHT= 351;
+
+        private bool useDefaultTimer = true;
+        public bool UseDefaultTimer
+        {
+            get { return useDefaultTimer; }
+            set { useDefaultTimer = value; }
+        }
+
+        private uint timerInterval;
+        public uint TimerInterval
+        {
+            get { return timerInterval; }
+            set
+            {
+                if (useDefaultTimer)
+                {
+                    aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width * 1.0 / DEFAULT_WIDTH * 1.0) * (this.Height * 1.0 / DEFAULT_HEIGHT * 1.0));
+                    timerInterval = (uint)aTimer.Interval;
+                }
+                else
+                {
+                    aTimer.Interval = value;
+                    timerInterval = value;
+                }
+            }
+        }
+        private uint defaultTimerInterval;
+        public uint DefaultTimerInterval
+        {
+            get { return defaultTimerInterval; }
+            set {}
+        }
         #endregion
 
         #region constructors
@@ -69,7 +103,9 @@ namespace MathArts
             valFuncArr = new double[this.Width, this.Height];
 
             // Set the Interval to 100ms -> 10 updates per second while moving.
-            aTimer.Interval = 100;
+            //aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5* DEFAULT_TIMERINTERVAL * (this.Width / DEFAULT_WIDTH) * (this.Height / DEFAULT_HEIGHT));
+            TimerInterval = (uint)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width / DEFAULT_WIDTH) * (this.Height / DEFAULT_HEIGHT));
+            defaultTimerInterval = timerInterval;
             aTimer.Enabled = true;
 
             this.allContainedMathArtsObjects = new List<Ctl_MathArtsObject>();
@@ -117,6 +153,11 @@ namespace MathArts
             this.Controls.Clear();
 
             this.colorModulator = 1;
+
+            //reset timer to default interval
+            useDefaultTimer = true;
+            aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width * 1.0 / DEFAULT_WIDTH * 1.0) * (this.Height * 1.0 / DEFAULT_HEIGHT * 1.0));
+            timerInterval = (uint)aTimer.Interval;
 
             valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
             valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
@@ -485,8 +526,14 @@ namespace MathArts
                 UpdateColorArray();
                 UpdateFuncValArray();
                 Ctl_MathArtsDisp_ValueChanged(sender, e);
-            }
 
+                if (useDefaultTimer)
+                {
+                    aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width * 1.0 / DEFAULT_WIDTH * 1.0) * (this.Height * 1.0 / DEFAULT_HEIGHT * 1.0));
+                    timerInterval = (uint)aTimer.Interval;
+                    defaultTimerInterval = timerInterval;
+                }
+            }
         }
 
         /// <summary>

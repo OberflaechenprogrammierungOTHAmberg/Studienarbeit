@@ -12,11 +12,24 @@ namespace MathArts
 {
     public partial class Frm_MathArtsPropertiesDialog : Form
     {
+        #region member 
+        private int colorModulator;
+        private int timerInterval;
+        private uint defaultTimerInterval;
+        #endregion
+
         #region constructors
-        public Frm_MathArtsPropertiesDialog(uint _colorModulator=1)
+        public Frm_MathArtsPropertiesDialog(uint _defaultTimerVal, uint _timerInterval = 200, bool _defaultTimer = true, uint _colorModulator = 1)
         {
             InitializeComponent();
-            tb_ColorModulator.Text = _colorModulator.ToString();
+            colorModulator = (int)_colorModulator;
+            Tb_ColorModulator.Text = _colorModulator.ToString();
+
+            defaultTimerInterval = _defaultTimerVal;
+            timerInterval = (int)_timerInterval;
+            Chb_DefaultTimer.Checked = _defaultTimer;
+
+            Tb_TimerModulator.Text = Chb_DefaultTimer.Checked ? _defaultTimerVal.ToString() : _timerInterval.ToString();
         }
         #endregion
 
@@ -25,35 +38,92 @@ namespace MathArts
         public event MathArtsPropertiesEventHandler PropertiesChanged;
         #endregion
 
-        private void tb_ColorModulator_TextChanged(object sender, EventArgs e)
+        private void Tb_ColorModulator_TextChanged(object sender, EventArgs e)
         {
-            if (tb_ColorModulator.Text == "") tb_ColorModulator.Text = "1"; 
-            int currentValue;
-            Int32.TryParse(tb_ColorModulator.Text, out currentValue);
-            trb_ColorModulator.Value = currentValue;
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)currentValue));
+            if (Tb_ColorModulator.Text == "") Tb_ColorModulator.Text = "1";
+
+            Int32.TryParse(Tb_ColorModulator.Text, out colorModulator);
+            if (colorModulator < Trb_ColorModulator.Minimum) colorModulator = Trb_ColorModulator.Minimum;
+            else if (colorModulator > Trb_ColorModulator.Maximum) colorModulator = Trb_ColorModulator.Maximum;
+            Trb_ColorModulator.Value = colorModulator;
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
         }
 
-        private void trb_ColorModulator_ValueChanged(object sender, EventArgs e)
+        private void Trb_ColorModulator_ValueChanged(object sender, EventArgs e)
         {
-            tb_ColorModulator.Text = trb_ColorModulator.Value.ToString();
+            Tb_ColorModulator.Text = Trb_ColorModulator.Value.ToString();
         }
 
-        private void tb_ColorModulator_KeyPress(object sender, KeyPressEventArgs e)
+        private void Tb_ColorModulator_KeyPress(object sender, KeyPressEventArgs e)
         {
             uint currentValue;
-            UInt32.TryParse(tb_ColorModulator.Text + e.KeyChar, out currentValue);
-            //if (currentValue > trb_ColorModulator.Maximum && currentValue < trb_ColorModulator.Minimum) 
-            if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar) || currentValue > trb_ColorModulator.Maximum || currentValue < trb_ColorModulator.Minimum))
-                || (char.IsControl(e.KeyChar) && tb_ColorModulator.Text.Length==1)) e.Handled = true;
+            UInt32.TryParse(Tb_ColorModulator.Text + e.KeyChar, out currentValue);
+            if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar) || currentValue > Trb_ColorModulator.Maximum))
+                || (char.IsControl(e.KeyChar) && Tb_ColorModulator.Text.Length==1)) e.Handled = true;
         }
+
+        private void Chb_DefaultTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            Tb_TimerModulator.ReadOnly = Chb_DefaultTimer.Checked? true:false;
+            Trb_TimerModulator_ValueChanged(this, e);
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+        }
+
+        private void Tb_TimerModulator_TextChanged(object sender, EventArgs e)
+        {
+            
+            if (Tb_TimerModulator.Text == "") Tb_TimerModulator.Text = "100";
+            Int32.TryParse(Tb_TimerModulator.Text, out timerInterval);
+            if (timerInterval < Trb_TimerModulator.Minimum)
+            {
+                timerInterval = Trb_TimerModulator.Minimum;
+                Tb_TimerModulator.Text = Trb_TimerModulator.Minimum.ToString();
+            }
+            else if (timerInterval > Trb_TimerModulator.Maximum)
+            {
+                timerInterval = Trb_TimerModulator.Maximum;
+                Tb_TimerModulator.Text = Trb_TimerModulator.Maximum.ToString();
+            }
+            Trb_TimerModulator.Value = timerInterval;
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+        }
+
+        private void Trb_TimerModulator_ValueChanged(object sender, EventArgs e)
+        {
+            if (Chb_DefaultTimer.Checked)
+            {
+                Tb_TimerModulator.Text = defaultTimerInterval.ToString();
+                Trb_TimerModulator.Value = (int)defaultTimerInterval;
+            }
+            else
+            {
+                Tb_TimerModulator.Text = Trb_TimerModulator.Value.ToString();
+            }
+        }
+
+        private void Tb_TimerModulator_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            uint currentValue;
+            UInt32.TryParse(Tb_ColorModulator.Text + e.KeyChar, out currentValue);
+            if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar)))
+                || (char.IsControl(e.KeyChar) && Tb_TimerModulator.Text.Length == 1)) e.Handled = true;
+        }
+
     }
 
     /// <summary>
-    /// Function value changed event args
+    /// math arts property changed event args
     /// </summary>
     public class MathArtsPropertiesEventArgs : EventArgs
     {
+        private bool useDefaultTimer;
+
+        public bool UseDefaultTimer
+        {
+            get { return useDefaultTimer; }
+            set { useDefaultTimer = value; }
+        }
+
         private uint colorModulator;
 
         public uint ColorModulator
@@ -62,10 +132,33 @@ namespace MathArts
             set { colorModulator = value; }
         }
 
-        public MathArtsPropertiesEventArgs(uint _colorModulator)
+        private uint timerInterval;
+
+        public uint TimerInterval
         {
-            this.colorModulator = _colorModulator;
+            get { return timerInterval; }
+            set { timerInterval = value; }
         }
 
+        private ChangeTypes changeType;
+
+        public ChangeTypes ChangeType
+        {
+            get { return changeType; }
+            set { changeType = value; }
+        }
+
+        public MathArtsPropertiesEventArgs(uint _colorModulator, uint _timerVal,bool _useDefaultTimer,ChangeTypes _changeType)
+        {
+            this.colorModulator = _colorModulator;
+            this.timerInterval = _timerVal;
+            this.useDefaultTimer = _useDefaultTimer;
+            this.changeType = _changeType;
+        }
+
+        public enum ChangeTypes
+        {
+            ColorModulator,Timer
+        }
     }
 }

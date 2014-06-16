@@ -171,7 +171,7 @@ namespace MathArts
 
         private void menuItem_Properties_Click(object sender, EventArgs e)
         {
-            Frm_MathArtsPropertiesDialog mathArtsPropertiesDialog = new Frm_MathArtsPropertiesDialog(this.MathArtsDisp_Container.ColorModulator);
+            Frm_MathArtsPropertiesDialog mathArtsPropertiesDialog = new Frm_MathArtsPropertiesDialog(this.MathArtsDisp_Container.DefaultTimerInterval,this.MathArtsDisp_Container.TimerInterval, this.MathArtsDisp_Container.UseDefaultTimer, this.MathArtsDisp_Container.ColorModulator);
             mathArtsPropertiesDialog.PropertiesChanged += mathArtsPropertiesDialog_PropertiesChanged;
 
             //hide math arts frames
@@ -191,7 +191,10 @@ namespace MathArts
         void mathArtsPropertiesDialog_PropertiesChanged(object sender, MathArtsPropertiesEventArgs e)
         {
             this.MathArtsDisp_Container.ColorModulator = e.ColorModulator;
-            this.MathArtsDisp_Container.RefreshDisplay();
+            this.MathArtsDisp_Container.UseDefaultTimer = e.UseDefaultTimer;
+            this.MathArtsDisp_Container.TimerInterval = e.TimerInterval;
+
+            if (e.ChangeType == MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator) this.MathArtsDisp_Container.RefreshDisplay();
         }
 
         private void menuItem_Open_Click(object sender, EventArgs e)
