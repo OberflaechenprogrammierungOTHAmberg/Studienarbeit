@@ -320,7 +320,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(419, 416);
+            this.ClientSize = new System.Drawing.Size(436, 451);
             this.ControlBox = false;
             this.Controls.Add(this.Lbl_ListBoxDescription);
             this.Controls.Add(this.Gb_MathArtsDispProperties);

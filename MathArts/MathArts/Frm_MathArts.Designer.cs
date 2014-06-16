@@ -145,11 +145,14 @@
             // MathArtsDisp_Container
             // 
             this.MathArtsDisp_Container.ColorModulator = ((uint)(1u));
+            this.MathArtsDisp_Container.DefaultTimerInterval = ((uint)(69u));
             this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
             this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
             this.MathArtsDisp_Container.Size = new System.Drawing.Size(336, 292);
             this.MathArtsDisp_Container.TabIndex = 0;
+            this.MathArtsDisp_Container.TimerInterval = ((uint)(69u));
+            this.MathArtsDisp_Container.UseDefaultTimer = true;
             // 
             // Frm_MathArts
             // 
@@ -162,6 +165,7 @@
             this.Name = "Frm_MathArts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mathematik Kunst";
+            this.Load += new System.EventHandler(this.Frm_MathArts_Load);
             this.ResumeLayout(false);
 
         }

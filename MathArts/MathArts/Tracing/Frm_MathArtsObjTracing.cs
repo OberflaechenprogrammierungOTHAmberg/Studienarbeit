@@ -19,7 +19,7 @@ namespace MathArts.Debug
         private const string LBL_X_POS_INFORAMATION = "X:";
         private const string LBL_Y_POS_INFORAMATION = "Y:";
         private const string LBL_MOUSE_CLICK_TYPE_INFORAMATION = "Maus Kommando:";
-        private const uint HIGHLIGHT_ALPHA_CHANNEL = 20;
+        private const uint HIGHLIGHT_ALPHA_CHANNEL = 50;
         private const string LBL_BITMAP_INFORAMATION = "Bitmap";
         private const string LBL_COLOR_INFORAMATION = "Farbe:";
 
@@ -38,8 +38,8 @@ namespace MathArts.Debug
         /// <param name="mathArtsForm"></param>
         public Frm_MathArtsObjTracing(Frm_MathArts mathArtsForm)
         {
-            this.Location = new Point(0, -mathArtsForm.Location.Y);
             InitializeComponent();
+            this.Location = new Point(mathArtsForm.Location.X - this.Width, mathArtsForm.Location.Y);
             mathArtsForm.MathArtsDispContainer.Tracing_ValueChanged += mainDisp_Tracing_ValueChanged;
             displayedMathArtsObjects = new List<Ctl_MathArtsObject>();
             selectedMathArtsObj = null;
@@ -76,8 +76,20 @@ namespace MathArts.Debug
                     Lbl_MathArtsDispBitmapWidth.Text = LBL_BITMAP_INFORAMATION + " " + LBL_WIDTH_INFORAMATION + e.DisplayContainer.Width + " " + e.DisplayContainer.bitMap.Width;
                     Lbl_MathArtsDispBitmapHeight.Text = LBL_BITMAP_INFORAMATION + " " + LBL_HEIGHT_INFORAMATION + e.DisplayContainer.Height + " " + e.DisplayContainer.bitMap.Height;
 
-                    Lbl_MathArtsDispColor.Text = LBL_COLOR_INFORAMATION + e.DisplayContainer.ColorFromVal(e.X, e.Y, e.DisplayContainer.GetFuncValue(e.X, e.Y));
-                    Lbl_MathArtsDispFuncResult.Text = LBL_FUNC_RES_INFORAMATION + e.DisplayContainer.GetFuncValue(e.X, e.Y);
+                    
+
+                    //need to 
+                    double resultFuncValue;
+                    try
+                    {
+                        resultFuncValue = e.DisplayContainer.GetFuncValue(e.X, e.Y);
+                    }
+                    catch
+                    {
+                        resultFuncValue=1;
+                    }
+                    Lbl_MathArtsDispColor.Text = LBL_COLOR_INFORAMATION + e.DisplayContainer.ColorFromVal(e.X, e.Y, resultFuncValue);
+                    Lbl_MathArtsDispFuncResult.Text = LBL_FUNC_RES_INFORAMATION + resultFuncValue;
                     break;
 
                 case (MathArts.Debug.Tracing_ValueChangedEventArgs.ValueChangeTypes.MathArtsObjShapeChanged):
@@ -199,7 +211,17 @@ namespace MathArts.Debug
                 (selectedMathArtsObj as Ctl_MathArtsFunction).ValueChanged += Frm_MathArtsObjTracing_ValueChanged;
                 Lbl_MathArtsObjTypeSpecific_1.Text = "Funkionstyp:"     + (selectedMathArtsObj as Ctl_MathArtsFunction).FuncType.ToString();
                 Lbl_MathArtsObjTypeSpecific_2.Text = "Invertiert:"      + ((selectedMathArtsObj as Ctl_MathArtsFunction).FuncInverse ? "Ja" : "Nein");
-                Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:"   + ((selectedMathArtsObj as Ctl_MathArtsFunction).GetFuncValFromArray(selectedMathArtsObj.Location.X,selectedMathArtsObj.Location.Y).ToString());
+
+                string resultFuncValue;
+                try
+                {
+                    resultFuncValue = (selectedMathArtsObj as Ctl_MathArtsFunction).GetFuncValFromArray(selectedMathArtsObj.Location.X,selectedMathArtsObj.Location.Y).ToString();
+                }
+                catch
+                {
+                    resultFuncValue = "";
+                }
+                Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:" + resultFuncValue;
             }
 
             //set all debug values for visualization

@@ -44,10 +44,6 @@ namespace MathArts
             //use custom MathArts icon
             this.Icon = MathArts.Properties.Resources.MathArts;
             InitializeComponent();
-
-            #region debug
-            showTracingDialog(); 
-            #endregion
         }
         #endregion
 
@@ -104,6 +100,10 @@ namespace MathArts
 
         private void menuItem_New_Click(object sender, EventArgs e)
         {
+            #region debug
+            showTracingDialog();
+            #endregion
+
             this.MathArtsDisp_Container.ClearWorkspace();
 
             //after clearing workspace we set math arts variables to default value
@@ -153,6 +153,10 @@ namespace MathArts
 
         private void menuItem_Demo1_Click(object sender, EventArgs e)
         {
+            #region debug
+            showTracingDialog();
+            #endregion
+
             this.MathArtsDisp_Container.DisplayDemo1();
 
             //after loading demo 1 show math art object frames
@@ -162,6 +166,10 @@ namespace MathArts
 
         private void menuItem_Demo2_Click(object sender, EventArgs e)
         {
+            #region debug
+            showTracingDialog();
+            #endregion
+
             loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts");
 
             //after loading demo 1 show math art object frames
@@ -332,12 +340,23 @@ namespace MathArts
         #endregion
 
         #region debug
+
+        private MathArts.Debug.Frm_MathArtsObjTracing tracingDialog;
+
         [ConditionalAttribute("DEBUG")]
         private void showTracingDialog()
         {
-            MathArts.Debug.Frm_MathArtsObjTracing tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
+            if (tracingDialog != null) tracingDialog.Dispose();
+            tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
             tracingDialog.Show();
         } 
         #endregion
+
+        private void Frm_MathArts_Load(object sender, EventArgs e)
+        {
+            #region debug
+            showTracingDialog();
+            #endregion
+        }
     }
 }

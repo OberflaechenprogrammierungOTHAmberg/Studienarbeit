@@ -37,7 +37,7 @@ namespace MathArts
 
         #region debug
         //creating incremental id for debugging
-        private static uint mathArtsCounter = 0;
+        public static uint mathArtsCounter = 0;
         private uint mathArts;
         #endregion
 
@@ -162,9 +162,11 @@ namespace MathArts
                     }
                 }
             }
+
             #region debug
-            Tracing_TriggerShapeValueChanged(e);
+            if (ShapeValueChanged != null) Tracing_TriggerShapeValueChanged(e);
             #endregion
+
             
         }
 

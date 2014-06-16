@@ -151,6 +151,9 @@ namespace MathArts
         {
             this.allContainedMathArtsObjects.Clear();
             this.Controls.Clear();
+            
+            //reset id counter for math art objs
+            Ctl_MathArtsObject.mathArtsCounter = 0;
 
             this.colorModulator = 1;
 
