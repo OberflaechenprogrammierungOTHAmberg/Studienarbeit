@@ -40,11 +40,14 @@ namespace MathArts
 
         private void Tb_ColorModulator_TextChanged(object sender, EventArgs e)
         {
-            if (Tb_ColorModulator.Text == "") Tb_ColorModulator.Text = "1";
+            if (Tb_ColorModulator.Text == "") colorModulator = 1;
+            else
+            {
+                Double.TryParse(Tb_ColorModulator.Text, out colorModulator);
+                if (colorModulator < Trb_ColorModulator.Minimum) colorModulator = Trb_ColorModulator.Minimum;
+                else if (colorModulator > Trb_ColorModulator.Maximum) colorModulator = Trb_ColorModulator.Maximum;
+            }
 
-            Double.TryParse(Tb_ColorModulator.Text, out colorModulator);
-            if (colorModulator < Trb_ColorModulator.Minimum) colorModulator = Trb_ColorModulator.Minimum;
-            else if (colorModulator > Trb_ColorModulator.Maximum) colorModulator = Trb_ColorModulator.Maximum;
             Trb_ColorModulator.Value = (int)colorModulator;
             if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
         }
@@ -58,8 +61,12 @@ namespace MathArts
         {
             uint currentValue;
             UInt32.TryParse(Tb_ColorModulator.Text + e.KeyChar, out currentValue);
-            if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar) || currentValue > Trb_ColorModulator.Maximum))
-                || (char.IsControl(e.KeyChar) && Tb_ColorModulator.Text.Length==1)) e.Handled = true;
+            if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar) || currentValue > Trb_ColorModulator.Maximum))) e.Handled = true;
+        }
+
+        private void Tb_ColorModulator_Leave(object sender, EventArgs e)
+        {
+            Tb_ColorModulator.Text = colorModulator.ToString();
         }
 
         private void Chb_DefaultTimer_CheckedChanged(object sender, EventArgs e)
@@ -71,18 +78,21 @@ namespace MathArts
 
         private void Tb_TimerModulator_TextChanged(object sender, EventArgs e)
         {
-            
-            if (Tb_TimerModulator.Text == "") Tb_TimerModulator.Text = "100";
-            Int32.TryParse(Tb_TimerModulator.Text, out timerInterval);
-            if (timerInterval < Trb_TimerModulator.Minimum)
+
+            if (Tb_TimerModulator.Text == "") timerInterval = (int)defaultTimerInterval;
+            else
             {
-                timerInterval = Trb_TimerModulator.Minimum;
-                Tb_TimerModulator.Text = Trb_TimerModulator.Minimum.ToString();
-            }
-            else if (timerInterval > Trb_TimerModulator.Maximum)
-            {
-                timerInterval = Trb_TimerModulator.Maximum;
-                Tb_TimerModulator.Text = Trb_TimerModulator.Maximum.ToString();
+                Int32.TryParse(Tb_TimerModulator.Text, out timerInterval);
+                if (timerInterval < Trb_TimerModulator.Minimum)
+                {
+                    timerInterval = Trb_TimerModulator.Minimum;
+                    Tb_TimerModulator.Text = Trb_TimerModulator.Minimum.ToString();
+                }
+                else if (timerInterval > Trb_TimerModulator.Maximum)
+                {
+                    timerInterval = Trb_TimerModulator.Maximum;
+                    Tb_TimerModulator.Text = Trb_TimerModulator.Maximum.ToString();
+                }
             }
             Trb_TimerModulator.Value = timerInterval;
             if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
@@ -105,10 +115,8 @@ namespace MathArts
         {
             uint currentValue;
             UInt32.TryParse(Tb_ColorModulator.Text + e.KeyChar, out currentValue);
-            if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar)))
-                || (char.IsControl(e.KeyChar) && Tb_TimerModulator.Text.Length == 1)) e.Handled = true;
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) || currentValue > Trb_TimerModulator.Maximum) e.Handled = true;
         }
-
     }
 
     /// <summary>

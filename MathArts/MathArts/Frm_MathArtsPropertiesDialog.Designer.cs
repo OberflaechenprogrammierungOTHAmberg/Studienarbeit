@@ -61,6 +61,7 @@
             this.Tb_ColorModulator.TabIndex = 1;
             this.Tb_ColorModulator.TextChanged += new System.EventHandler(this.Tb_ColorModulator_TextChanged);
             this.Tb_ColorModulator.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_ColorModulator_KeyPress);
+            this.Tb_ColorModulator.Leave += new System.EventHandler(this.Tb_ColorModulator_Leave);
             // 
             // Grb_ColorModulator
             // 
