@@ -90,9 +90,9 @@
             this.Chb_DefaultTimer.AutoSize = true;
             this.Chb_DefaultTimer.Location = new System.Drawing.Point(14, 18);
             this.Chb_DefaultTimer.Name = "Chb_DefaultTimer";
-            this.Chb_DefaultTimer.Size = new System.Drawing.Size(133, 17);
+            this.Chb_DefaultTimer.Size = new System.Drawing.Size(136, 17);
             this.Chb_DefaultTimer.TabIndex = 3;
-            this.Chb_DefaultTimer.Text = "Standartwert benutzen";
+            this.Chb_DefaultTimer.Text = "Standardwert benutzen";
             this.Chb_DefaultTimer.UseVisualStyleBackColor = true;
             this.Chb_DefaultTimer.CheckedChanged += new System.EventHandler(this.Chb_DefaultTimer_CheckedChanged);
             // 
