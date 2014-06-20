@@ -30,7 +30,6 @@ namespace MathArts
     public partial class Frm_MathArts : Form
     {
         #region constants
-        private const bool NEED_TO_BE_REVIEWED = false;
         private const int  DEFAULT_X = 5;
         private const int  DEFAULT_Y = 5;
 
@@ -374,18 +373,7 @@ namespace MathArts
         }
         #endregion
 
-        #region debug
-
-        private MathArts.Debug.Frm_MathArtsObjTracing tracingDialog;
-
-        [ConditionalAttribute("DEBUG")]
-        private void showTracingDialog()
-        {
-            if (tracingDialog != null) tracingDialog.Dispose();
-            tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
-            tracingDialog.Show();
-        } 
-        #endregion
+        #region form events
 
         private void Frm_MathArts_Load(object sender, EventArgs e)
         {
@@ -412,8 +400,23 @@ namespace MathArts
                     this.menuItem_Save_Click(this, EventArgs.Empty);
                 }
 
-                e.SuppressKeyPress = true;  
+                e.SuppressKeyPress = true;
             }
         }
+
+        #endregion
+
+        #region debug
+
+        private MathArts.Debug.Frm_MathArtsObjTracing tracingDialog;
+
+        [ConditionalAttribute("DEBUG")]
+        private void showTracingDialog()
+        {
+            if (tracingDialog != null) tracingDialog.Dispose();
+            tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
+            tracingDialog.Show();
+        } 
+        #endregion
     }
 }
