@@ -33,6 +33,9 @@ namespace MathArts
         private const bool NEED_TO_BE_REVIEWED = false;
         private const int  DEFAULT_X = 5;
         private const int  DEFAULT_Y = 5;
+
+        private bool saved = false;
+        private string saveFileName = "";
         #endregion constants
         
         #region constructors
@@ -108,6 +111,8 @@ namespace MathArts
 
             //after clearing workspace we set math arts variables to default value
             this.menuItem_FrameVisible.Checked = true;
+            this.saved = false;
+            this.saveFileName = "";
         }
 
         private void menuItem_Save_Click(object sender, EventArgs e)
@@ -128,24 +133,8 @@ namespace MathArts
                 }
                 else
                 {
-                    //create xml document
-                    XmlDocument xmlDoc = new XmlDocument();
-
-                    //add doctype
-                    XmlDocumentType doctype;
-                    doctype = xmlDoc.CreateDocumentType("MathArts", null, null, "<!ELEMENT MathArts ANY>");
-                    xmlDoc.AppendChild(doctype);
-
-                    //add properties concerning MathArts main frame
-                    XmlNode MathArtsNode = xmlDoc.AppendChild(xmlDoc.CreateElement("MathArts"));
-
-                    MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Width")).Value = this.Width.ToString();
-                    MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Height")).Value = this.Height.ToString();
-
-                    //display container will add any further properties
-                    xmlDoc = this.MathArtsDisp_Container.SaveMathArtsDisp(xmlDoc);
-
-                    xmlDoc.Save(fd.FileName);
+                     this.saved = saveToXml(fd.FileName);
+                     if (this.saved) this.saveFileName = fd.FileName;
                 }
             }
 
@@ -157,11 +146,14 @@ namespace MathArts
             showTracingDialog();
             #endregion
 
+
             this.MathArtsDisp_Container.DisplayDemo1();
 
             //after loading demo 1 show math art object frames
             this.menuItem_FrameVisible.Checked = true;
             this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+            saved = false;
+            saveFileName = "";
         }
 
         private void menuItem_Demo2_Click(object sender, EventArgs e)
@@ -170,7 +162,11 @@ namespace MathArts
             showTracingDialog();
             #endregion
 
-            loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts");
+            if (loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts"))
+            {
+                saved = true; 
+                saveFileName = System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts";
+            }
 
             //after loading demo 1 show math art object frames
             this.menuItem_FrameVisible.Checked = true;
@@ -215,12 +211,51 @@ namespace MathArts
 
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                loadFromXml(fd.FileName);
+                if(loadFromXml(fd.FileName))
+                {
+                    saved = true;
+                    saveFileName = fd.FileName;
+                }
             }
         }
         #endregion
 
         #region internal private methods
+        private bool saveToXml(string martsFile)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                //create xml document
+                XmlDocument xmlDoc = new XmlDocument();
+
+                //add doctype
+                XmlDocumentType doctype;
+                doctype = xmlDoc.CreateDocumentType("MathArts", null, null, "<!ELEMENT MathArts ANY>");
+                xmlDoc.AppendChild(doctype);
+
+                //add properties concerning MathArts main frame
+                XmlNode MathArtsNode = xmlDoc.AppendChild(xmlDoc.CreateElement("MathArts"));
+
+                MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Width")).Value = this.Width.ToString();
+                MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Height")).Value = this.Height.ToString();
+
+                //display container will add any further properties
+                xmlDoc = this.MathArtsDisp_Container.SaveMathArtsDisp(xmlDoc);
+
+                xmlDoc.Save(martsFile);
+                this.Cursor = Cursors.Default;
+                return true;
+            }
+            catch
+            {
+                this.Cursor = Cursors.Default;
+                return false;
+            }
+
+        }
+
+
         private bool loadFromXml(string martsFile)
         {
             //clear old workspace
@@ -357,6 +392,28 @@ namespace MathArts
             #region debug
             showTracingDialog();
             #endregion
+        }
+
+        private void Frm_MathArts_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.MathArtsDisp_Container.Dispose();
+        }
+
+        private void Frm_MathArts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                if (this.saved && this.saveFileName != "")
+                {
+                    this.saved = saveToXml(this.saveFileName);
+                }
+                else
+                {
+                    this.menuItem_Save_Click(this, EventArgs.Empty);
+                }
+
+                e.SuppressKeyPress = true;  
+            }
         }
     }
 }
