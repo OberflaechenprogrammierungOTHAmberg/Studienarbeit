@@ -41,12 +41,12 @@ namespace MathArts
         #region member
         private List<Ctl_MathArtsObject> allContainedMathArtsObjects;
         public Bitmap bitMap;
-        private byte[,,] valHighArr;
-        private byte[, ,] valLowArr;
+        private double[, ,] valHighArr;
+        private double[, ,] valLowArr;
         private double[,] valFuncArr;
 
-        private uint colorModulator=1;
-        public uint ColorModulator
+        private double colorModulator=1;
+        public double ColorModulator
         {
             get { return colorModulator; }
             set { if(value<=256 && value>0) colorModulator=value; }
@@ -98,8 +98,8 @@ namespace MathArts
         public Ctl_MathArtsDisp()
         {
             InitializeComponent();
-            valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
-            valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
+            valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             valFuncArr = new double[this.Width, this.Height];
 
             // Set the Interval to 100ms -> 10 updates per second while moving.
@@ -162,8 +162,8 @@ namespace MathArts
             aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width * 1.0 / DEFAULT_WIDTH * 1.0) * (this.Height * 1.0 / DEFAULT_HEIGHT * 1.0));
             timerInterval = (uint)aTimer.Interval;
 
-            valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
-            valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
+            valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+            valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             valFuncArr = new double[this.Width, this.Height];
 
             this.UpdateColorArray();
@@ -334,9 +334,9 @@ namespace MathArts
             */
             #endregion
 
-            byte RedColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_RED] + (1 - _val) * valLowArr[_x, _y, COLOR_RED])) * colorModulator % 256);
-            byte GreenColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_GREEN] + (1 - _val) * valLowArr[_x, _y, COLOR_GREEN])) * colorModulator % 256);
-            byte BlueColor = (byte)(((int)Math.Abs(_val * valHighArr[_x, _y, COLOR_BLUE] + (1 - _val) * valLowArr[_x, _y, COLOR_BLUE])) * colorModulator % 256);
+            byte RedColor = (byte)(((double)Math.Abs(_val * valHighArr[_x, _y, COLOR_RED] + (1 - _val) * valLowArr[_x, _y, COLOR_RED])) * colorModulator % 256);
+            byte GreenColor = (byte)(((double)Math.Abs(_val * valHighArr[_x, _y, COLOR_GREEN] + (1 - _val) * valLowArr[_x, _y, COLOR_GREEN])) * colorModulator % 256);
+            byte BlueColor = (byte)(((double)Math.Abs(_val * valHighArr[_x, _y, COLOR_BLUE] + (1 - _val) * valLowArr[_x, _y, COLOR_BLUE])) * colorModulator % 256);
 
             return Color.FromArgb(RedColor, GreenColor, BlueColor);
         }
@@ -373,10 +373,10 @@ namespace MathArts
                 {
                     for (int y = 0; y < this.Height; y++)
                     {
-                        Color CLow = CalculateColor(lMathArtsColors_Low, x, y);
-                        valLowArr[x, y, COLOR_RED] = CLow.R;
-                        valLowArr[x, y, COLOR_GREEN] = CLow.G;
-                        valLowArr[x, y, COLOR_BLUE] = CLow.B;
+                        double[] colArr = CalculateColor(lMathArtsColors_Low, x, y);
+                        valLowArr[x, y, COLOR_RED] = colArr[COLOR_RED];
+                        valLowArr[x, y, COLOR_GREEN] = colArr[COLOR_GREEN];
+                        valLowArr[x, y, COLOR_BLUE] = colArr[COLOR_BLUE];
                     }
                 }
             }
@@ -389,10 +389,10 @@ namespace MathArts
                 {
                     for (int y = 0; y < this.Height; y++)
                     {
-                        Color CHigh = CalculateColor(lMathArtsColors_High, x, y);
-                        valHighArr[x, y, COLOR_RED] = CHigh.R;
-                        valHighArr[x, y, COLOR_GREEN] = CHigh.G;
-                        valHighArr[x, y, COLOR_BLUE] = CHigh.B;
+                        double[] colArr = CalculateColor(lMathArtsColors_High, x, y);
+                        valHighArr[x, y, COLOR_RED] = colArr[COLOR_RED];
+                        valHighArr[x, y, COLOR_GREEN] = colArr[COLOR_GREEN];
+                        valHighArr[x, y, COLOR_BLUE] = colArr[COLOR_BLUE];
                     }
                 }
 
@@ -423,28 +423,32 @@ namespace MathArts
         /// <param name="_x">X position</param>
         /// <param name="_y">Y position</param>
         /// <returns></returns>
-        private Color CalculateColor(List<Ctl_MathArtsColor> _lMathArtsColors,int _x,int _y)
+        private double[] CalculateColor(List<Ctl_MathArtsColor> _lMathArtsColors,int _x,int _y)
         {
+            //initialize array (all values should be 0.0) 
+            double[] colorArr = new double[COLOR_DIMENSIONS];
+            colorArr[COLOR_RED] = 0.0;
+            colorArr[COLOR_GREEN] = 0.0;
+            colorArr[COLOR_BLUE] = 0.0;
 
-            if (_lMathArtsColors.Count == 0) return Color.FromArgb(0, 0, 0);
+            if (_lMathArtsColors.Count == 0) return colorArr;
 
             double NormValue = 0.0;
-            double RedColorIntensity = 0.0;
-            double GreenColorIntensity = 0.0;
-            double BlueColorIntensity = 0.0;
+
 
             foreach (Ctl_MathArtsColor _object in _lMathArtsColors)
             {
                 double IntensityRate = CalculateIntensityRate(_object, _x, _y);
                 NormValue += IntensityRate;
-                RedColorIntensity   += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.R;
-                GreenColorIntensity += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.G;
-                BlueColorIntensity  += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.B;
+                colorArr[COLOR_RED] += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.R;
+                colorArr[COLOR_GREEN] += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.G;
+                colorArr[COLOR_BLUE] += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.B;
             }
+            colorArr[COLOR_RED]/=NormValue;
+            colorArr[COLOR_GREEN] /= NormValue;
+            colorArr[COLOR_BLUE] /= NormValue;
 
-            return Color.FromArgb(  (byte)((RedColorIntensity   / NormValue) % 256),
-                                    (byte)((GreenColorIntensity / NormValue) % 256),
-                                    (byte)((BlueColorIntensity  / NormValue) % 256)); ;
+            return colorArr;
         }
 
         /// <summary>
@@ -522,8 +526,8 @@ namespace MathArts
                 bitMap.Dispose();
                 bitMap = new Bitmap(this.Width, this.Height);
 
-                valHighArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
-                valLowArr = new byte[this.Width, this.Height, COLOR_DIMENSIONS];
+                valHighArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
+                valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
                 valFuncArr = new double[this.Width, this.Height];
 
                 UpdateColorArray();

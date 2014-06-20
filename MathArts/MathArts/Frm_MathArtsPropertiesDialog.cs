@@ -13,13 +13,13 @@ namespace MathArts
     public partial class Frm_MathArtsPropertiesDialog : Form
     {
         #region member 
-        private int colorModulator;
+        private double colorModulator;
         private int timerInterval;
         private uint defaultTimerInterval;
         #endregion
 
         #region constructors
-        public Frm_MathArtsPropertiesDialog(uint _defaultTimerInterval, uint _timerInterval = 200, bool _defaultTimer = true, uint _colorModulator = 1)
+        public Frm_MathArtsPropertiesDialog(uint _defaultTimerInterval, uint _timerInterval = 200, bool _defaultTimer = true, double _colorModulator = 1.0)
         {
             InitializeComponent();
             colorModulator = (int)_colorModulator;
@@ -42,10 +42,10 @@ namespace MathArts
         {
             if (Tb_ColorModulator.Text == "") Tb_ColorModulator.Text = "1";
 
-            Int32.TryParse(Tb_ColorModulator.Text, out colorModulator);
+            Double.TryParse(Tb_ColorModulator.Text, out colorModulator);
             if (colorModulator < Trb_ColorModulator.Minimum) colorModulator = Trb_ColorModulator.Minimum;
             else if (colorModulator > Trb_ColorModulator.Maximum) colorModulator = Trb_ColorModulator.Maximum;
-            Trb_ColorModulator.Value = colorModulator;
+            Trb_ColorModulator.Value = (int)colorModulator;
             if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
         }
 
