@@ -12,14 +12,16 @@ namespace MathArts
 {
     public partial class Frm_MathArtsPropertiesDialog : Form
     {
-        #region member 
+        #region member
         private double colorModulator;
         private int timerInterval;
         private uint defaultTimerInterval;
+
+        private bool hiddenTimerProperties = true;
         #endregion
 
         #region constructors
-        public Frm_MathArtsPropertiesDialog(uint _defaultTimerInterval, uint _timerInterval = 200, bool _defaultTimer = true, double _colorModulator = 1.0)
+        public Frm_MathArtsPropertiesDialog(uint _defaultTimerInterval, uint _timerInterval = 200, bool _defaultTimer = true,bool _useTimer = false, double _colorModulator = 1.0)
         {
             InitializeComponent();
             colorModulator = (int)_colorModulator;
@@ -28,6 +30,9 @@ namespace MathArts
             defaultTimerInterval = _defaultTimerInterval;
             timerInterval = (int)_timerInterval;
             Chb_DefaultTimer.Checked = _defaultTimer;
+            
+            Chb_UseTimer.Checked = _useTimer;
+            Chb_UseTimer_CheckedChanged(this, EventArgs.Empty);
 
             Tb_TimerModulator.Text = Chb_DefaultTimer.Checked ? _defaultTimerInterval.ToString() : _timerInterval.ToString();
         }
@@ -49,7 +54,7 @@ namespace MathArts
             }
 
             Trb_ColorModulator.Value = (int)colorModulator;
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked,Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
         }
 
         private void Trb_ColorModulator_ValueChanged(object sender, EventArgs e)
@@ -73,7 +78,7 @@ namespace MathArts
         {
             Tb_TimerModulator.ReadOnly = Chb_DefaultTimer.Checked? true:false;
             Trb_TimerModulator_ValueChanged(this, e);
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked,Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
         }
 
         private void Tb_TimerModulator_TextChanged(object sender, EventArgs e)
@@ -95,7 +100,7 @@ namespace MathArts
                 }
             }
             Trb_TimerModulator.Value = timerInterval;
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked,Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
         }
 
         private void Trb_TimerModulator_ValueChanged(object sender, EventArgs e)
@@ -117,6 +122,24 @@ namespace MathArts
             UInt32.TryParse(Tb_ColorModulator.Text + e.KeyChar, out currentValue);
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) || currentValue > Trb_TimerModulator.Maximum) e.Handled = true;
         }
+
+        private void Chb_UseTimer_CheckedChanged(object sender, EventArgs e)
+        {
+            grb_TimerProperties.Visible = Chb_UseTimer.Checked;
+            if (Chb_UseTimer.Checked && hiddenTimerProperties)
+            {
+                grb_PaintTrigger.Height += grb_TimerProperties.Height;
+                this.Height += grb_TimerProperties.Height;
+                hiddenTimerProperties = false;
+            }
+            else
+            {
+                grb_PaintTrigger.Height -= grb_TimerProperties.Height;
+                this.Height -= grb_TimerProperties.Height;
+                hiddenTimerProperties = true;
+            }
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+        }
     }
 
     /// <summary>
@@ -130,6 +153,14 @@ namespace MathArts
         {
             get { return useDefaultTimer; }
             set { useDefaultTimer = value; }
+        }
+
+        private bool useTimer;
+
+        public bool UseTimer
+        {
+            get { return useTimer; }
+            set { useTimer = value; }
         }
 
         private uint colorModulator;
@@ -156,12 +187,13 @@ namespace MathArts
             set { changeType = value; }
         }
 
-        public MathArtsPropertiesEventArgs(uint _colorModulator, uint _timerVal,bool _useDefaultTimer,ChangeTypes _changeType)
+        public MathArtsPropertiesEventArgs(uint _colorModulator, uint _timerVal,bool _useDefaultTimer,bool _useTimer,ChangeTypes _changeType)
         {
             this.colorModulator = _colorModulator;
             this.timerInterval = _timerVal;
             this.useDefaultTimer = _useDefaultTimer;
             this.changeType = _changeType;
+            this.useTimer = _useTimer;
         }
 
         public enum ChangeTypes

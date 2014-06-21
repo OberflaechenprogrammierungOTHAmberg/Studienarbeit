@@ -38,6 +38,7 @@ namespace MathArts
         private const uint COLOR_BLUE = 2;
         
         #endregion
+
         #region member
         private List<Ctl_MathArtsObject> allContainedMathArtsObjects;
         public Bitmap bitMap;
@@ -89,6 +90,21 @@ namespace MathArts
             get { return defaultTimerInterval; }
             set {}
         }
+
+        private bool useTimer = false;
+        public bool UseTimer
+        {
+            get { return useTimer; }
+            set 
+            {
+                if (useTimer != value)
+                {
+                    useTimer = value;
+                    Ctl_MathArtsObject.UseTimer = value;
+                }
+                
+            }
+        }
         #endregion
 
         #region constructors
@@ -102,8 +118,10 @@ namespace MathArts
             valLowArr = new double[this.Width, this.Height, COLOR_DIMENSIONS];
             valFuncArr = new double[this.Width, this.Height];
 
-            // Set the Interval to 100ms -> 10 updates per second while moving.
-            //aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5* DEFAULT_TIMERINTERVAL * (this.Width / DEFAULT_WIDTH) * (this.Height / DEFAULT_HEIGHT));
+            useTimer = false;
+            useDefaultTimer = true;
+            
+            // Set the timer depeding on math arts display size
             TimerInterval = (uint)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width / DEFAULT_WIDTH) * (this.Height / DEFAULT_HEIGHT));
             defaultTimerInterval = timerInterval;
             aTimer.Enabled = true;
@@ -399,8 +417,7 @@ namespace MathArts
             }
         }
 
-        //only public until we have array...
-        public double CalculateFunctionValue(int _x, int _y)
+        private double CalculateFunctionValue(int _x, int _y)
         {
             double funcResult = 1.0;
 

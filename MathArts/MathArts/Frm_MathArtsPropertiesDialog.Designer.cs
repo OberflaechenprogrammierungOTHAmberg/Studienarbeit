@@ -35,10 +35,13 @@
             this.Chb_DefaultTimer = new System.Windows.Forms.CheckBox();
             this.Tb_TimerModulator = new System.Windows.Forms.TextBox();
             this.Trb_TimerModulator = new System.Windows.Forms.TrackBar();
+            this.grb_PaintTrigger = new System.Windows.Forms.GroupBox();
+            this.Chb_UseTimer = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.Trb_ColorModulator)).BeginInit();
             this.Grb_ColorModulator.SuspendLayout();
             this.grb_TimerProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Trb_TimerModulator)).BeginInit();
+            this.grb_PaintTrigger.SuspendLayout();
             this.SuspendLayout();
             // 
             // Trb_ColorModulator
@@ -69,7 +72,7 @@
             this.Grb_ColorModulator.Controls.Add(this.Tb_ColorModulator);
             this.Grb_ColorModulator.Location = new System.Drawing.Point(12, 12);
             this.Grb_ColorModulator.Name = "Grb_ColorModulator";
-            this.Grb_ColorModulator.Size = new System.Drawing.Size(209, 67);
+            this.Grb_ColorModulator.Size = new System.Drawing.Size(222, 67);
             this.Grb_ColorModulator.TabIndex = 3;
             this.Grb_ColorModulator.TabStop = false;
             this.Grb_ColorModulator.Text = "Farbwertmodulator";
@@ -79,12 +82,13 @@
             this.grb_TimerProperties.Controls.Add(this.Chb_DefaultTimer);
             this.grb_TimerProperties.Controls.Add(this.Tb_TimerModulator);
             this.grb_TimerProperties.Controls.Add(this.Trb_TimerModulator);
-            this.grb_TimerProperties.Location = new System.Drawing.Point(12, 85);
+            this.grb_TimerProperties.Location = new System.Drawing.Point(6, 43);
             this.grb_TimerProperties.Name = "grb_TimerProperties";
-            this.grb_TimerProperties.Size = new System.Drawing.Size(209, 90);
+            this.grb_TimerProperties.Size = new System.Drawing.Size(205, 101);
             this.grb_TimerProperties.TabIndex = 4;
             this.grb_TimerProperties.TabStop = false;
             this.grb_TimerProperties.Text = "Zeittakt in ms";
+            this.grb_TimerProperties.Visible = false;
             // 
             // Chb_DefaultTimer
             // 
@@ -118,12 +122,34 @@
             this.Trb_TimerModulator.Value = 100;
             this.Trb_TimerModulator.ValueChanged += new System.EventHandler(this.Trb_TimerModulator_ValueChanged);
             // 
+            // grb_PaintTrigger
+            // 
+            this.grb_PaintTrigger.Controls.Add(this.Chb_UseTimer);
+            this.grb_PaintTrigger.Controls.Add(this.grb_TimerProperties);
+            this.grb_PaintTrigger.Location = new System.Drawing.Point(12, 86);
+            this.grb_PaintTrigger.Name = "grb_PaintTrigger";
+            this.grb_PaintTrigger.Size = new System.Drawing.Size(222, 150);
+            this.grb_PaintTrigger.TabIndex = 5;
+            this.grb_PaintTrigger.TabStop = false;
+            this.grb_PaintTrigger.Text = "Aktualisierung";
+            // 
+            // Chb_UseTimer
+            // 
+            this.Chb_UseTimer.AutoSize = true;
+            this.Chb_UseTimer.Location = new System.Drawing.Point(7, 20);
+            this.Chb_UseTimer.Name = "Chb_UseTimer";
+            this.Chb_UseTimer.Size = new System.Drawing.Size(109, 17);
+            this.Chb_UseTimer.TabIndex = 5;
+            this.Chb_UseTimer.Text = "Zeittakt benutzen";
+            this.Chb_UseTimer.UseVisualStyleBackColor = true;
+            this.Chb_UseTimer.CheckedChanged += new System.EventHandler(this.Chb_UseTimer_CheckedChanged);
+            // 
             // Frm_MathArtsPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(230, 185);
-            this.Controls.Add(this.grb_TimerProperties);
+            this.ClientSize = new System.Drawing.Size(247, 245);
+            this.Controls.Add(this.grb_PaintTrigger);
             this.Controls.Add(this.Grb_ColorModulator);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -138,6 +164,8 @@
             this.grb_TimerProperties.ResumeLayout(false);
             this.grb_TimerProperties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Trb_TimerModulator)).EndInit();
+            this.grb_PaintTrigger.ResumeLayout(false);
+            this.grb_PaintTrigger.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -151,5 +179,7 @@
         private System.Windows.Forms.TextBox Tb_TimerModulator;
         private System.Windows.Forms.TrackBar Trb_TimerModulator;
         private System.Windows.Forms.CheckBox Chb_DefaultTimer;
+        private System.Windows.Forms.GroupBox grb_PaintTrigger;
+        private System.Windows.Forms.CheckBox Chb_UseTimer;
     }
 }

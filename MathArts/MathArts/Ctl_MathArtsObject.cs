@@ -31,9 +31,10 @@ namespace MathArts
         #region members
         private Point mouseDownLocation;
         protected MouseClickTypes mouseClickType = MouseClickTypes.None;
-        
 
         private bool readyForShapeValueChange=true;
+
+        public static bool UseTimer = false;
 
         #region debug
         //creating incremental id for debugging
@@ -153,13 +154,20 @@ namespace MathArts
 
             if (this.mouseClickType != MouseClickTypes.None)
             {
-                lock (this)
+                if (Ctl_MathArtsObject.UseTimer)
                 {
-                    if (readyForShapeValueChange)
+                    lock (this)
                     {
-                        if (ShapeValueChanged != null) ShapeValueChanged(this, e);
-                        readyForShapeValueChange = false;
+                        if (readyForShapeValueChange)
+                        {
+                            if (ShapeValueChanged != null) ShapeValueChanged(this, e);
+                            readyForShapeValueChange = false;
+                        }
                     }
+                }
+                else
+                {
+                    if (ShapeValueChanged != null) ShapeValueChanged(this, e);
                 }
             }
 
