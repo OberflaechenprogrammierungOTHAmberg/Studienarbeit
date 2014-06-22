@@ -188,7 +188,7 @@ namespace MathArts
             #endregion
 
 
-            this.MathArtsDisp_Container.DisplayDemo1();
+            this.MathArtsDisp_Container.DisplayDemo2();
 
             //after loading demo 2 show math art object frames
             this.menuItem_FrameVisible.Checked = true;

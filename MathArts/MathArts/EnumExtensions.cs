@@ -1,17 +1,16 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// <copyright file="EnumExtentions.cs">
+﻿/////////////////////////////////////////////////////////////////////////////
+// <copyright file="EnumExtensions.cs">
 // Copyright (c) 2014
 // </copyright>
 //
 // <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
-// <date>02-06-2014</date>
+// <date>22-06-2014</date>
 //
 // <professor>Prof. Dr. Josef Poesl</professor>
 // <studyCourse>Angewandte Informatik</studyCourse>
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,7 @@ using System.Linq;
 namespace MathArts
 {
     /// <summary>
-    /// Extention class for enums - using description attribute for converting enum value into friendly string
+    /// Extension class for enums - using description attribute for converting enum value into friendly string
     /// SOURCE:
     /// http://stackoverflow.com/questions/1415140/can-my-enums-have-friendly-names - user343550 21.06.2014
     /// 

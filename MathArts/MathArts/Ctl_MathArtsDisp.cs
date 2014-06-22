@@ -1,17 +1,16 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="Ctl_MathArtsDisp.cs">
 // Copyright (c) 2014
 // </copyright>
 //
 // <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
-// <date>02-06-2014</date>
+// <date>22-06-2014</date>
 //
 // <professor>Prof. Dr. Josef Poesl</professor>
 // <studyCourse>Angewandte Informatik</studyCourse>
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 using MathArts.MathArtsColor;
 using MathArts.MathArtsFunction;
@@ -251,6 +250,126 @@ namespace MathArts
             this.allContainedMathArtsObjects.ForEach(n => n.subscribeToTimer(aTimer));
             this.allContainedMathArtsObjects.ForEach(n => n.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged);
             this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor).ToList().ForEach(n => (n as Ctl_MathArtsColor).ValueChanged+= Ctl_MathArtsDisp_ValueChanged);
+            this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsFunction).ToList().ForEach(n => (n as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged);
+
+            //  add to control list
+            this.allContainedMathArtsObjects.ForEach(n => this.Controls.Add(n));
+            this.UpdateColorArray();
+            this.UpdateFuncValArray();
+
+            #region debug
+            this.allContainedMathArtsObjects.ForEach(n => Tracing_TriggerValueChanged(n));
+            #endregion
+
+            this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Displays Demo1 (list of hardcoded math arts objects)
+        /// </summary>
+        public void DisplayDemo2()
+        {
+            ClearWorkspace();
+
+            //<MathArtsObj_0 Height="26" Width="26" X="16" Y="185" MathArtsObjType="Color" Color_R="192" Color_G="192" Color_B="192" ColType="Low" />
+            Ctl_MathArtsColor col1 = new Ctl_MathArtsColor(16, 185);
+            col1.Color = Color.FromArgb(192,192,192);
+            col1.ColType = Ctl_MathArtsColor.ColTypes.Low;
+
+            //<MathArtsObj_1 Height="120" Width="90" X="87" Y="261" MathArtsObjType="Color" Color_R="0" Color_G="0" Color_B="64" ColType="High" />
+            Ctl_MathArtsColor col2 = new Ctl_MathArtsColor(120, 90);
+            col2.Height=130;
+            col2.Width=128;
+            col2.Color = Color.FromArgb(0,0,64);
+            col2.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_2 Height="26" Width="26" X="160" Y="149" MathArtsObjType="Color" Color_R="255" Color_G="255" Color_B="255" ColType="High" />
+            Ctl_MathArtsColor col3 = new Ctl_MathArtsColor(160, 149);
+            col3.Color = Color.FromArgb(255, 255, 255);
+            col3.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_3 Height="152" Width="152" X="101" Y="79" MathArtsObjType="Function" FuncType="Garbor" FuncInverse="True" />
+            Ctl_MathArtsFunction func1 = new Ctl_MathArtsFunction(101, 79);
+            func1.Height = 152;
+            func1.Width = 152;
+            func1.FuncType = Ctl_MathArtsFunction.FuncTypes.Garbor;
+            func1.FuncInverse = true;
+
+            //<MathArtsObj_4 Height="26" Width="26" X="16" Y="19" MathArtsObjType="Color" Color_R="255" Color_G="0" Color_B="0" ColType="High" />
+            Ctl_MathArtsColor col4 = new Ctl_MathArtsColor(16, 19);
+            col4.Color = Color.FromArgb(255, 0, 0);
+            col4.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_5 Height="26" Width="26" X="65" Y="17" MathArtsObjType="Color" Color_R="255" Color_G="255" Color_B="255" ColType="High" />
+            Ctl_MathArtsColor col5 = new Ctl_MathArtsColor(65, 17);
+            col5.Color = Color.FromArgb(255, 255, 255);
+            col5.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_6 Height="26" Width="26" X="9" Y="99" MathArtsObjType="Color" Color_R="0" Color_G="255" Color_B="0" ColType="High" />
+            Ctl_MathArtsColor col6 = new Ctl_MathArtsColor(9, 99);
+            col6.Color = Color.FromArgb(0, 255, 0);
+            col6.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_7 Height="204" Width="334" X="6" Y="46" MathArtsObjType="Function" FuncType="SinCos" FuncInverse="True" />
+            Ctl_MathArtsFunction func2 = new Ctl_MathArtsFunction(6, 46);
+            func2.Height = 204;
+            func2.Width = 334;
+            func2.FuncType = Ctl_MathArtsFunction.FuncTypes.SinCos;
+            func2.FuncInverse = true;
+
+            //<MathArtsObj_8 Height="26" Width="26" X="186" Y="26" MathArtsObjType="Color" Color_R="128" Color_G="0" Color_B="255" ColType="High" />
+            Ctl_MathArtsColor col7 = new Ctl_MathArtsColor(186, 26);
+            col7.Color = Color.FromArgb(128, 0, 255);
+            col7.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_9 Height="26" Width="26" X="344" Y="253" MathArtsObjType="Color" Color_R="255" Color_G="255" Color_B="255" ColType="High" />
+            Ctl_MathArtsColor col8 = new Ctl_MathArtsColor(344, 253);
+            col8.Color = Color.FromArgb(255, 255, 255);
+            col8.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_10 Height="26" Width="26" X="3" Y="260" MathArtsObjType="Color" Color_R="0" Color_G="255" Color_B="0" ColType="High" />
+            Ctl_MathArtsColor col9 = new Ctl_MathArtsColor(3, 260);
+            col9.Color = Color.FromArgb(0, 255, 0);
+            col9.ColType = Ctl_MathArtsColor.ColTypes.High;
+
+            //<MathArtsObj_11 Height="72" Width="424" X="-42" Y="125" MathArtsObjType="Function" FuncType="Garbor" FuncInverse="True" />
+            Ctl_MathArtsFunction func3 = new Ctl_MathArtsFunction(-42, 125);
+            func3.Height = 72;
+            func3.Width = 424;
+            func3.FuncType = Ctl_MathArtsFunction.FuncTypes.Garbor;
+            func3.FuncInverse = true;
+
+            //<MathArtsObj_12 Height="26" Width="26" X="244" Y="237" MathArtsObjType="Color" Color_R="255" Color_G="255" Color_B="0" ColType="Low" />
+            Ctl_MathArtsColor col10 = new Ctl_MathArtsColor(244, 237);
+            col10.Color = Color.FromArgb(255, 255, 0);
+            col10.ColType = Ctl_MathArtsColor.ColTypes.Low;
+
+            //<MathArtsObj_13 Height="26" Width="26" X="293" Y="101" MathArtsObjType="Color" Color_R="255" Color_G="255" Color_B="255" ColType="Low" />
+            Ctl_MathArtsColor col11 = new Ctl_MathArtsColor(293, 101);
+            col11.Color = Color.FromArgb(255, 255, 255);
+            col11.ColType = Ctl_MathArtsColor.ColTypes.Low;
+
+            //  add it to internal list
+            this.allContainedMathArtsObjects.Add(col1);
+            this.allContainedMathArtsObjects.Add(col2);
+            this.allContainedMathArtsObjects.Add(col3);
+            this.allContainedMathArtsObjects.Add(col4);
+            this.allContainedMathArtsObjects.Add(col5);
+            this.allContainedMathArtsObjects.Add(col6);
+            this.allContainedMathArtsObjects.Add(col7);
+            this.allContainedMathArtsObjects.Add(col8);
+            this.allContainedMathArtsObjects.Add(col9);
+            this.allContainedMathArtsObjects.Add(col10);
+            this.allContainedMathArtsObjects.Add(col11);
+
+            this.allContainedMathArtsObjects.Add(func1);
+            this.allContainedMathArtsObjects.Add(func2);
+            this.allContainedMathArtsObjects.Add(func3);
+
+            //  subscribe to math arts object events
+            this.allContainedMathArtsObjects.ForEach(n => n.subscribeToTimer(aTimer));
+            this.allContainedMathArtsObjects.ForEach(n => n.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged);
+            this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor).ToList().ForEach(n => (n as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged);
             this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsFunction).ToList().ForEach(n => (n as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged);
 
             //  add to control list

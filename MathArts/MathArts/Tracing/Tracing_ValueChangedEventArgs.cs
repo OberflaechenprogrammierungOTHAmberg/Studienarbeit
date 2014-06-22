@@ -1,4 +1,18 @@
-﻿using System;
+﻿/////////////////////////////////////////////////////////////////////////////
+// <copyright file="Tracing_ValueChangedEventArgs.cs">
+// Copyright (c) 2014
+// </copyright>
+//
+// <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
+// <date>22-06-2014</date>
+//
+// <professor>Prof. Dr. Josef Poesl</professor>
+// <studyCourse>Angewandte Informatik</studyCourse>
+// <branchOfStudy>Industrieinformatik</branchOfStudy>
+// <subject>Oberflaechenprogrammierung</subject>
+/////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Drawing;
 
 namespace MathArts.Debug

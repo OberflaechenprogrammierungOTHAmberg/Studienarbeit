@@ -1,4 +1,18 @@
-﻿using MathArts.MathArtsColor;
+﻿/////////////////////////////////////////////////////////////////////////////
+// <copyright file="Frm_MathArtsObjTracing.cs">
+// Copyright (c) 2014
+// </copyright>
+//
+// <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
+// <date>22-06-2014</date>
+//
+// <professor>Prof. Dr. Josef Poesl</professor>
+// <studyCourse>Angewandte Informatik</studyCourse>
+// <branchOfStudy>Industrieinformatik</branchOfStudy>
+// <subject>Oberflaechenprogrammierung</subject>
+/////////////////////////////////////////////////////////////////////////////
+
+using MathArts.MathArtsColor;
 using MathArts.MathArtsFunction;
 using System;
 using System.Collections.Generic;
