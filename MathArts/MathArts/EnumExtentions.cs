@@ -11,7 +11,10 @@
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
 //
-// <summary></summary>
+// <summary>
+//  EnumExtentions.cs containing extendtion class for enums allowing to use description attribute 
+//  for converting enum value to friendly string
+// </summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
@@ -24,12 +27,21 @@ namespace MathArts
     /// Extention class for enums - using description attribute for converting enum value into friendly string
     /// SOURCE:
     /// http://stackoverflow.com/questions/1415140/can-my-enums-have-friendly-names - user343550 21.06.2014
+    /// 
+    /// For multi-language context:
+    /// http://www.codeproject.com/Articles/29495/Binding-and-Using-Friendly-Enums-in-WPF (not implemented but nice to know)
     /// </summary>
     public static class EnumExtensions
     {
+        #region static member
+        
         //To avoid collisions, every Enum type has its own hash table
         private static readonly Dictionary<Type, Dictionary<object, string>> enumToStringDictionary = new Dictionary<Type, Dictionary<object, string>>();
         private static readonly Dictionary<Type, Dictionary<string, object>> stringToEnumDictionary = new Dictionary<Type, Dictionary<string, object>>();
+        
+        #endregion
+
+        #region constructors
 
         /// <summary>
         /// create dictionarys of all enums [enum type,description/value] (better implementation would have been a convertion on demand)
@@ -83,6 +95,10 @@ namespace MathArts
             }
         }
 
+        #endregion
+
+        #region static methods
+
         /// <summary>
         /// get all description/values of a enum in a list
         /// SOURCE: http://codereview.stackexchange.com/questions/12173/how-can-an-enumeration-with-descriptions-be-cast-into-a-dictionary/12178#12178
@@ -130,5 +146,7 @@ namespace MathArts
                 return default(T);
             }
         }
+
+        #endregion
     }
 }

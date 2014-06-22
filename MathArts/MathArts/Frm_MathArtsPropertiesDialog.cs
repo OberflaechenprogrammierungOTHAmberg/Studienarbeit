@@ -35,6 +35,8 @@ namespace MathArts
             Chb_UseTimer_CheckedChanged(this, EventArgs.Empty);
 
             Tb_TimerModulator.Text = Chb_DefaultTimer.Checked ? _defaultTimerInterval.ToString() : _timerInterval.ToString();
+            Tt_UseTimer.SetToolTip(this.Chb_UseTimer, "Aktualisierung der Oberfläche bei Bewegen bzw. Größenänderung der dargstellten Objekte\nnur im Rhythmus des eingestellten Zeitgeber-Intervalls");
+            Tt_StandardValueUseTimer.SetToolTip(this.Chb_DefaultTimer, "Benutzung eines Zeittakt in Abhängigkeit der Fenstergröße");
         }
         #endregion
 
@@ -138,7 +140,11 @@ namespace MathArts
                 this.Height -= grb_TimerProperties.Height;
                 hiddenTimerProperties = true;
             }
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+            if (PropertiesChanged != null) PropertiesChanged(this, 
+                new MathArtsPropertiesEventArgs((uint)colorModulator, 
+                    (uint)timerInterval, Chb_DefaultTimer.Checked, 
+                    Chb_UseTimer.Checked, 
+                    MathArtsPropertiesEventArgs.ChangeTypes.Timer));
         }
     }
 

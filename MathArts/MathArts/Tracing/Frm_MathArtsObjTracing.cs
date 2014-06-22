@@ -33,7 +33,7 @@ namespace MathArts.Debug
 
         #region constructors
         /// <summary>
-        /// Constructor for tracing receving math arts form which contains all objects taht should be traced
+        /// Constructor for tracing receving math arts form which contains all objects that should be traced
         /// </summary>
         /// <param name="mathArtsForm"></param>
         public Frm_MathArtsObjTracing(Frm_MathArts mathArtsForm)
@@ -116,7 +116,20 @@ namespace MathArts.Debug
 
                     //update function value if math arts object is function and object is not resizing or moving currently
                     if (sender is Ctl_MathArtsFunction
-                        && (sender as Ctl_MathArtsObject).GetMouseClickType() == MathArts.Ctl_MathArtsObject.MouseClickTypes.None) Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:" + (sender as Ctl_MathArtsFunction).GetFuncValFromArray(e.MousePosition.X, e.MousePosition.Y).ToString("0.######");
+                        && (sender as Ctl_MathArtsObject).GetMouseClickType() == MathArts.Ctl_MathArtsObject.MouseClickTypes.None)
+                    {
+                        string currentFuncVal;
+                        try
+                        {
+                            currentFuncVal = (sender as Ctl_MathArtsFunction).GetFuncValFromArray(e.MousePosition.X, e.MousePosition.Y).ToString("0.######");
+                        }
+                        catch
+                        {
+                            currentFuncVal= "";
+                        }
+                        Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:" + currentFuncVal;
+                    }
+
                     break;
 
                 case (MathArts.Debug.Tracing_ValueChangedEventArgs.ValueChangeTypes.MathArtsObjValueChanged):

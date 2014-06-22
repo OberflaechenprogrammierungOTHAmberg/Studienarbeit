@@ -29,15 +29,24 @@ namespace MathArts
     public partial class Ctl_MathArtsObject : TransParentLib.UserControlTP
     {
         #region members
+
+        #region mouse
+
         private Point mouseDownLocation;
         protected MouseClickTypes mouseClickType = MouseClickTypes.None;
 
-        private bool readyForShapeValueChange=true;
+        #endregion
 
+        #region timer
+
+        // flag for indicating new timer tick after sending last ShapeValueChanged event
+        private bool readyForShapeValueChange;
         public static bool UseTimer = false;
 
+        #endregion
+
         #region debug
-        //creating incremental id for debugging
+        //creating incremental id for debugging and saving
         public static uint mathArtsCounter = 0;
         private uint mathArts;
         #endregion
@@ -45,53 +54,61 @@ namespace MathArts
         #endregion
 
         #region constructors
+
         public Ctl_MathArtsObject()
         {
             InitializeComponent();
 
+            #region timer 
             readyForShapeValueChange = true;
+            #endregion
 
-            #region debug
+            // increment math art object id
             mathArts = mathArtsCounter++;
-            #endregion debug
         }
 
-        //better: use this constructor instead of implement it with default location in each child
-        //problem: how to set default values? need to call -> Ctl_MathArtsObject(int _x,int _y) -> Child() 
-        /*
-        public Ctl_MathArtsObject(int _x,int _y)
-        {
-            InitializeComponent();
-            this.Location = new Point(_x, _y);
-        }
-        */
         #endregion
 
-        #region protected methods
+        #region virtual methods
+
+        /// <summary>
+        /// generic methods for saving math art object properties to xml (add to _mathArtsObjNode in XMLDocument _doc 
+        /// and returning current xml node via out _currentMathArtsObjNode)
+        /// </summary>
+        /// <param name="_doc"></param>
+        /// <param name="_mathArtsObjNode"></param>
+        /// <param name="_currentMathArtsObjNode"></param>
+        /// <returns></returns>
         public virtual XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode, out XmlNode _currentMathArtsObjNode)
         {
+            // create and append new node to xml document
             XmlNode MathArtsObjNode = _doc.CreateElement(this.ToString());
             _mathArtsObjNode.AppendChild(MathArtsObjNode);
 
+            // add math art object properties as xml attributes
             MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Height")).Value = this.Height.ToString();
             MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Width")).Value = this.Width.ToString();
 
             MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("X")).Value = this.Location.X.ToString();
             MathArtsObjNode.Attributes.Append(_doc.CreateAttribute("Y")).Value = this.Location.Y.ToString();
             
+            // set current node to created
             _currentMathArtsObjNode=MathArtsObjNode;
             return _doc;
         }
+
         #endregion
 
         #region enumerations
+
         public enum MouseClickTypes
         {
             None, Move, Resize
         }
+
         #endregion enumerations
 
-        #region Mouse Events
+        #region mouse events
         /// <summary>
         /// Executes on mouse down. Sets the mouseclick type to decide whether the users resizes or moves the control (or does nothing)
         /// </summary>
@@ -99,14 +116,19 @@ namespace MathArts
         /// <param name="e"></param>
         private void Ctl_MathArtsObject_MouseDown(object sender, MouseEventArgs e)
         {
+            // set mouse click type and cursor if left mouse button is pressed
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
+                // save current mouse location
                 mouseDownLocation = e.Location;
+                
+                // in lower right corner prepare resizing
                 if (e.X > this.Width - 10 && e.Y > this.Height - 10)
                 {
                     this.mouseClickType = MouseClickTypes.Resize;
                     this.Cursor = Cursors.SizeNWSE;
                 }
+                // elsewhere prepare moving
                 else
                 {
                     this.mouseClickType = MouseClickTypes.Move;
@@ -124,10 +146,11 @@ namespace MathArts
         /// <param name="e"></param>
         private void Ctl_MathArtsObject_MouseUp(object sender, MouseEventArgs e)
         {
+            // reset cursor and mouse click type
             this.mouseClickType = MouseClickTypes.None;
-            //reset cursor
             this.Cursor = Cursors.Default;
 
+            // send ShapeValueChanged event
             if (ShapeValueChanged != null) ShapeValueChanged(this, e);
         }
 
@@ -138,24 +161,30 @@ namespace MathArts
         /// <param name="e"></param>
         private void Ctl_MathArtsObject_MouseMove(object sender, MouseEventArgs e)
         {
-            //only change "mouse over" cursor type if left mouse button is not pressed
+            // only change "mouse over" cursor type if left mouse button is not pressed
             if(e.Button != System.Windows.Forms.MouseButtons.Left) this.Cursor = (e.X > this.Width - 10 && e.Y > this.Height - 10) ? Cursors.SizeNWSE : Cursors.SizeAll;
 
+            
             if (this.mouseClickType == MouseClickTypes.Move)
             {
+                // relocate math art object
                 this.Left = e.X + this.Left - mouseDownLocation.X;
                 this.Top = e.Y + this.Top - mouseDownLocation.Y;
             }
             else if (this.mouseClickType == MouseClickTypes.Resize)
             {
+                // resize math art object
                 this.Width = e.X;
                 this.Height = e.Y;
             }
 
+            // send shape value changed event
             if (this.mouseClickType != MouseClickTypes.None)
             {
+                // only send it if timer is used and has been ticked since last sending of ShapeValueChanged event
                 if (Ctl_MathArtsObject.UseTimer)
                 {
+                    // because timer is running in a separate thread we need to lock the critical section
                     lock (this)
                     {
                         if (readyForShapeValueChange)
@@ -165,17 +194,12 @@ namespace MathArts
                         }
                     }
                 }
+                // if timer usage is disabled always send ShapeValueChanged event
                 else
                 {
                     if (ShapeValueChanged != null) ShapeValueChanged(this, e);
-                }
+                } 
             }
-
-            #region debug
-            if (ShapeValueChanged != null) Tracing_TriggerShapeValueChanged(e);
-            #endregion
-
-            
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -199,7 +223,6 @@ namespace MathArts
         }
         #endregion
 
-
         public void subscribeToTimer(System.Timers.Timer aTimer)
         {
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
@@ -213,15 +236,6 @@ namespace MathArts
         public MouseClickTypes GetMouseClickType()
         {
             return this.mouseClickType;
-        }
-
-        [ConditionalAttribute("DEBUG")]
-        private void Tracing_TriggerShapeValueChanged(EventArgs e)
-        {
-            if (ShapeValueChanged != null)
-            {
-                ShapeValueChanged(this, e);
-            }
         }
 
         public override string ToString()

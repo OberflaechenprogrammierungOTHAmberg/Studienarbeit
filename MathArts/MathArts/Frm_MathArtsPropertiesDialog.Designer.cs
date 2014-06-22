@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Trb_ColorModulator = new System.Windows.Forms.TrackBar();
             this.Tb_ColorModulator = new System.Windows.Forms.TextBox();
             this.Grb_ColorModulator = new System.Windows.Forms.GroupBox();
@@ -37,6 +38,8 @@
             this.Trb_TimerModulator = new System.Windows.Forms.TrackBar();
             this.grb_PaintTrigger = new System.Windows.Forms.GroupBox();
             this.Chb_UseTimer = new System.Windows.Forms.CheckBox();
+            this.Tt_UseTimer = new System.Windows.Forms.ToolTip(this.components);
+            this.Tt_StandardValueUseTimer = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Trb_ColorModulator)).BeginInit();
             this.Grb_ColorModulator.SuspendLayout();
             this.grb_TimerProperties.SuspendLayout();
@@ -144,6 +147,14 @@
             this.Chb_UseTimer.UseVisualStyleBackColor = true;
             this.Chb_UseTimer.CheckedChanged += new System.EventHandler(this.Chb_UseTimer_CheckedChanged);
             // 
+            // Tt_UseTimer
+            // 
+            this.Tt_UseTimer.AutomaticDelay = 100;
+            // 
+            // Tt_StandardValueUseTimer
+            // 
+            this.Tt_StandardValueUseTimer.AutomaticDelay = 100;
+            // 
             // Frm_MathArtsPropertiesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -181,5 +192,7 @@
         private System.Windows.Forms.CheckBox Chb_DefaultTimer;
         private System.Windows.Forms.GroupBox grb_PaintTrigger;
         private System.Windows.Forms.CheckBox Chb_UseTimer;
+        private System.Windows.Forms.ToolTip Tt_UseTimer;
+        private System.Windows.Forms.ToolTip Tt_StandardValueUseTimer;
     }
 }

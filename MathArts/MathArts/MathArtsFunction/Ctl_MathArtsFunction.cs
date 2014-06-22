@@ -11,7 +11,10 @@
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
 //
-// <summary></summary>
+// <summary>
+//  Ctl_MathArtsFunction.cs containing math arts function control manipulation color behaviour depending on its function type
+//  (SinCos,Gauss,Gabor)
+// </summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
@@ -98,6 +101,7 @@ namespace MathArts.MathArtsFunction
         #endregion
 
         #region internal methods
+
         /// <summary>
         /// Redefines the value array for the fast version
         /// </summary>
@@ -138,6 +142,7 @@ namespace MathArts.MathArtsFunction
         #endregion internal methods
 
         #region GUI event methods
+
         /// <summary>
         /// Paint event method. Draws a ellipse
         /// </summary>
@@ -172,7 +177,7 @@ namespace MathArts.MathArtsFunction
         }
 
         /// <summary>
-        /// Event method to recognize changes inside the property dialog
+        /// Event handler to recognize changes inside the property dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -182,6 +187,11 @@ namespace MathArts.MathArtsFunction
             this.FuncType = e.NewFuncType;
         }
 
+        /// <summary>
+        /// Event handler for resizing a math arts function
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)
         {
             updateFuncValArr();
@@ -234,20 +244,23 @@ namespace MathArts.MathArtsFunction
 
         /// <summary>
         /// Calculates func values by returning value array (fast version)
+        /// Pre condition for this method: MouseClickTypes.None = true
         /// </summary>
         /// <param name="_x">X postion</param>
         /// <param name="_y">Y position</param>
         /// <returns></returns>
         public double GetFuncValFromArray(int _x, int _y)
-        {
-            //[!Under investigation!] workaround or bugfix - while fast mouse motions we get index error 
-            //because the 2D array is not already as large as the mouse position
-            //if (this.mouseClickType != MouseClickTypes.None) return 0.0;
-            //another solution: pre condition for this method - only call while MouseClickTypes.None = true
-            
+        {    
             return valArr[_x, _y];
         }
-
+        
+        /// <summary>
+        /// method for saving math arts function properties to xml format
+        /// </summary>
+        /// <param name="_doc"></param>
+        /// <param name="_mathArtsObjNode"></param>
+        /// <param name="currentNode"></param>
+        /// <returns></returns>
         public override XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode, out XmlNode currentNode)
         {
             XmlNode currentMathArtsObjNode;
