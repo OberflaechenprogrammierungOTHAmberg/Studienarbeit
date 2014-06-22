@@ -73,7 +73,7 @@
             this.Grb_ColorModulator.Location = new System.Drawing.Point(12, 12);
             this.Grb_ColorModulator.Name = "Grb_ColorModulator";
             this.Grb_ColorModulator.Size = new System.Drawing.Size(222, 67);
-            this.Grb_ColorModulator.TabIndex = 3;
+            this.Grb_ColorModulator.TabIndex = 0;
             this.Grb_ColorModulator.TabStop = false;
             this.Grb_ColorModulator.Text = "Farbwertmodulator";
             // 
@@ -85,7 +85,7 @@
             this.grb_TimerProperties.Location = new System.Drawing.Point(6, 43);
             this.grb_TimerProperties.Name = "grb_TimerProperties";
             this.grb_TimerProperties.Size = new System.Drawing.Size(205, 101);
-            this.grb_TimerProperties.TabIndex = 4;
+            this.grb_TimerProperties.TabIndex = 1;
             this.grb_TimerProperties.TabStop = false;
             this.grb_TimerProperties.Text = "Zeittakt in ms";
             this.grb_TimerProperties.Visible = false;
@@ -96,7 +96,7 @@
             this.Chb_DefaultTimer.Location = new System.Drawing.Point(14, 18);
             this.Chb_DefaultTimer.Name = "Chb_DefaultTimer";
             this.Chb_DefaultTimer.Size = new System.Drawing.Size(136, 17);
-            this.Chb_DefaultTimer.TabIndex = 3;
+            this.Chb_DefaultTimer.TabIndex = 0;
             this.Chb_DefaultTimer.Text = "Standardwert benutzen";
             this.Chb_DefaultTimer.UseVisualStyleBackColor = true;
             this.Chb_DefaultTimer.CheckedChanged += new System.EventHandler(this.Chb_DefaultTimer_CheckedChanged);
@@ -106,7 +106,7 @@
             this.Tb_TimerModulator.Location = new System.Drawing.Point(157, 41);
             this.Tb_TimerModulator.Name = "Tb_TimerModulator";
             this.Tb_TimerModulator.Size = new System.Drawing.Size(38, 20);
-            this.Tb_TimerModulator.TabIndex = 1;
+            this.Tb_TimerModulator.TabIndex = 2;
             this.Tb_TimerModulator.TextChanged += new System.EventHandler(this.Tb_TimerModulator_TextChanged);
             this.Tb_TimerModulator.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_TimerModulator_KeyPress);
             // 
@@ -117,7 +117,7 @@
             this.Trb_TimerModulator.Minimum = 50;
             this.Trb_TimerModulator.Name = "Trb_TimerModulator";
             this.Trb_TimerModulator.Size = new System.Drawing.Size(145, 45);
-            this.Trb_TimerModulator.TabIndex = 0;
+            this.Trb_TimerModulator.TabIndex = 1;
             this.Trb_TimerModulator.TickFrequency = 100;
             this.Trb_TimerModulator.Value = 100;
             this.Trb_TimerModulator.ValueChanged += new System.EventHandler(this.Trb_TimerModulator_ValueChanged);
@@ -129,7 +129,7 @@
             this.grb_PaintTrigger.Location = new System.Drawing.Point(12, 86);
             this.grb_PaintTrigger.Name = "grb_PaintTrigger";
             this.grb_PaintTrigger.Size = new System.Drawing.Size(222, 150);
-            this.grb_PaintTrigger.TabIndex = 5;
+            this.grb_PaintTrigger.TabIndex = 1;
             this.grb_PaintTrigger.TabStop = false;
             this.grb_PaintTrigger.Text = "Aktualisierung";
             // 
@@ -139,7 +139,7 @@
             this.Chb_UseTimer.Location = new System.Drawing.Point(7, 20);
             this.Chb_UseTimer.Name = "Chb_UseTimer";
             this.Chb_UseTimer.Size = new System.Drawing.Size(109, 17);
-            this.Chb_UseTimer.TabIndex = 5;
+            this.Chb_UseTimer.TabIndex = 0;
             this.Chb_UseTimer.Text = "Zeittakt benutzen";
             this.Chb_UseTimer.UseVisualStyleBackColor = true;
             this.Chb_UseTimer.CheckedChanged += new System.EventHandler(this.Chb_UseTimer_CheckedChanged);
@@ -157,7 +157,7 @@
             this.Name = "Frm_MathArtsPropertiesDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Eigenschaften";
+            this.Text = "ö";
             ((System.ComponentModel.ISupportInitialize)(this.Trb_ColorModulator)).EndInit();
             this.Grb_ColorModulator.ResumeLayout(false);
             this.Grb_ColorModulator.PerformLayout();

@@ -15,6 +15,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
@@ -112,7 +113,10 @@ namespace MathArts.MathArtsColor
         #region enums
         public enum ColTypes
         {
-            Low, High
+            [Description("Minimum")]
+            Low = 0,
+            [Description("Maximum")]
+            High = 1,
         }
         #endregion
 

@@ -33,7 +33,7 @@ namespace MathArts.MathArtsFunction
             Chb_Inverse.Checked = _funcInverse;
 
             //load enumeration for combobox dynamically
-            Cb_Function.DataSource = Enum.GetNames(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes));
+            Cb_Function.DataSource = EnumExtensions.GetDescriptionToList(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)); 
 
             //initialize current color type
             Cb_Function.SelectedIndex = (int)_funcType;
@@ -54,7 +54,7 @@ namespace MathArts.MathArtsFunction
         private void Cb_Function_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (FunctionChanged != null) FunctionChanged(this, new FunctionChangedEventArgs(Chb_Inverse.Checked,
-                (MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)Enum.Parse(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes), Cb_Function.SelectedItem.ToString())));
+                Cb_Function.SelectedItem.ToString().ToEnum<MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes>()));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace MathArts.MathArtsFunction
         private void Chb_Inverse_CheckedChanged(object sender, EventArgs e)
         {
             if (FunctionChanged != null) FunctionChanged(this, new FunctionChangedEventArgs(Chb_Inverse.Checked,
-                (MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)Enum.Parse(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes), Cb_Function.SelectedItem.ToString())));
+                Cb_Function.SelectedItem.ToString().ToEnum<MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes>()));
         } 
         #endregion
     }

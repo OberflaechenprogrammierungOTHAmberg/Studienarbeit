@@ -38,9 +38,9 @@
             // 
             this.Cb_Function.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Cb_Function.FormattingEnabled = true;
-            this.Cb_Function.Location = new System.Drawing.Point(91, 6);
+            this.Cb_Function.Location = new System.Drawing.Point(69, 6);
             this.Cb_Function.Name = "Cb_Function";
-            this.Cb_Function.Size = new System.Drawing.Size(112, 21);
+            this.Cb_Function.Size = new System.Drawing.Size(90, 21);
             this.Cb_Function.TabIndex = 9;
             this.Cb_Function.SelectedIndexChanged += new System.EventHandler(this.Cb_Function_SelectedIndexChanged);
             // 
@@ -65,7 +65,7 @@
             // Chb_Inverse
             // 
             this.Chb_Inverse.AutoSize = true;
-            this.Chb_Inverse.Location = new System.Drawing.Point(91, 44);
+            this.Chb_Inverse.Location = new System.Drawing.Point(69, 44);
             this.Chb_Inverse.Name = "Chb_Inverse";
             this.Chb_Inverse.Size = new System.Drawing.Size(15, 14);
             this.Chb_Inverse.TabIndex = 10;
@@ -76,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(215, 75);
+            this.ClientSize = new System.Drawing.Size(171, 75);
             this.Controls.Add(this.Chb_Inverse);
             this.Controls.Add(this.Cb_Function);
             this.Controls.Add(this.Lbl_Inverse);

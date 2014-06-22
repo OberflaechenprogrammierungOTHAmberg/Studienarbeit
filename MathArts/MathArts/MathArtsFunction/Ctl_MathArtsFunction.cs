@@ -93,7 +93,7 @@ namespace MathArts.MathArtsFunction
         #region enums
         public enum FuncTypes
         {
-            SinCos, Gauss, Garbor
+            SinCos,Gauss,Garbor
         }
         #endregion
 

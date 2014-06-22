@@ -423,7 +423,6 @@ namespace MathArts
 
             foreach (Ctl_MathArtsFunction _object in this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsFunction).ToList())
             {
-
                 if (_x >= _object.Location.X
                     && _x < _object.Location.X + _object.Width
                     && _y >= _object.Location.Y
@@ -457,13 +456,13 @@ namespace MathArts
             {
                 double IntensityRate = CalculateIntensityRate(_object, _x, _y);
                 NormValue += IntensityRate;
-                colorArr[COLOR_RED] += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.R;
-                colorArr[COLOR_GREEN] += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.G;
-                colorArr[COLOR_BLUE] += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.B;
+                colorArr[COLOR_RED]     += IntensityRate * (double)((Ctl_MathArtsColor)_object).Color.R * 1.0;
+                colorArr[COLOR_GREEN]   += IntensityRate * (double)((Ctl_MathArtsColor)_object).Color.G * 1.0;
+                colorArr[COLOR_BLUE]    += IntensityRate * (double)((Ctl_MathArtsColor)_object).Color.B * 1.0;
             }
-            colorArr[COLOR_RED]/=NormValue;
-            colorArr[COLOR_GREEN] /= NormValue;
-            colorArr[COLOR_BLUE] /= NormValue;
+            colorArr[COLOR_RED]     /= NormValue;
+            colorArr[COLOR_GREEN]   /= NormValue;
+            colorArr[COLOR_BLUE]    /= NormValue;
 
             return colorArr;
         }
@@ -481,10 +480,10 @@ namespace MathArts
 
             int midy = _object.Location.Y + (_object.Height) / 2 - 1;
             double dy = ((midy * 1.0) - _y) / _object.Height;
-
+            
             return Math.Exp(-(dx * dx + dy * dy) / 10);
         }
-
+        
 
         public XmlDocument SaveMathArtsDisp(XmlDocument _doc)
         {
