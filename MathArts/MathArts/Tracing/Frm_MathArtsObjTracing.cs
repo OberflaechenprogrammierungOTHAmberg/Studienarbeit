@@ -73,8 +73,8 @@ namespace MathArts.Debug
                     Lbl_MouseX.Text = LBL_MOUSE_X_INFORAMATION + e.X.ToString();
                     Lbl_MouseY.Text = LBL_MOUSE_Y_INFORAMATION + e.Y.ToString();
 
-                    Lbl_MathArtsDispBitmapWidth.Text = LBL_BITMAP_INFORAMATION + " " + LBL_WIDTH_INFORAMATION + e.DisplayContainer.Width + " " + e.DisplayContainer.bitMap.Width;
-                    Lbl_MathArtsDispBitmapHeight.Text = LBL_BITMAP_INFORAMATION + " " + LBL_HEIGHT_INFORAMATION + e.DisplayContainer.Height + " " + e.DisplayContainer.bitMap.Height;
+                    Lbl_MathArtsDispBitmapWidth.Text = LBL_BITMAP_INFORAMATION + " Breite: "  + e.DisplayContainer.bitMap.Width;
+                    Lbl_MathArtsDispBitmapHeight.Text = LBL_BITMAP_INFORAMATION + " Höhe: " + e.DisplayContainer.bitMap.Height;
 
                     
 
@@ -239,6 +239,7 @@ namespace MathArts.Debug
             //update all math art object type specific labels
             Lbl_MathArtsObjType.Text = LBL_TYPE_INFORAMATION + (selectedMathArtsObj is Ctl_MathArtsColor ? "MathArtsColor" : "MathArtsFunction");
             }
+
     }
         #endregion
 }
