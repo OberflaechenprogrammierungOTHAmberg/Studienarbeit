@@ -205,6 +205,7 @@ namespace MathArts.Debug
                 selectedMathArtsObj.ShapeValueChanged -= selectedMathArtsObj_ShapeValueChanged;
                 //selectedMathArtsObj.BorderStyle = System.Windows.Forms.BorderStyle.None;
                 selectedMathArtsObj.BackColor = Color.Transparent;
+                selectedMathArtsObj.SendToBack();
 
                 if (selectedMathArtsObj is Ctl_MathArtsColor)
                 {
@@ -225,6 +226,7 @@ namespace MathArts.Debug
 
             //highlight by semi transparent backcolor
             selectedMathArtsObj.BackColor = Color.FromArgb((int)HIGHLIGHT_ALPHA_CHANNEL, 255, 255, 0);
+            selectedMathArtsObj.BringToFront();
 
             if (selectedMathArtsObj is Ctl_MathArtsColor)
             {
