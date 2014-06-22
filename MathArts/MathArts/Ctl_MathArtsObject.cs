@@ -81,6 +81,10 @@ namespace MathArts
         }
         #endregion
 
+        #region events
+        public event EventHandler ShapeValueChanged;
+        #endregion
+
         #region mouse events
         /// <summary>
         /// Executes on mouse down. Sets the mouseclick type to decide whether the users resizes or moves the control (or does nothing)
@@ -201,12 +205,9 @@ namespace MathArts
         public void subscribeToTimer(System.Timers.Timer aTimer)
         {
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-        } 
-        #endregion
+        }
 
         #region debug
-        public event EventHandler ShapeValueChanged;
-
         public MouseClickTypes GetMouseClickType()
         {
             return this.mouseClickType;
@@ -216,6 +217,7 @@ namespace MathArts
         {
             return "MathArtsObj_" + this.mathArts;
         }
+        #endregion
         #endregion
     }
 }
