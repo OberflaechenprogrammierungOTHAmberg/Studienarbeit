@@ -171,6 +171,7 @@ namespace MathArts
             {
                 this.Controls.Add(_object);
                 this.allContainedMathArtsObjects.Add(_object);
+                _object.BringToFront();
 
                 //  subscribe to events
                 if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
@@ -255,6 +256,10 @@ namespace MathArts
 
             //  add to control list
             this.allContainedMathArtsObjects.ForEach(n => this.Controls.Add(n));
+
+            //  bring object to front in right order
+            this.allContainedMathArtsObjects.ForEach(n => n.BringToFront());
+
             this.UpdateColorArray();
             this.UpdateFuncValArray();
 
@@ -360,6 +365,10 @@ namespace MathArts
 
             //  add to control list
             this.allContainedMathArtsObjects.ForEach(n => this.Controls.Add(n));
+
+            //  bring object to front in right order
+            this.allContainedMathArtsObjects.ForEach(n => n.BringToFront());
+
             this.UpdateColorArray();
             this.UpdateFuncValArray();
 
