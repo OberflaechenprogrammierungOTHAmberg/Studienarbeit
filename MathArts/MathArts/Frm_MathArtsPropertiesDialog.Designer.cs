@@ -150,10 +150,16 @@
             // Tt_UseTimer
             // 
             this.Tt_UseTimer.AutomaticDelay = 100;
+            this.Tt_UseTimer.AutoPopDelay = 2500;
+            this.Tt_UseTimer.InitialDelay = 100;
+            this.Tt_UseTimer.ReshowDelay = 20;
             // 
             // Tt_StandardValueUseTimer
             // 
             this.Tt_StandardValueUseTimer.AutomaticDelay = 100;
+            this.Tt_StandardValueUseTimer.AutoPopDelay = 2500;
+            this.Tt_StandardValueUseTimer.InitialDelay = 100;
+            this.Tt_StandardValueUseTimer.ReshowDelay = 20;
             // 
             // Frm_MathArtsPropertiesDialog
             // 
