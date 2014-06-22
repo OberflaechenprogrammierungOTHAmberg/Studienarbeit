@@ -45,7 +45,7 @@ namespace MathArts
 
             Tb_TimerModulator.Text = Chb_DefaultTimer.Checked ? _defaultTimerInterval.ToString() : _timerInterval.ToString();
             Tt_UseTimer.SetToolTip(this.Chb_UseTimer, "Aktualisierung der Oberfläche bei Bewegen bzw. Größenänderung der dargstellten Objekte\nnur im Takt des eingestellten Zeitgeber Intervalls");
-            Tt_StandardValueUseTimer.SetToolTip(this.Chb_DefaultTimer, "Benutzung eines Zeittaktes in Abhängigkeit zur Fenstergröße");
+            Tt_DefaultValueUseTimer.SetToolTip(this.Chb_DefaultTimer, "Benutzung eines Zeittaktes in Abhängigkeit zur Fenstergröße");
         }
         #endregion
 
