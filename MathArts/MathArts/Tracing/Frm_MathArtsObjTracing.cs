@@ -267,9 +267,9 @@ namespace MathArts.Debug
 
             //update all math art object type specific labels
             Lbl_MathArtsObjType.Text = LBL_TYPE_INFORAMATION + (selectedMathArtsObj is Ctl_MathArtsColor ? "MathArtsColor" : "MathArtsFunction");
-            }
-
-    }
+        }
         #endregion
+    }
+
 }
 
