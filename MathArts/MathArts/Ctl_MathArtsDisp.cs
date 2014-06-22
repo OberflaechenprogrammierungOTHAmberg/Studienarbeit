@@ -145,6 +145,7 @@ namespace MathArts
         {
             this.Controls.Add(_object);
             this.allContainedMathArtsObjects.Add(_object);
+            _object.BringToFront();
             _object.subscribeToTimer(aTimer);
 
             //  subscribe to events
