@@ -28,7 +28,7 @@ namespace MathArts.MathArtsFunction
     {
         #region constants
         private const bool DEFAULT_FUNC_INVERSE = false;
-        private const FuncTypes DEFAULT_COLTYPE = FuncTypes.SinCos;
+        private const FuncTypes DEFAULT_FUNCTYPE = FuncTypes.SinCos;
         #endregion constants
 
         #region member
@@ -44,7 +44,7 @@ namespace MathArts.MathArtsFunction
 
             //initialize member and finally use property to trigger ValueChanged event
             this.funcInverse = DEFAULT_FUNC_INVERSE;
-            this.FuncType = DEFAULT_COLTYPE;
+            this.FuncType = DEFAULT_FUNCTYPE;
 
             updateFuncValArr();
         }
@@ -180,7 +180,13 @@ namespace MathArts.MathArtsFunction
         {
             this.FuncInverse = e.NewInverseValue;
             this.FuncType = e.NewFuncType;
-        } 
+        }
+
+        private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)
+        {
+            updateFuncValArr();
+        }
+
         #endregion
 
         #region public methods
@@ -256,10 +262,5 @@ namespace MathArts.MathArtsFunction
         }
 
         #endregion
-
-        private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)
-        {
-            updateFuncValArr();
-        }
     }
 }

@@ -21,7 +21,7 @@ using System.Linq;
 namespace MathArts
 {
     /// <summary>
-    /// Extention for enums - using description attribute for converting enum value into friendly string
+    /// Extention class for enums - using description attribute for converting enum value into friendly string
     /// SOURCE:
     /// http://stackoverflow.com/questions/1415140/can-my-enums-have-friendly-names - user343550 21.06.2014
     /// </summary>

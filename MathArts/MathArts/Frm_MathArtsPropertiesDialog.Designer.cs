@@ -157,7 +157,7 @@
             this.Name = "Frm_MathArtsPropertiesDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ö";
+            this.Text = "Eigenschaften";
             ((System.ComponentModel.ISupportInitialize)(this.Trb_ColorModulator)).EndInit();
             this.Grb_ColorModulator.ResumeLayout(false);
             this.Grb_ColorModulator.PerformLayout();
