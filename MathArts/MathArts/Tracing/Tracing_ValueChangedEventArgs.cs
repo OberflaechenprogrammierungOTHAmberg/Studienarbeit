@@ -17,6 +17,9 @@ using System.Drawing;
 
 namespace MathArts.Debug
 {
+    /// <summary>
+    /// Event arguments for tracing with different variants depending on used constructor
+    /// </summary>
     public class Tracing_ValueChangedEventArgs : EventArgs
     {
         private Ctl_MathArtsObject newMathArtsObject = null;
@@ -96,10 +99,10 @@ namespace MathArts.Debug
 
         public enum ValueChangeTypes
         {
-            NewMathArtsObj          =0,
-            MathArtsObjValueChanged =1,
-            MathArtsObjShapeChanged =2,
-            MouseMovedDisp          =3
+            NewMathArtsObj          = 0,
+            MathArtsObjValueChanged = 1,
+            MathArtsObjShapeChanged = 2,
+            MouseMovedDisp          = 3
         }
     }
 }

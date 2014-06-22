@@ -22,6 +22,9 @@ using System.Windows.Forms;
 
 namespace MathArts.Debug
 {
+    /// <summary>
+    /// Trace viewer for math arts showing current values of container and its displayed math art objects 
+    /// </summary>
     public partial class Frm_MathArtsObjTracing : Form
     {
         #region constants
@@ -36,7 +39,6 @@ namespace MathArts.Debug
         private const uint HIGHLIGHT_ALPHA_CHANNEL = 50;
         private const string LBL_BITMAP_INFORAMATION = "Bitmap";
         private const string LBL_COLOR_INFORAMATION = "Farbe:";
-
         private const string LBL_FUNC_RES_INFORAMATION = "Funktionsergebnis:";
         #endregion
 
@@ -59,7 +61,6 @@ namespace MathArts.Debug
             selectedMathArtsObj = null;
         }
         #endregion
-
 
         #region event handler
         /// <summary>
@@ -143,7 +144,6 @@ namespace MathArts.Debug
                         }
                         Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:" + currentFuncVal;
                     }
-
                     break;
 
                 case (MathArts.Debug.Tracing_ValueChangedEventArgs.ValueChangeTypes.MathArtsObjValueChanged):
@@ -162,7 +162,7 @@ namespace MathArts.Debug
                     break;
             }
                 
-                Refresh();
+            Refresh();
         }
 
         /// <summary>
@@ -253,17 +253,12 @@ namespace MathArts.Debug
                 Lbl_MathArtsObjTypeSpecific_3.Text = "Funktionswert:" + resultFuncValue;
             }
 
-            //set all debug values for visualization
-            //if (selectedMathArtsObj is MathArtsColor.Ctl_MathArtsColor) selectedMathArtsObj.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-
             //update all shape depening labels
- 
             Lbl_MathArtsObjWidth.Text = LBL_WIDTH_INFORAMATION + selectedMathArtsObj.Width.ToString();
             Lbl_MathArtsObjHeight.Text = LBL_HEIGHT_INFORAMATION + selectedMathArtsObj.Height.ToString();
             Lbl_MathArtsObjXPosition.Text = LBL_X_POS_INFORAMATION + selectedMathArtsObj.Location.X.ToString();
             Lbl_MathArtsObjYPosition.Text = LBL_Y_POS_INFORAMATION + selectedMathArtsObj.Location.Y.ToString();
             Lbl_MathArtsObjMouseClickType.Text = LBL_MOUSE_CLICK_TYPE_INFORAMATION + selectedMathArtsObj.GetMouseClickType().ToString();
-
 
             //update all math art object type specific labels
             Lbl_MathArtsObjType.Text = LBL_TYPE_INFORAMATION + (selectedMathArtsObj is Ctl_MathArtsColor ? "MathArtsColor" : "MathArtsFunction");
