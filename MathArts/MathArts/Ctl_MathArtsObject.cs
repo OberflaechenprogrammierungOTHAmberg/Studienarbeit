@@ -11,7 +11,6 @@
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
 //
-// <summary></summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
@@ -29,56 +28,34 @@ namespace MathArts
     public partial class Ctl_MathArtsObject : TransParentLib.UserControlTP
     {
         #region members
-
-        #region mouse
-
         private Point mouseDownLocation;
         protected MouseClickTypes mouseClickType = MouseClickTypes.None;
-
-        #endregion
-
-        #region timer
-
         // flag for indicating new timer tick after sending last ShapeValueChanged event
-        private bool readyForShapeValueChange;
+        private bool readyForShapeValueChange = true;
         public static bool UseTimer = false;
-
-        #endregion
-
-        #region debug
-        //creating incremental id for debugging and saving
         public static uint mathArtsCounter = 0;
         private uint mathArts;
         #endregion
 
-        #endregion
-
         #region constructors
-
         public Ctl_MathArtsObject()
         {
             InitializeComponent();
 
-            #region timer 
-            readyForShapeValueChange = true;
-            #endregion
-
             // increment math art object id
             mathArts = mathArtsCounter++;
         }
-
         #endregion
 
         #region virtual methods
-
         /// <summary>
         /// generic methods for saving math art object properties to xml (add to _mathArtsObjNode in XMLDocument _doc 
         /// and returning current xml node via out _currentMathArtsObjNode)
         /// </summary>
-        /// <param name="_doc"></param>
-        /// <param name="_mathArtsObjNode"></param>
-        /// <param name="_currentMathArtsObjNode"></param>
-        /// <returns></returns>
+        /// <param name="_doc">xml document</param>
+        /// <param name="_mathArtsObjNode">parent of new node</param>
+        /// <param name="currentNode">new created node</param>
+        /// <returns>Modified xml document</returns>
         public virtual XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode, out XmlNode _currentMathArtsObjNode)
         {
             // create and append new node to xml document
@@ -96,17 +73,14 @@ namespace MathArts
             _currentMathArtsObjNode=MathArtsObjNode;
             return _doc;
         }
-
         #endregion
 
         #region enumerations
-
         public enum MouseClickTypes
         {
             None, Move, Resize
         }
-
-        #endregion enumerations
+        #endregion
 
         #region mouse events
         /// <summary>
@@ -135,12 +109,11 @@ namespace MathArts
                     this.Cursor = Cursors.SizeAll;
                 }
             }
-
             else this.mouseClickType = MouseClickTypes.None;
         }
 
         /// <summary>
-        /// Executes on mouse up. Resets the mousclick type to none
+        /// Executes on mouse up. Resets the mouseclick type to none
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -163,7 +136,6 @@ namespace MathArts
         {
             // only change "mouse over" cursor type if left mouse button is not pressed
             if(e.Button != System.Windows.Forms.MouseButtons.Left) this.Cursor = (e.X > this.Width - 10 && e.Y > this.Height - 10) ? Cursors.SizeNWSE : Cursors.SizeAll;
-
             
             if (this.mouseClickType == MouseClickTypes.Move)
             {
@@ -202,14 +174,17 @@ namespace MathArts
             }
         }
 
+        /// <summary>
+        /// Timer event method - sets the readyforshapevaluechange member
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //do something with the timer
             lock (this)
             {
                 readyForShapeValueChange = true;
             }
-            
         }
 
         /// <summary>
@@ -223,16 +198,16 @@ namespace MathArts
         }
         #endregion
 
+        #region public methods
         public void subscribeToTimer(System.Timers.Timer aTimer)
         {
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-        }
+        } 
+        #endregion
 
         #region debug
         public event EventHandler ShapeValueChanged;
 
-        //[ConditionalAttribute("DEBUG")]
-        //not possible only for debug - workaround or MouseClickType() property only for debug issues?
         public MouseClickTypes GetMouseClickType()
         {
             return this.mouseClickType;

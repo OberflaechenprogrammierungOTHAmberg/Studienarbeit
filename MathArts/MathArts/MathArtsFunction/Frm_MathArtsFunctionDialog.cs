@@ -11,7 +11,6 @@
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
 //
-// <summary></summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
@@ -33,7 +32,7 @@ namespace MathArts.MathArtsFunction
             Chb_Inverse.Checked = _funcInverse;
 
             //load enumeration for combobox dynamically
-            Cb_Function.DataSource = EnumExtensions.GetDescriptionToList(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)); 
+            Cb_Function.DataSource = EnumExtensions.GetDescriptionsToList(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)); 
 
             //initialize current color type
             Cb_Function.SelectedIndex = (int)_funcType;
@@ -96,6 +95,5 @@ namespace MathArts.MathArtsFunction
             this.newInverseValue = _newInverseValue;
             this.newFuncType = _newFuncType;
         }
-
     }
 }

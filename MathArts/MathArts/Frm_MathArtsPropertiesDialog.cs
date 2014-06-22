@@ -1,22 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// <copyright file="Frm_MathArtsPropertiesDialog.cs">
+// Copyright (c) 2014
+// </copyright>
+//
+// <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
+// <date>02-06-2014</date>
+//
+// <professor>Prof. Dr. Josef Poesl</professor>
+// <studyCourse>Angewandte Informatik</studyCourse>
+// <branchOfStudy>Industrieinformatik</branchOfStudy>
+// <subject>Oberflaechenprogrammierung</subject>
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Windows.Forms;
 
 namespace MathArts
 {
+    /// <summary>
+    /// Property dialog for the MathArts form to change the color modulator value and/or the usage of a timer for updating the container 
+    /// </summary>
     public partial class Frm_MathArtsPropertiesDialog : Form
     {
         #region member
         private double colorModulator;
         private int timerInterval;
         private uint defaultTimerInterval;
-
         private bool hiddenTimerProperties = true;
         #endregion
 
@@ -45,6 +54,12 @@ namespace MathArts
         public event MathArtsPropertiesEventHandler PropertiesChanged;
         #endregion
 
+        #region form events
+        /// <summary>
+        /// color modulator value in textbox changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tb_ColorModulator_TextChanged(object sender, EventArgs e)
         {
             if (Tb_ColorModulator.Text == "") colorModulator = 1;
@@ -56,14 +71,24 @@ namespace MathArts
             }
 
             Trb_ColorModulator.Value = (int)colorModulator;
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked,Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator));
         }
 
+        /// <summary>
+        /// color modulator value in trackbar changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Trb_ColorModulator_ValueChanged(object sender, EventArgs e)
         {
             Tb_ColorModulator.Text = Trb_ColorModulator.Value.ToString();
         }
 
+        /// <summary>
+        /// Limits the handling of pressed keys to allow only useful value inside the textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tb_ColorModulator_KeyPress(object sender, KeyPressEventArgs e)
         {
             uint currentValue;
@@ -71,18 +96,32 @@ namespace MathArts
             if ((!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar) || currentValue > Trb_ColorModulator.Maximum))) e.Handled = true;
         }
 
+        /// <summary>
+        /// Updates the textbox on leaving
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tb_ColorModulator_Leave(object sender, EventArgs e)
         {
             Tb_ColorModulator.Text = colorModulator.ToString();
         }
 
+        /// <summary>
+        /// Fires property changed event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Chb_DefaultTimer_CheckedChanged(object sender, EventArgs e)
         {
-            Tb_TimerModulator.ReadOnly = Chb_DefaultTimer.Checked? true:false;
             Trb_TimerModulator_ValueChanged(this, e);
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked,Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
         }
 
+        /// <summary>
+        /// timer modulator value in textbox changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tb_TimerModulator_TextChanged(object sender, EventArgs e)
         {
 
@@ -102,9 +141,14 @@ namespace MathArts
                 }
             }
             Trb_TimerModulator.Value = timerInterval;
-            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked,Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
+            if (PropertiesChanged != null) PropertiesChanged(this, new MathArtsPropertiesEventArgs((uint)colorModulator, (uint)timerInterval, Chb_DefaultTimer.Checked, Chb_UseTimer.Checked, MathArtsPropertiesEventArgs.ChangeTypes.Timer));
         }
 
+        /// <summary>
+        /// timer modulator value in trackbar changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Trb_TimerModulator_ValueChanged(object sender, EventArgs e)
         {
             if (Chb_DefaultTimer.Checked)
@@ -118,13 +162,11 @@ namespace MathArts
             }
         }
 
-        private void Tb_TimerModulator_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            uint currentValue;
-            UInt32.TryParse(Tb_ColorModulator.Text + e.KeyChar, out currentValue);
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) || currentValue > Trb_TimerModulator.Maximum) e.Handled = true;
-        }
-
+        /// <summary>
+        /// adapts property dialog shape depending on usage of timer and fires property changed event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Chb_UseTimer_CheckedChanged(object sender, EventArgs e)
         {
             grb_TimerProperties.Visible = Chb_UseTimer.Checked;
@@ -140,12 +182,13 @@ namespace MathArts
                 this.Height -= grb_TimerProperties.Height;
                 hiddenTimerProperties = true;
             }
-            if (PropertiesChanged != null) PropertiesChanged(this, 
-                new MathArtsPropertiesEventArgs((uint)colorModulator, 
-                    (uint)timerInterval, Chb_DefaultTimer.Checked, 
-                    Chb_UseTimer.Checked, 
+            if (PropertiesChanged != null) PropertiesChanged(this,
+                new MathArtsPropertiesEventArgs((uint)colorModulator,
+                    (uint)timerInterval, Chb_DefaultTimer.Checked,
+                    Chb_UseTimer.Checked,
                     MathArtsPropertiesEventArgs.ChangeTypes.Timer));
-        }
+        } 
+        #endregion
     }
 
     /// <summary>

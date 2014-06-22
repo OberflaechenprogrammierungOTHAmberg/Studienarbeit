@@ -11,7 +11,6 @@
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
 //
-// <summary></summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using MathArts.MathArtsColor;
@@ -36,7 +35,9 @@ namespace MathArts
         private const uint COLOR_RED = 0;
         private const uint COLOR_GREEN = 1;
         private const uint COLOR_BLUE = 2;
-        
+        private const int DEFAULT_TIMERINTERVAL=50;
+        private const int DEFAULT_WIDTH = 352;
+        private const int DEFAULT_HEIGHT= 351;
         #endregion
 
         #region member
@@ -45,66 +46,13 @@ namespace MathArts
         private double[, ,] valHighArr;
         private double[, ,] valLowArr;
         private double[,] valFuncArr;
-
         private double colorModulator=1;
-        public double ColorModulator
-        {
-            get { return colorModulator; }
-            set { if(value<=256 && value>0) colorModulator=value; }
-        }
-
         //create timer which is running in separate thread
         private static System.Timers.Timer aTimer = new System.Timers.Timer();
-        private const int DEFAULT_TIMERINTERVAL=50;
-        private const int DEFAULT_WIDTH = 352;
-        private const int DEFAULT_HEIGHT= 351;
-
         private bool useDefaultTimer = true;
-        public bool UseDefaultTimer
-        {
-            get { return useDefaultTimer; }
-            set { useDefaultTimer = value; }
-        }
-
         private uint timerInterval;
-        public uint TimerInterval
-        {
-            get { return timerInterval; }
-            set
-            {
-                if (useDefaultTimer)
-                {
-                    aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width * 1.0 / DEFAULT_WIDTH * 1.0) * (this.Height * 1.0 / DEFAULT_HEIGHT * 1.0));
-                    timerInterval = (uint)aTimer.Interval;
-                }
-                else
-                {
-                    aTimer.Interval = value;
-                    timerInterval = value;
-                }
-            }
-        }
         private uint defaultTimerInterval;
-        public uint DefaultTimerInterval
-        {
-            get { return defaultTimerInterval; }
-            set {}
-        }
-
         private bool useTimer = false;
-        public bool UseTimer
-        {
-            get { return useTimer; }
-            set 
-            {
-                if (useTimer != value)
-                {
-                    useTimer = value;
-                    Ctl_MathArtsObject.UseTimer = value;
-                }
-                
-            }
-        }
         #endregion
 
         #region constructors
@@ -130,7 +78,54 @@ namespace MathArts
 
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
+        #endregion
 
+        #region properties
+        public double ColorModulator
+        {
+            get { return colorModulator; }
+            set { if (value <= 256 && value > 0) colorModulator = value; }
+        }
+        public bool UseDefaultTimer
+        {
+            get { return useDefaultTimer; }
+            set { useDefaultTimer = value; }
+        }
+        public uint TimerInterval
+        {
+            get { return timerInterval; }
+            set
+            {
+                if (useDefaultTimer)
+                {
+                    aTimer.Interval = (int)(DEFAULT_TIMERINTERVAL + 0.5 * DEFAULT_TIMERINTERVAL * (this.Width * 1.0 / DEFAULT_WIDTH * 1.0) * (this.Height * 1.0 / DEFAULT_HEIGHT * 1.0));
+                    timerInterval = (uint)aTimer.Interval;
+                }
+                else
+                {
+                    aTimer.Interval = value;
+                    timerInterval = value;
+                }
+            }
+        }
+        public uint DefaultTimerInterval
+        {
+            get { return defaultTimerInterval; }
+            set { }
+        }
+        public bool UseTimer
+        {
+            get { return useTimer; }
+            set
+            {
+                if (useTimer != value)
+                {
+                    useTimer = value;
+                    Ctl_MathArtsObject.UseTimer = value;
+                }
+
+            }
+        } 
         #endregion
 
         #region public methods
@@ -153,6 +148,7 @@ namespace MathArts
             this.allContainedMathArtsObjects.Add(_object);
             _object.subscribeToTimer(aTimer);
 
+            //  subscribe to events
             if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
             if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
             _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
@@ -165,6 +161,36 @@ namespace MathArts
             #endregion
         }
 
+        /// <summary>
+        /// Adds a list of new MathArts objects to the container
+        /// </summary>
+        /// <param name="_lMathArtsObjs">list of MathArts objects to add</param>
+        public void AddMathArtsObject(List<Ctl_MathArtsObject> _lMathArtObjs)
+        {
+            foreach (Ctl_MathArtsObject _object in _lMathArtObjs)
+            {
+                this.Controls.Add(_object);
+                this.allContainedMathArtsObjects.Add(_object);
+
+                //  subscribe to events
+                if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
+                if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
+                _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
+                _object.subscribeToTimer(aTimer);
+
+                #region debug
+                Tracing_TriggerValueChanged(_object);
+                #endregion
+            }
+
+            this.UpdateColorArray();
+            this.UpdateFuncValArray();
+            this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Clears the current workspace (removes all objects)
+        /// </summary>
         public void ClearWorkspace()
         {
             this.allContainedMathArtsObjects.Clear();
@@ -189,30 +215,9 @@ namespace MathArts
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
-        public void LoadMathArtObjects(List<Ctl_MathArtsObject> _lMathArtObjs)
-        {
-            foreach(Ctl_MathArtsObject _object in _lMathArtObjs)
-            {
-                this.Controls.Add(_object);
-                this.allContainedMathArtsObjects.Add(_object);
-
-               
-                if (_object is Ctl_MathArtsFunction) (_object as Ctl_MathArtsFunction).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
-                if (_object is Ctl_MathArtsColor) (_object as Ctl_MathArtsColor).ValueChanged += Ctl_MathArtsDisp_ValueChanged;
-                _object.ShapeValueChanged += Ctl_MathArtsDisp_ValueChanged;
-                _object.subscribeToTimer(aTimer);
-
-                #region debug
-                Tracing_TriggerValueChanged(_object);
-                #endregion
-            }
-
-            this.UpdateColorArray();
-            this.UpdateFuncValArray();
-            this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
-
-        }
-
+        /// <summary>
+        /// Displays Demo1 (list of hardcoded math arts objects)
+        /// </summary>
         public void DisplayDemo1()
         {
             ClearWorkspace();
@@ -260,6 +265,9 @@ namespace MathArts
             this.Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Refreshes the container
+        /// </summary>
         public void RefreshDisplay()
         {
             Ctl_MathArtsDisp_ValueChanged(this, EventArgs.Empty);
@@ -272,114 +280,43 @@ namespace MathArts
         /// <param name="_y">Y position</param>
         /// <param name="val">Value calculated from product of functions</param>
         public Color ColorFromVal(int _x, int _y, double _val)
-        {
-            #region slow calculation of color values
-            /*
-            //need temporary list because explicit cast of lambda expression result from List<Ctl_MathArtsObj> to List<Ctl_MathArtsColor> is not possible
-            List<Ctl_MathArtsColor> lMathArtsColors_High = new List<Ctl_MathArtsColor>();
-            this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor && (n as Ctl_MathArtsColor).ColType == Ctl_MathArtsColor.ColTypes.High).ToList().ForEach(n => lMathArtsColors_High.Add(n as Ctl_MathArtsColor));
-            Color CHigh=CalculateColor(lMathArtsColors_High,_x,_y);
-
-            List<Ctl_MathArtsColor> lMathArtsColors_Low = new List<Ctl_MathArtsColor>();
-            this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor && (n as Ctl_MathArtsColor).ColType == Ctl_MathArtsColor.ColTypes.Low).ToList().ForEach(n => lMathArtsColors_Low.Add(n as Ctl_MathArtsColor));
-            Color CLow = CalculateColor(lMathArtsColors_Low, _x, _y);
-            */
-            #endregion
-
-            #region old
-            //Berechnung
-            /*
-            double IntensityRateNorm_Maximum = 0.0;
-            double RedColorIntensity_Maximum = 0.0;
-            double GreenColorIntensity_Maximum = 0.0;
-            double BlueColorIntensity_Maximum = 0.0;
-            
-            double IntensityRateNorm_Minimum = 0.0;
-            double RedColorIntensity_Minimum = 0.0;
-            double GreenColorIntensity_Minimum = 0.0;
-            double BlueColorIntensity_Minimum = 0.0;
-
-            foreach (Ctl_MathArtsObject _object in this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor).ToList())
-            {
-                if (((Ctl_MathArtsColor)_object).ColType == Ctl_MathArtsColor.ColTypes.High)
-                {
-                    double IntensityRate = CalculateIntensityRate(_object as Ctl_MathArtsColor, _x, _y);
-                    IntensityRateNorm_Maximum += IntensityRate;
-                    RedColorIntensity_Maximum += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.R;
-                    GreenColorIntensity_Maximum += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.G;
-                    BlueColorIntensity_Maximum += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.B;
-                }
-                else if (((Ctl_MathArtsColor)_object).ColType == Ctl_MathArtsColor.ColTypes.Low)
-                {
-                    double IntensityRate = CalculateIntensityRate(_object as Ctl_MathArtsColor, _x, _y);
-                    IntensityRateNorm_Minimum += IntensityRate;
-                    RedColorIntensity_Minimum += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.R;
-                    GreenColorIntensity_Minimum += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.G;
-                    BlueColorIntensity_Minimum += IntensityRate * (int)((Ctl_MathArtsColor)_object).Color.B;
-                }
-            }
-
-            double RedColor_Maximum = 0.0;
-            double GreenColor_Maximum = 0.0;
-            double BlueColor_Maximum = 0.0;
-
-            if (this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor && ((Ctl_MathArtsColor)n).ColType == Ctl_MathArtsColor.ColTypes.High).ToList().Count > 0)
-            {
-                RedColor_Maximum = RedColorIntensity_Maximum / IntensityRateNorm_Maximum;
-                GreenColor_Maximum = GreenColorIntensity_Maximum / IntensityRateNorm_Maximum;
-                BlueColor_Maximum = BlueColorIntensity_Maximum / IntensityRateNorm_Maximum;
-
-            }
-
-            double RedColor_Minimum = 0.0;
-            double GreenColor_Minimum = 0.0;
-            double BlueColor_Minimum = 0.0;
-
-            if (this.allContainedMathArtsObjects.Where(n => n is Ctl_MathArtsColor && ((Ctl_MathArtsColor)n).ColType == Ctl_MathArtsColor.ColTypes.Low).ToList().Count > 0)
-            {
-                RedColor_Minimum = RedColorIntensity_Minimum / IntensityRateNorm_Minimum;
-                GreenColor_Minimum = GreenColorIntensity_Minimum / IntensityRateNorm_Minimum;
-                BlueColor_Minimum = BlueColorIntensity_Minimum / IntensityRateNorm_Minimum;
-            }
-             * */
-            #endregion
-
-            #region slow calculation of color values
-            /*
-            byte RedColor = (byte)(((int)Math.Abs(_val * CHigh.R + (1 - _val) * CLow.R)) % 256);
-            byte GreenColor = (byte)(((int)Math.Abs(_val * CHigh.G + (1 - _val) * CLow.G)) % 256);
-            byte BlueColor = (byte)(((int)Math.Abs(_val * CHigh.B + (1 - _val) * CLow.B)) % 256);
-            */
-            #endregion
-
+        {            
             byte RedColor = (byte)(((double)Math.Abs(_val * valHighArr[_x, _y, COLOR_RED] + (1 - _val) * valLowArr[_x, _y, COLOR_RED])) * colorModulator % 256);
             byte GreenColor = (byte)(((double)Math.Abs(_val * valHighArr[_x, _y, COLOR_GREEN] + (1 - _val) * valLowArr[_x, _y, COLOR_GREEN])) * colorModulator % 256);
             byte BlueColor = (byte)(((double)Math.Abs(_val * valHighArr[_x, _y, COLOR_BLUE] + (1 - _val) * valLowArr[_x, _y, COLOR_BLUE])) * colorModulator % 256);
 
             return Color.FromArgb(RedColor, GreenColor, BlueColor);
         }
-
         #endregion
 
         #region private functions
-
+        /// <summary>
+        /// Updates all values inside the function value array
+        /// </summary>
         private void UpdateFuncValArray()
         {
             for (int x = 0; x < this.Width; x++)
             {
-                    for (int y = 0; y < this.Height; y++)
-                    {
-                        valFuncArr[x, y] = CalculateFunctionValue(x, y);
-                    }
+                for (int y = 0; y < this.Height; y++)
+                {
+                    valFuncArr[x, y] = CalculateFunctionValue(x, y);
+                }
             }
         }
 
+        /// <summary>
+        /// Updates the array containing the calculated value for high and low colors
+        /// </summary>
         private void UpdateColorArray()
         {
             UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes.Low);
             UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes.High);
         }
 
+        /// <summary>
+        /// Updates the array containing the calculated value either for high or low colors depending on the color type
+        /// </summary>
+        /// <param name="_coltype">color type of objects to update</param>
         private void UpdateColorArray(MathArtsColor.Ctl_MathArtsColor.ColTypes _coltype)
         {
             if (_coltype == MathArtsColor.Ctl_MathArtsColor.ColTypes.Low)
@@ -417,6 +354,12 @@ namespace MathArts
             }
         }
 
+        /// <summary>
+        /// Calculates the function value at a specific position
+        /// </summary>
+        /// <param name="_x">X position</param>
+        /// <param name="_y">Y position</param>
+        /// <returns>calculated function value</returns>
         private double CalculateFunctionValue(int _x, int _y)
         {
             double funcResult = 1.0;
@@ -438,7 +381,7 @@ namespace MathArts
         /// <param name="_lMathArtsColors">list of math art color objects</param>
         /// <param name="_x">X position</param>
         /// <param name="_y">Y position</param>
-        /// <returns></returns>
+        /// <returns>calculated color as double array</returns>
         private double[] CalculateColor(List<Ctl_MathArtsColor> _lMathArtsColors,int _x,int _y)
         {
             //initialize array (all values should be 0.0) 
@@ -484,7 +427,11 @@ namespace MathArts
             return Math.Exp(-(dx * dx + dy * dy) / 10);
         }
         
-
+        /// <summary>
+        /// Saves the container's properties and the objects' properties to xml document
+        /// </summary>
+        /// <param name="_doc">xml document</param>
+        /// <returns>modified xml document</returns>
         public XmlDocument SaveMathArtsDisp(XmlDocument _doc)
         {
             XmlNode MathArtsDispNode = _doc.DocumentElement.AppendChild(_doc.CreateElement("MathArtsDisp"));
@@ -503,12 +450,15 @@ namespace MathArts
         #endregion
 
         #region GUI event methods
+        /// <summary>
+        /// Event method for value changed of all objects contained inside the container
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Ctl_MathArtsDisp_ValueChanged(object sender, EventArgs e)
         {
-            //first try - calculate image for whole disp 
             if(bitMap == null) bitMap = new Bitmap(this.Width, this.Height);
-
-            
+                        
             if (sender is Ctl_MathArtsColor)
             {
                 //if col type has changed 
@@ -533,9 +483,13 @@ namespace MathArts
             Refresh();
         }
 
+        /// <summary>
+        /// Event method for resizing of the container
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ctl_MathArtsDisp_Resize(object sender, EventArgs e)
         {
-            //first try - calculate image for whole disp 
             //only create new Bitmap if disp size is greater 0 -> main frame minimized
             if (this.Width>0 && this.Height>0)
             {
@@ -566,18 +520,6 @@ namespace MathArts
         /// <param name="e"></param>
         private void Ctl_MathArtsDisp_Paint(object sender, PaintEventArgs e)
         {
-            #region old
-            /*
-            foreach (Ctl_MathArtsObject item in this.allContainedMathArtsObjects)
-            {
-                if (!this.Controls.Contains(item))
-                {
-                    this.Controls.Add(item); 
-                }
-            }
-            */
-            #endregion
-
             e.Graphics.DrawImage(bitMap, this.Location.X, this.Location.Y);
         }
         #endregion
@@ -598,8 +540,6 @@ namespace MathArts
         {
             if (Tracing_ValueChanged != null) Tracing_ValueChanged(this, new MathArts.Debug.Tracing_ValueChangedEventArgs(_object));
         }
-
         #endregion
     }
-
 }

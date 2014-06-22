@@ -11,7 +11,6 @@
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
 //
-// <summary></summary>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
@@ -25,7 +24,7 @@ namespace MathArts.MathArtsColor
     /// </summary>
     public partial class Frm_MathArtsColorDialog : Form
     {
-        #region static member
+        #region member
         private static ColorDialog coldlg = new ColorDialog(); 
         #endregion
 
@@ -39,7 +38,7 @@ namespace MathArts.MathArtsColor
             this.Pnl_ColorPreview.BackColor = _currentColor;
 
             //load enumeration for combobox dynamically
-            Cb_Type.DataSource = EnumExtensions.GetDescriptionToList(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes));
+            Cb_Type.DataSource = EnumExtensions.GetDescriptionsToList(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes));
 
             //initialize current color type
             Cb_Type.SelectedIndex = (int)_ColType;

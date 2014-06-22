@@ -153,6 +153,7 @@
             this.MathArtsDisp_Container.TabIndex = 0;
             this.MathArtsDisp_Container.TimerInterval = ((uint)(69u));
             this.MathArtsDisp_Container.UseDefaultTimer = true;
+            this.MathArtsDisp_Container.UseTimer = false;
             // 
             // Frm_MathArts
             // 

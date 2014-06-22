@@ -108,10 +108,10 @@
             // 
             this.Tb_TimerModulator.Location = new System.Drawing.Point(157, 41);
             this.Tb_TimerModulator.Name = "Tb_TimerModulator";
+            this.Tb_TimerModulator.ReadOnly = true;
             this.Tb_TimerModulator.Size = new System.Drawing.Size(38, 20);
             this.Tb_TimerModulator.TabIndex = 2;
             this.Tb_TimerModulator.TextChanged += new System.EventHandler(this.Tb_TimerModulator_TextChanged);
-            this.Tb_TimerModulator.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tb_TimerModulator_KeyPress);
             // 
             // Trb_TimerModulator
             // 
