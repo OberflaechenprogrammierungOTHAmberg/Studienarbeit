@@ -1,20 +1,19 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="Ctl_MathArtsColor.cs">
 // Copyright (c) 2014
 // </copyright>
 //
 // <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
-// <date>02-06-2014</date>
+// <date>22-06-2014</date>
 //
 // <professor>Prof. Dr. Josef Poesl</professor>
 // <studyCourse>Angewandte Informatik</studyCourse>
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
-//
-// <summary></summary>
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
@@ -42,8 +41,7 @@ namespace MathArts.MathArtsColor
         {
             InitializeComponent();
 
-            //initialize member and finally use property to trigger ValueChanged event
-            // ==> does not work -> constructor -> after object creation disp subscribes for its ValueChanged event
+            //  Set default color and color type
             this.color = DEFAULT_COLOR;
             this.colType = DEFAULT_COLTYPE;
         }
@@ -85,6 +83,13 @@ namespace MathArts.MathArtsColor
         #endregion
 
         #region public methods
+        /// <summary>
+        /// Saves MathArts color properties as xml document (.marts file)
+        /// </summary>
+        /// <param name="_doc">xml document</param>
+        /// <param name="_mathArtsObjNode">parent of new node</param>
+        /// <param name="currentNode">new created node</param>
+        /// <returns>Modified xml document</returns>
         public override XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode,out XmlNode currentNode)
         {
             XmlNode currentMathArtsObjNode;
@@ -112,13 +117,16 @@ namespace MathArts.MathArtsColor
         #region enums
         public enum ColTypes
         {
-            Low, High
+            [Description("Minimum")]
+            Low = 0,
+            [Description("Maximum")]
+            High = 1,
         }
         #endregion
 
         #region GUI event methods
         /// <summary>
-        /// Paint event method. Draws a ellipse
+        /// Paint event method. Draws a ellipse and fills with selected color
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -129,7 +137,7 @@ namespace MathArts.MathArtsColor
         }
 
         /// <summary>
-        /// Opens a property dialog to change the controls properties
+        /// Opens a property dialog to change the control's properties
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -153,6 +161,9 @@ namespace MathArts.MathArtsColor
         #endregion
     }
 
+    /// <summary>
+    /// Event arguments from color value changes transmitting color and color type and type of modification
+    /// </summary>
     public class MathArtsColorValueChangedEventArgs : EventArgs
     {
         private ValueChangeTypes changeType;

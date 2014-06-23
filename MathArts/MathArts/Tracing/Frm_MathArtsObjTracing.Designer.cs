@@ -45,6 +45,8 @@
             this.Lbl_MathArtsObjTypeSpecific_3 = new System.Windows.Forms.Label();
             this.Gb_MathArtsDispProperties = new System.Windows.Forms.GroupBox();
             this.Gb_MathArtsDispCommonTraces = new System.Windows.Forms.GroupBox();
+            this.Lbl_MathArtsDispBitmapHeight = new System.Windows.Forms.Label();
+            this.Lbl_MathArtsDispBitmapWidth = new System.Windows.Forms.Label();
             this.Lbl_MouseX = new System.Windows.Forms.Label();
             this.Lbl_MouseY = new System.Windows.Forms.Label();
             this.Gb_MathArtsDispColorTraces = new System.Windows.Forms.GroupBox();
@@ -52,8 +54,6 @@
             this.Lbl_MathArtsDispColor = new System.Windows.Forms.Label();
             this.Lb_MathArtObjs = new System.Windows.Forms.ListBox();
             this.Lbl_ListBoxDescription = new System.Windows.Forms.Label();
-            this.Lbl_MathArtsDispBitmapWidth = new System.Windows.Forms.Label();
-            this.Lbl_MathArtsDispBitmapHeight = new System.Windows.Forms.Label();
             this.Gb_MathArtsObjProperties.SuspendLayout();
             this.Gb_MathArtsObjCommonTraces.SuspendLayout();
             this.Gb_MathArtsObjMouseTraces.SuspendLayout();
@@ -70,8 +70,8 @@
             this.Gb_MathArtsObjProperties.Controls.Add(this.Gb_MathArtsObjSpecificTraces);
             this.Gb_MathArtsObjProperties.Location = new System.Drawing.Point(143, 14);
             this.Gb_MathArtsObjProperties.Name = "Gb_MathArtsObjProperties";
-            this.Gb_MathArtsObjProperties.Size = new System.Drawing.Size(429, 258);
-            this.Gb_MathArtsObjProperties.TabIndex = 1;
+            this.Gb_MathArtsObjProperties.Size = new System.Drawing.Size(266, 191);
+            this.Gb_MathArtsObjProperties.TabIndex = 2;
             this.Gb_MathArtsObjProperties.TabStop = false;
             this.Gb_MathArtsObjProperties.Text = "MathArtsObj Eigenschaften";
             // 
@@ -83,8 +83,8 @@
             this.Gb_MathArtsObjCommonTraces.Controls.Add(this.Lbl_MathArtsObjHeight);
             this.Gb_MathArtsObjCommonTraces.Location = new System.Drawing.Point(6, 19);
             this.Gb_MathArtsObjCommonTraces.Name = "Gb_MathArtsObjCommonTraces";
-            this.Gb_MathArtsObjCommonTraces.Size = new System.Drawing.Size(417, 82);
-            this.Gb_MathArtsObjCommonTraces.TabIndex = 13;
+            this.Gb_MathArtsObjCommonTraces.Size = new System.Drawing.Size(103, 82);
+            this.Gb_MathArtsObjCommonTraces.TabIndex = 0;
             this.Gb_MathArtsObjCommonTraces.TabStop = false;
             this.Gb_MathArtsObjCommonTraces.Text = "Allgemein";
             // 
@@ -94,7 +94,7 @@
             this.Lbl_MathArtsObjXPosition.Location = new System.Drawing.Point(7, 16);
             this.Lbl_MathArtsObjXPosition.Name = "Lbl_MathArtsObjXPosition";
             this.Lbl_MathArtsObjXPosition.Size = new System.Drawing.Size(17, 13);
-            this.Lbl_MathArtsObjXPosition.TabIndex = 3;
+            this.Lbl_MathArtsObjXPosition.TabIndex = 0;
             this.Lbl_MathArtsObjXPosition.Text = "X:";
             // 
             // Lbl_MathArtsObjYPosition
@@ -103,7 +103,7 @@
             this.Lbl_MathArtsObjYPosition.Location = new System.Drawing.Point(7, 29);
             this.Lbl_MathArtsObjYPosition.Name = "Lbl_MathArtsObjYPosition";
             this.Lbl_MathArtsObjYPosition.Size = new System.Drawing.Size(17, 13);
-            this.Lbl_MathArtsObjYPosition.TabIndex = 4;
+            this.Lbl_MathArtsObjYPosition.TabIndex = 1;
             this.Lbl_MathArtsObjYPosition.Text = "Y:";
             // 
             // Lbl_MathArtsObjWidth
@@ -112,7 +112,7 @@
             this.Lbl_MathArtsObjWidth.Location = new System.Drawing.Point(7, 51);
             this.Lbl_MathArtsObjWidth.Name = "Lbl_MathArtsObjWidth";
             this.Lbl_MathArtsObjWidth.Size = new System.Drawing.Size(37, 13);
-            this.Lbl_MathArtsObjWidth.TabIndex = 1;
+            this.Lbl_MathArtsObjWidth.TabIndex = 2;
             this.Lbl_MathArtsObjWidth.Text = "Breite:";
             // 
             // Lbl_MathArtsObjHeight
@@ -121,7 +121,7 @@
             this.Lbl_MathArtsObjHeight.Location = new System.Drawing.Point(7, 64);
             this.Lbl_MathArtsObjHeight.Name = "Lbl_MathArtsObjHeight";
             this.Lbl_MathArtsObjHeight.Size = new System.Drawing.Size(36, 13);
-            this.Lbl_MathArtsObjHeight.TabIndex = 2;
+            this.Lbl_MathArtsObjHeight.TabIndex = 3;
             this.Lbl_MathArtsObjHeight.Text = "Höhe:";
             // 
             // Gb_MathArtsObjMouseTraces
@@ -129,10 +129,10 @@
             this.Gb_MathArtsObjMouseTraces.Controls.Add(this.Lbl_MathArtsObjMouseX);
             this.Gb_MathArtsObjMouseTraces.Controls.Add(this.Lbl_MathArtsObjMouseY);
             this.Gb_MathArtsObjMouseTraces.Controls.Add(this.Lbl_MathArtsObjMouseClickType);
-            this.Gb_MathArtsObjMouseTraces.Location = new System.Drawing.Point(6, 107);
+            this.Gb_MathArtsObjMouseTraces.Location = new System.Drawing.Point(115, 19);
             this.Gb_MathArtsObjMouseTraces.Name = "Gb_MathArtsObjMouseTraces";
-            this.Gb_MathArtsObjMouseTraces.Size = new System.Drawing.Size(417, 61);
-            this.Gb_MathArtsObjMouseTraces.TabIndex = 12;
+            this.Gb_MathArtsObjMouseTraces.Size = new System.Drawing.Size(145, 82);
+            this.Gb_MathArtsObjMouseTraces.TabIndex = 1;
             this.Gb_MathArtsObjMouseTraces.TabStop = false;
             this.Gb_MathArtsObjMouseTraces.Text = "Maus Eigenschaften";
             // 
@@ -142,7 +142,7 @@
             this.Lbl_MathArtsObjMouseX.Location = new System.Drawing.Point(6, 29);
             this.Lbl_MathArtsObjMouseX.Name = "Lbl_MathArtsObjMouseX";
             this.Lbl_MathArtsObjMouseX.Size = new System.Drawing.Size(40, 13);
-            this.Lbl_MathArtsObjMouseX.TabIndex = 9;
+            this.Lbl_MathArtsObjMouseX.TabIndex = 1;
             this.Lbl_MathArtsObjMouseX.Text = "MausX";
             // 
             // Lbl_MathArtsObjMouseY
@@ -151,7 +151,7 @@
             this.Lbl_MathArtsObjMouseY.Location = new System.Drawing.Point(6, 42);
             this.Lbl_MathArtsObjMouseY.Name = "Lbl_MathArtsObjMouseY";
             this.Lbl_MathArtsObjMouseY.Size = new System.Drawing.Size(43, 13);
-            this.Lbl_MathArtsObjMouseY.TabIndex = 10;
+            this.Lbl_MathArtsObjMouseY.TabIndex = 2;
             this.Lbl_MathArtsObjMouseY.Text = "MausY:";
             // 
             // Lbl_MathArtsObjMouseClickType
@@ -160,7 +160,7 @@
             this.Lbl_MathArtsObjMouseClickType.Location = new System.Drawing.Point(6, 16);
             this.Lbl_MathArtsObjMouseClickType.Name = "Lbl_MathArtsObjMouseClickType";
             this.Lbl_MathArtsObjMouseClickType.Size = new System.Drawing.Size(92, 13);
-            this.Lbl_MathArtsObjMouseClickType.TabIndex = 5;
+            this.Lbl_MathArtsObjMouseClickType.TabIndex = 0;
             this.Lbl_MathArtsObjMouseClickType.Text = "Maus Kommando:";
             // 
             // Gb_MathArtsObjSpecificTraces
@@ -169,10 +169,10 @@
             this.Gb_MathArtsObjSpecificTraces.Controls.Add(this.Lbl_MathArtsObjTypeSpecific_1);
             this.Gb_MathArtsObjSpecificTraces.Controls.Add(this.Lbl_MathArtsObjTypeSpecific_2);
             this.Gb_MathArtsObjSpecificTraces.Controls.Add(this.Lbl_MathArtsObjTypeSpecific_3);
-            this.Gb_MathArtsObjSpecificTraces.Location = new System.Drawing.Point(6, 174);
+            this.Gb_MathArtsObjSpecificTraces.Location = new System.Drawing.Point(6, 107);
             this.Gb_MathArtsObjSpecificTraces.Name = "Gb_MathArtsObjSpecificTraces";
-            this.Gb_MathArtsObjSpecificTraces.Size = new System.Drawing.Size(417, 74);
-            this.Gb_MathArtsObjSpecificTraces.TabIndex = 11;
+            this.Gb_MathArtsObjSpecificTraces.Size = new System.Drawing.Size(254, 74);
+            this.Gb_MathArtsObjSpecificTraces.TabIndex = 2;
             this.Gb_MathArtsObjSpecificTraces.TabStop = false;
             this.Gb_MathArtsObjSpecificTraces.Text = "Formabhängige Eigenschaften";
             // 
@@ -191,7 +191,7 @@
             this.Lbl_MathArtsObjTypeSpecific_1.Location = new System.Drawing.Point(6, 29);
             this.Lbl_MathArtsObjTypeSpecific_1.Name = "Lbl_MathArtsObjTypeSpecific_1";
             this.Lbl_MathArtsObjTypeSpecific_1.Size = new System.Drawing.Size(0, 13);
-            this.Lbl_MathArtsObjTypeSpecific_1.TabIndex = 6;
+            this.Lbl_MathArtsObjTypeSpecific_1.TabIndex = 1;
             // 
             // Lbl_MathArtsObjTypeSpecific_2
             // 
@@ -199,7 +199,7 @@
             this.Lbl_MathArtsObjTypeSpecific_2.Location = new System.Drawing.Point(6, 42);
             this.Lbl_MathArtsObjTypeSpecific_2.Name = "Lbl_MathArtsObjTypeSpecific_2";
             this.Lbl_MathArtsObjTypeSpecific_2.Size = new System.Drawing.Size(0, 13);
-            this.Lbl_MathArtsObjTypeSpecific_2.TabIndex = 7;
+            this.Lbl_MathArtsObjTypeSpecific_2.TabIndex = 2;
             // 
             // Lbl_MathArtsObjTypeSpecific_3
             // 
@@ -207,16 +207,16 @@
             this.Lbl_MathArtsObjTypeSpecific_3.Location = new System.Drawing.Point(6, 54);
             this.Lbl_MathArtsObjTypeSpecific_3.Name = "Lbl_MathArtsObjTypeSpecific_3";
             this.Lbl_MathArtsObjTypeSpecific_3.Size = new System.Drawing.Size(0, 13);
-            this.Lbl_MathArtsObjTypeSpecific_3.TabIndex = 8;
+            this.Lbl_MathArtsObjTypeSpecific_3.TabIndex = 3;
             // 
             // Gb_MathArtsDispProperties
             // 
             this.Gb_MathArtsDispProperties.Controls.Add(this.Gb_MathArtsDispCommonTraces);
             this.Gb_MathArtsDispProperties.Controls.Add(this.Gb_MathArtsDispColorTraces);
-            this.Gb_MathArtsDispProperties.Location = new System.Drawing.Point(143, 278);
+            this.Gb_MathArtsDispProperties.Location = new System.Drawing.Point(143, 211);
             this.Gb_MathArtsDispProperties.Name = "Gb_MathArtsDispProperties";
-            this.Gb_MathArtsDispProperties.Size = new System.Drawing.Size(429, 196);
-            this.Gb_MathArtsDispProperties.TabIndex = 2;
+            this.Gb_MathArtsDispProperties.Size = new System.Drawing.Size(266, 161);
+            this.Gb_MathArtsDispProperties.TabIndex = 3;
             this.Gb_MathArtsDispProperties.TabStop = false;
             this.Gb_MathArtsDispProperties.Text = "MathArtsDisp Eigenschaften";
             // 
@@ -228,10 +228,28 @@
             this.Gb_MathArtsDispCommonTraces.Controls.Add(this.Lbl_MouseY);
             this.Gb_MathArtsDispCommonTraces.Location = new System.Drawing.Point(6, 19);
             this.Gb_MathArtsDispCommonTraces.Name = "Gb_MathArtsDispCommonTraces";
-            this.Gb_MathArtsDispCommonTraces.Size = new System.Drawing.Size(417, 88);
-            this.Gb_MathArtsDispCommonTraces.TabIndex = 4;
+            this.Gb_MathArtsDispCommonTraces.Size = new System.Drawing.Size(254, 73);
+            this.Gb_MathArtsDispCommonTraces.TabIndex = 0;
             this.Gb_MathArtsDispCommonTraces.TabStop = false;
             this.Gb_MathArtsDispCommonTraces.Text = "Allgemein";
+            // 
+            // Lbl_MathArtsDispBitmapHeight
+            // 
+            this.Lbl_MathArtsDispBitmapHeight.AutoSize = true;
+            this.Lbl_MathArtsDispBitmapHeight.Location = new System.Drawing.Point(6, 55);
+            this.Lbl_MathArtsDispBitmapHeight.Name = "Lbl_MathArtsDispBitmapHeight";
+            this.Lbl_MathArtsDispBitmapHeight.Size = new System.Drawing.Size(71, 13);
+            this.Lbl_MathArtsDispBitmapHeight.TabIndex = 0;
+            this.Lbl_MathArtsDispBitmapHeight.Text = "Bitmap Höhe:";
+            // 
+            // Lbl_MathArtsDispBitmapWidth
+            // 
+            this.Lbl_MathArtsDispBitmapWidth.AutoSize = true;
+            this.Lbl_MathArtsDispBitmapWidth.Location = new System.Drawing.Point(6, 42);
+            this.Lbl_MathArtsDispBitmapWidth.Name = "Lbl_MathArtsDispBitmapWidth";
+            this.Lbl_MathArtsDispBitmapWidth.Size = new System.Drawing.Size(72, 13);
+            this.Lbl_MathArtsDispBitmapWidth.TabIndex = 3;
+            this.Lbl_MathArtsDispBitmapWidth.Text = "Bitmap Breite:";
             // 
             // Lbl_MouseX
             // 
@@ -239,7 +257,7 @@
             this.Lbl_MouseX.Location = new System.Drawing.Point(6, 16);
             this.Lbl_MouseX.Name = "Lbl_MouseX";
             this.Lbl_MouseX.Size = new System.Drawing.Size(43, 13);
-            this.Lbl_MouseX.TabIndex = 0;
+            this.Lbl_MouseX.TabIndex = 1;
             this.Lbl_MouseX.Text = "MausX:";
             // 
             // Lbl_MouseY
@@ -248,19 +266,19 @@
             this.Lbl_MouseY.Location = new System.Drawing.Point(6, 29);
             this.Lbl_MouseY.Name = "Lbl_MouseY";
             this.Lbl_MouseY.Size = new System.Drawing.Size(43, 13);
-            this.Lbl_MouseY.TabIndex = 1;
+            this.Lbl_MouseY.TabIndex = 2;
             this.Lbl_MouseY.Text = "MausY:";
             // 
             // Gb_MathArtsDispColorTraces
             // 
             this.Gb_MathArtsDispColorTraces.Controls.Add(this.Lbl_MathArtsDispFuncResult);
             this.Gb_MathArtsDispColorTraces.Controls.Add(this.Lbl_MathArtsDispColor);
-            this.Gb_MathArtsDispColorTraces.Location = new System.Drawing.Point(6, 113);
+            this.Gb_MathArtsDispColorTraces.Location = new System.Drawing.Point(6, 98);
             this.Gb_MathArtsDispColorTraces.Name = "Gb_MathArtsDispColorTraces";
-            this.Gb_MathArtsDispColorTraces.Size = new System.Drawing.Size(417, 77);
-            this.Gb_MathArtsDispColorTraces.TabIndex = 3;
+            this.Gb_MathArtsDispColorTraces.Size = new System.Drawing.Size(254, 55);
+            this.Gb_MathArtsDispColorTraces.TabIndex = 1;
             this.Gb_MathArtsDispColorTraces.TabStop = false;
-            this.Gb_MathArtsDispColorTraces.Text = "Farbrohwerte";
+            this.Gb_MathArtsDispColorTraces.Text = "Farbrohwerte (nur wenn Rahmen unsichtbar)";
             // 
             // Lbl_MathArtsDispFuncResult
             // 
@@ -268,7 +286,7 @@
             this.Lbl_MathArtsDispFuncResult.Location = new System.Drawing.Point(7, 33);
             this.Lbl_MathArtsDispFuncResult.Name = "Lbl_MathArtsDispFuncResult";
             this.Lbl_MathArtsDispFuncResult.Size = new System.Drawing.Size(96, 13);
-            this.Lbl_MathArtsDispFuncResult.TabIndex = 3;
+            this.Lbl_MathArtsDispFuncResult.TabIndex = 1;
             this.Lbl_MathArtsDispFuncResult.Text = "Funktionsergebnis:";
             // 
             // Lbl_MathArtsDispColor
@@ -277,7 +295,7 @@
             this.Lbl_MathArtsDispColor.Location = new System.Drawing.Point(7, 16);
             this.Lbl_MathArtsDispColor.Name = "Lbl_MathArtsDispColor";
             this.Lbl_MathArtsDispColor.Size = new System.Drawing.Size(37, 13);
-            this.Lbl_MathArtsDispColor.TabIndex = 2;
+            this.Lbl_MathArtsDispColor.TabIndex = 0;
             this.Lbl_MathArtsDispColor.Text = "Farbe:";
             // 
             // Lb_MathArtObjs
@@ -285,8 +303,8 @@
             this.Lb_MathArtObjs.FormattingEnabled = true;
             this.Lb_MathArtObjs.Location = new System.Drawing.Point(13, 28);
             this.Lb_MathArtObjs.Name = "Lb_MathArtObjs";
-            this.Lb_MathArtObjs.Size = new System.Drawing.Size(124, 446);
-            this.Lb_MathArtObjs.TabIndex = 0;
+            this.Lb_MathArtObjs.Size = new System.Drawing.Size(124, 342);
+            this.Lb_MathArtObjs.TabIndex = 1;
             this.Lb_MathArtObjs.SelectedIndexChanged += new System.EventHandler(this.Lv_MathArtObjs_SelectedIndexChanged);
             // 
             // Lbl_ListBoxDescription
@@ -295,32 +313,14 @@
             this.Lbl_ListBoxDescription.Location = new System.Drawing.Point(10, 14);
             this.Lbl_ListBoxDescription.Name = "Lbl_ListBoxDescription";
             this.Lbl_ListBoxDescription.Size = new System.Drawing.Size(68, 13);
-            this.Lbl_ListBoxDescription.TabIndex = 3;
+            this.Lbl_ListBoxDescription.TabIndex = 0;
             this.Lbl_ListBoxDescription.Text = "MathArtObjs:";
-            // 
-            // Lbl_MathArtsDispBitmapWidth
-            // 
-            this.Lbl_MathArtsDispBitmapWidth.AutoSize = true;
-            this.Lbl_MathArtsDispBitmapWidth.Location = new System.Drawing.Point(6, 42);
-            this.Lbl_MathArtsDispBitmapWidth.Name = "Lbl_MathArtsDispBitmapWidth";
-            this.Lbl_MathArtsDispBitmapWidth.Size = new System.Drawing.Size(72, 13);
-            this.Lbl_MathArtsDispBitmapWidth.TabIndex = 2;
-            this.Lbl_MathArtsDispBitmapWidth.Text = "Bitmap Breite:";
-            // 
-            // Lbl_MathArtsDispBitmapHeight
-            // 
-            this.Lbl_MathArtsDispBitmapHeight.AutoSize = true;
-            this.Lbl_MathArtsDispBitmapHeight.Location = new System.Drawing.Point(6, 55);
-            this.Lbl_MathArtsDispBitmapHeight.Name = "Lbl_MathArtsDispBitmapHeight";
-            this.Lbl_MathArtsDispBitmapHeight.Size = new System.Drawing.Size(71, 13);
-            this.Lbl_MathArtsDispBitmapHeight.TabIndex = 3;
-            this.Lbl_MathArtsDispBitmapHeight.Text = "Bitmap Höhe:";
             // 
             // Frm_MathArtsObjTracing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 478);
+            this.ClientSize = new System.Drawing.Size(436, 412);
             this.ControlBox = false;
             this.Controls.Add(this.Lbl_ListBoxDescription);
             this.Controls.Add(this.Gb_MathArtsDispProperties);

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 [assembly: AssemblyTitle("MathArts")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("By Mathias Schneider, Manuel Schlemelch, Pascal Betting")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MathArts")]

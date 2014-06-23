@@ -1,8 +1,25 @@
-﻿using System;
+﻿/////////////////////////////////////////////////////////////////////////////
+// <copyright file="Tracing_ValueChangedEventArgs.cs">
+// Copyright (c) 2014
+// </copyright>
+//
+// <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
+// <date>22-06-2014</date>
+//
+// <professor>Prof. Dr. Josef Poesl</professor>
+// <studyCourse>Angewandte Informatik</studyCourse>
+// <branchOfStudy>Industrieinformatik</branchOfStudy>
+// <subject>Oberflaechenprogrammierung</subject>
+/////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Drawing;
 
 namespace MathArts.Debug
 {
+    /// <summary>
+    /// Event arguments for tracing with different variants depending on used constructor
+    /// </summary>
     public class Tracing_ValueChangedEventArgs : EventArgs
     {
         private Ctl_MathArtsObject newMathArtsObject = null;
@@ -82,10 +99,10 @@ namespace MathArts.Debug
 
         public enum ValueChangeTypes
         {
-            NewMathArtsObj          =0,
-            MathArtsObjValueChanged =1,
-            MathArtsObjShapeChanged =2,
-            MouseMovedDisp          =3
+            NewMathArtsObj          = 0,
+            MathArtsObjValueChanged = 1,
+            MathArtsObjShapeChanged = 2,
+            MouseMovedDisp          = 3
         }
     }
 }

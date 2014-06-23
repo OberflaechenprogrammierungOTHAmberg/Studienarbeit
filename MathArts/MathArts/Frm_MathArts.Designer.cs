@@ -144,12 +144,16 @@
             // 
             // MathArtsDisp_Container
             // 
-            this.MathArtsDisp_Container.ColorModulator = ((uint)(1u));
+            this.MathArtsDisp_Container.ColorModulator = 1D;
+            this.MathArtsDisp_Container.DefaultTimerInterval = ((uint)(69u));
             this.MathArtsDisp_Container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MathArtsDisp_Container.Location = new System.Drawing.Point(0, 0);
             this.MathArtsDisp_Container.Name = "MathArtsDisp_Container";
             this.MathArtsDisp_Container.Size = new System.Drawing.Size(336, 292);
             this.MathArtsDisp_Container.TabIndex = 0;
+            this.MathArtsDisp_Container.TimerInterval = ((uint)(69u));
+            this.MathArtsDisp_Container.UseDefaultTimer = true;
+            this.MathArtsDisp_Container.UseTimer = false;
             // 
             // Frm_MathArts
             // 
@@ -157,11 +161,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(336, 292);
             this.Controls.Add(this.MathArtsDisp_Container);
+            this.KeyPreview = true;
             this.Menu = this.menu_MathArts;
             this.MinimumSize = new System.Drawing.Size(250, 200);
             this.Name = "Frm_MathArts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mathematik Kunst";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_MathArts_FormClosing);
+            this.Load += new System.EventHandler(this.Frm_MathArts_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frm_MathArts_KeyDown);
             this.ResumeLayout(false);
 
         }

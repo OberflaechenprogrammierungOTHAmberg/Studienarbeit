@@ -1,18 +1,16 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="Frm_MathArtsColorDialog.cs">
 // Copyright (c) 2014
 // </copyright>
 //
 // <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
-// <date>02-06-2014</date>
+// <date>22-06-2014</date>
 //
 // <professor>Prof. Dr. Josef Poesl</professor>
 // <studyCourse>Angewandte Informatik</studyCourse>
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
-//
-// <summary></summary>
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 using System;
 using System.Drawing;
@@ -25,7 +23,7 @@ namespace MathArts.MathArtsColor
     /// </summary>
     public partial class Frm_MathArtsColorDialog : Form
     {
-        #region static member
+        #region member
         private static ColorDialog coldlg = new ColorDialog(); 
         #endregion
 
@@ -39,7 +37,7 @@ namespace MathArts.MathArtsColor
             this.Pnl_ColorPreview.BackColor = _currentColor;
 
             //load enumeration for combobox dynamically
-            Cb_Type.DataSource = Enum.GetNames(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes));
+            Cb_Type.DataSource = EnumExtensions.GetDescriptionsToList(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes));
 
             //initialize current color type
             Cb_Type.SelectedIndex = (int)_ColType;
@@ -62,7 +60,7 @@ namespace MathArts.MathArtsColor
             if (coldlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 if (ColorChanged != null) ColorChanged(this, new ColorChangedEventArgs(coldlg.Color,
-                    (MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes)Enum.Parse(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes), Cb_Type.SelectedItem.ToString())));
+                    Cb_Type.SelectedItem.ToString().ToEnum<MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes>()));
                 
                 //adapt preview panel background color
                 this.Pnl_ColorPreview.BackColor = coldlg.Color; 
@@ -77,7 +75,7 @@ namespace MathArts.MathArtsColor
         private void Cb_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ColorChanged != null) ColorChanged(this, new ColorChangedEventArgs(coldlg.Color,
-                (MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes)Enum.Parse(typeof(MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes), Cb_Type.SelectedItem.ToString())));
+                 Cb_Type.SelectedItem.ToString().ToEnum <MathArts.MathArtsColor.Ctl_MathArtsColor.ColTypes>()));
         }
         #endregion events
 

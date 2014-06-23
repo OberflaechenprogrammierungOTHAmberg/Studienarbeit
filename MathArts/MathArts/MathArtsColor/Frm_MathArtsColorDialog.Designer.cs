@@ -55,14 +55,14 @@
             // 
             // Pnl_ColorPreview
             // 
-            this.Pnl_ColorPreview.Location = new System.Drawing.Point(89, 4);
+            this.Pnl_ColorPreview.Location = new System.Drawing.Point(55, 4);
             this.Pnl_ColorPreview.Name = "Pnl_ColorPreview";
             this.Pnl_ColorPreview.Size = new System.Drawing.Size(31, 23);
             this.Pnl_ColorPreview.TabIndex = 1;
             // 
             // Btn_Color
             // 
-            this.Btn_Color.Location = new System.Drawing.Point(126, 4);
+            this.Btn_Color.Location = new System.Drawing.Point(92, 4);
             this.Btn_Color.Name = "Btn_Color";
             this.Btn_Color.Size = new System.Drawing.Size(75, 23);
             this.Btn_Color.TabIndex = 2;
@@ -74,7 +74,7 @@
             // 
             this.Cb_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Cb_Type.FormattingEnabled = true;
-            this.Cb_Type.Location = new System.Drawing.Point(89, 42);
+            this.Cb_Type.Location = new System.Drawing.Point(55, 42);
             this.Cb_Type.Name = "Cb_Type";
             this.Cb_Type.Size = new System.Drawing.Size(112, 21);
             this.Cb_Type.TabIndex = 4;
@@ -84,7 +84,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(215, 75);
+            this.ClientSize = new System.Drawing.Size(179, 75);
             this.Controls.Add(this.Cb_Type);
             this.Controls.Add(this.Btn_Color);
             this.Controls.Add(this.Pnl_ColorPreview);

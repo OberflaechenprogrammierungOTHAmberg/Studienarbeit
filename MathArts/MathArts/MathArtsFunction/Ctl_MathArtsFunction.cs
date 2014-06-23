@@ -1,4 +1,4 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="Ctl_MathArtsFunction.cs">
 // Copyright (c) 2014
 // </copyright>
@@ -10,9 +10,7 @@
 // <studyCourse>Angewandte Informatik</studyCourse>
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
-//
-// <summary></summary>
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 using System;
 using System.Drawing;
@@ -22,13 +20,14 @@ using System.Xml;
 namespace MathArts.MathArtsFunction
 {
     /// <summary>
-    /// MathArts function object
+    /// Math arts function control manipulation color behaviour depending on its function type
+    /// (SinCos,Gauss,Gabor)
     /// </summary>
     public partial class Ctl_MathArtsFunction : Ctl_MathArtsObject
     {
         #region constants
         private const bool DEFAULT_FUNC_INVERSE = false;
-        private const FuncTypes DEFAULT_COLTYPE = FuncTypes.SinCos;
+        private const FuncTypes DEFAULT_FUNCTYPE = FuncTypes.SinCos;
         #endregion constants
 
         #region member
@@ -42,9 +41,9 @@ namespace MathArts.MathArtsFunction
         {
             InitializeComponent();
 
-            //initialize member and finally use property to trigger ValueChanged event
+            //  initialize function inverse and function type
             this.funcInverse = DEFAULT_FUNC_INVERSE;
-            this.FuncType = DEFAULT_COLTYPE;
+            this.FuncType = DEFAULT_FUNCTYPE;
 
             updateFuncValArr();
         }
@@ -93,13 +92,13 @@ namespace MathArts.MathArtsFunction
         #region enums
         public enum FuncTypes
         {
-            SinCos, Gauss, Garbor
+            SinCos,Gauss,Garbor
         }
         #endregion
 
-        #region internal methods
+        #region private methods
         /// <summary>
-        /// Redefines the value array for the fast version
+        /// Updates the value array for the fast version
         /// </summary>
         private void updateFuncValArr()
         {
@@ -135,11 +134,11 @@ namespace MathArts.MathArtsFunction
                 }
             }
         }
-        #endregion internal methods
+        #endregion
 
         #region GUI event methods
         /// <summary>
-        /// Paint event method. Draws a ellipse
+        /// Paint event method. Draws a rectangle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -172,7 +171,7 @@ namespace MathArts.MathArtsFunction
         }
 
         /// <summary>
-        /// Event method to recognize changes inside the property dialog
+        /// Event handler to recognize changes inside the property dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -180,7 +179,17 @@ namespace MathArts.MathArtsFunction
         {
             this.FuncInverse = e.NewInverseValue;
             this.FuncType = e.NewFuncType;
-        } 
+        }
+
+        /// <summary>
+        /// Event handler for resizing a math arts function
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)
+        {
+            updateFuncValArr();
+        }
         #endregion
 
         #region public methods
@@ -189,7 +198,7 @@ namespace MathArts.MathArtsFunction
         /// </summary>
         /// <param name="_x">X position</param>
         /// <param name="_y">Y position</param>
-        /// <returns></returns>
+        /// <returns>function value at specific position</returns>
         public double GetFuncVal(int _x, int _y)
         {
             double funcVal = 0.0;
@@ -228,20 +237,23 @@ namespace MathArts.MathArtsFunction
 
         /// <summary>
         /// Calculates func values by returning value array (fast version)
+        /// Pre condition for this method: MouseClickTypes.None = true
         /// </summary>
         /// <param name="_x">X postion</param>
         /// <param name="_y">Y position</param>
-        /// <returns></returns>
+        /// <returns>function value at specific position</returns>
         public double GetFuncValFromArray(int _x, int _y)
-        {
-            //[!Under investigation!] workaround or bugfix - while fast mouse motions we get index error 
-            //because the 2D array is not already as large as the mouse position
-            //if (this.mouseClickType != MouseClickTypes.None) return 0.0;
-            //another solution: pre condition for this method - only call while MouseClickTypes.None = true
-            
+        {    
             return valArr[_x, _y];
         }
-
+        
+        /// <summary>
+        /// Saves math arts function properties to xml document
+        /// </summary>
+        /// <param name="_doc">xml document</param>
+        /// <param name="_mathArtsObjNode">parent of new node</param>
+        /// <param name="currentNode">new created node</param>
+        /// <returns>Modified xml document</returns>
         public override XmlDocument SaveMathArtsObj(XmlDocument _doc, XmlNode _mathArtsObjNode, out XmlNode currentNode)
         {
             XmlNode currentMathArtsObjNode;
@@ -254,12 +266,6 @@ namespace MathArts.MathArtsFunction
             currentNode = currentMathArtsObjNode;
             return _doc;
         }
-
         #endregion
-
-        private void Ctl_MathArtsFunction_Resize(object sender, EventArgs e)
-        {
-            updateFuncValArr();
-        }
     }
 }

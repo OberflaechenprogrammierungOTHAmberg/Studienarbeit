@@ -1,18 +1,16 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="Frm_MathArtsFunctionDialog.cs">
 // Copyright (c) 2014
 // </copyright>
 //
 // <author>Betting Pascal, Schneider Mathias, Schlemelch Manuel</author>
-// <date>02-06-2014</date>
+// <date>22-06-2014</date>
 //
 // <professor>Prof. Dr. Josef Poesl</professor>
 // <studyCourse>Angewandte Informatik</studyCourse>
 // <branchOfStudy>Industrieinformatik</branchOfStudy>
 // <subject>Oberflaechenprogrammierung</subject>
-//
-// <summary></summary>
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 using System;
 using System.Windows.Forms;
@@ -33,7 +31,7 @@ namespace MathArts.MathArtsFunction
             Chb_Inverse.Checked = _funcInverse;
 
             //load enumeration for combobox dynamically
-            Cb_Function.DataSource = Enum.GetNames(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes));
+            Cb_Function.DataSource = EnumExtensions.GetDescriptionsToList(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)); 
 
             //initialize current color type
             Cb_Function.SelectedIndex = (int)_funcType;
@@ -54,7 +52,7 @@ namespace MathArts.MathArtsFunction
         private void Cb_Function_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (FunctionChanged != null) FunctionChanged(this, new FunctionChangedEventArgs(Chb_Inverse.Checked,
-                (MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)Enum.Parse(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes), Cb_Function.SelectedItem.ToString())));
+                Cb_Function.SelectedItem.ToString().ToEnum<MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes>()));
         }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace MathArts.MathArtsFunction
         private void Chb_Inverse_CheckedChanged(object sender, EventArgs e)
         {
             if (FunctionChanged != null) FunctionChanged(this, new FunctionChangedEventArgs(Chb_Inverse.Checked,
-                (MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes)Enum.Parse(typeof(MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes), Cb_Function.SelectedItem.ToString())));
+                Cb_Function.SelectedItem.ToString().ToEnum<MathArts.MathArtsFunction.Ctl_MathArtsFunction.FuncTypes>()));
         } 
         #endregion
     }
@@ -96,6 +94,5 @@ namespace MathArts.MathArtsFunction
             this.newInverseValue = _newInverseValue;
             this.newFuncType = _newFuncType;
         }
-
     }
 }

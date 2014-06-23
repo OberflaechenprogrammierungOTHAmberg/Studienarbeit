@@ -70,13 +70,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumExtensions.cs" />
     <Compile Include="Frm_MathArtsPropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frm_MathArtsPropertiesDialog.Designer.cs">
       <DependentUpon>Frm_MathArtsPropertiesDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tracing\CTracing_ValueChangedEventArgs.cs" />
+    <Compile Include="Tracing\Tracing_ValueChangedEventArgs.cs" />
     <Compile Include="Tracing\Frm_MathArtsObjTracing.cs">
       <SubType>Form</SubType>
     </Compile>

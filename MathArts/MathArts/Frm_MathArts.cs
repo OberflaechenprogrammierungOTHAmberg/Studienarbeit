@@ -30,10 +30,14 @@ namespace MathArts
     public partial class Frm_MathArts : Form
     {
         #region constants
-        private const bool NEED_TO_BE_REVIEWED = false;
         private const int  DEFAULT_X = 5;
         private const int  DEFAULT_Y = 5;
-        #endregion constants
+        #endregion
+
+        #region member
+        private bool saved = false;
+        private string saveFileName = ""; 
+        #endregion
         
         #region constructors
         /// <summary>
@@ -44,10 +48,6 @@ namespace MathArts
             //use custom MathArts icon
             this.Icon = MathArts.Properties.Resources.MathArts;
             InitializeComponent();
-
-            #region debug
-            showTracingDialog(); 
-            #endregion
         }
         #endregion
 
@@ -55,7 +55,6 @@ namespace MathArts
         public Ctl_MathArtsDisp MathArtsDispContainer
         {
             get{ return MathArtsDisp_Container; }
-            set{}
         }
         #endregion
 
@@ -97,19 +96,40 @@ namespace MathArts
             this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
         }
 
+        /// <summary>
+        /// Closes the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_Exit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Creates a new workspace
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_New_Click(object sender, EventArgs e)
         {
+            #region debug
+            showTracingDialog();
+            #endregion
+
             this.MathArtsDisp_Container.ClearWorkspace();
 
             //after clearing workspace we set math arts variables to default value
             this.menuItem_FrameVisible.Checked = true;
+            this.saved = false;
+            this.saveFileName = "";
         }
 
+        /// <summary>
+        /// Opens a save file dialog for saving either the bitmap or the objects' properties to xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_Save_Click(object sender, EventArgs e)
         {
             //set up save file dialog
@@ -128,50 +148,63 @@ namespace MathArts
                 }
                 else
                 {
-                    //create xml document
-                    XmlDocument xmlDoc = new XmlDocument();
-
-                    //add doctype
-                    XmlDocumentType doctype;
-                    doctype = xmlDoc.CreateDocumentType("MathArts", null, null, "<!ELEMENT MathArts ANY>");
-                    xmlDoc.AppendChild(doctype);
-
-                    //add properties concerning MathArts main frame
-                    XmlNode MathArtsNode = xmlDoc.AppendChild(xmlDoc.CreateElement("MathArts"));
-
-                    MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Width")).Value = this.Width.ToString();
-                    MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Height")).Value = this.Height.ToString();
-
-                    //display container will add any further properties
-                    xmlDoc = this.MathArtsDisp_Container.SaveMathArtsDisp(xmlDoc);
-
-                    xmlDoc.Save(fd.FileName);
+                     this.saved = saveToXml(fd.FileName);
+                     if (this.saved) this.saveFileName = fd.FileName;
                 }
             }
 
         }
 
+        /// <summary>
+        /// Displays demo 1 from the MathArts display class
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_Demo1_Click(object sender, EventArgs e)
         {
+            #region debug
+            showTracingDialog();
+            #endregion
+
+
             this.MathArtsDisp_Container.DisplayDemo1();
 
             //after loading demo 1 show math art object frames
             this.menuItem_FrameVisible.Checked = true;
             this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+            saved = false;
+            saveFileName = "";
         }
 
+        /// <summary>
+        /// Displays demo 2 from the MathArts display class
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_Demo2_Click(object sender, EventArgs e)
         {
-            loadFromXml(System.IO.Directory.GetCurrentDirectory() + "\\..\\..\\Demo2.marts");
+            #region debug
+            showTracingDialog();
+            #endregion
 
-            //after loading demo 1 show math art object frames
+
+            this.MathArtsDisp_Container.DisplayDemo2();
+
+            //after loading demo 2 show math art object frames
             this.menuItem_FrameVisible.Checked = true;
             this.MathArtsDisp_Container.ShowControls(menuItem_FrameVisible.Checked);
+            saved = false;
+            saveFileName = "";
         }
 
+        /// <summary>
+        /// Opens a property dialog for modifying color modulator and usage of a timer for updating the container
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_Properties_Click(object sender, EventArgs e)
         {
-            Frm_MathArtsPropertiesDialog mathArtsPropertiesDialog = new Frm_MathArtsPropertiesDialog(this.MathArtsDisp_Container.ColorModulator);
+            Frm_MathArtsPropertiesDialog mathArtsPropertiesDialog = new Frm_MathArtsPropertiesDialog(this.MathArtsDisp_Container.DefaultTimerInterval,this.MathArtsDisp_Container.TimerInterval, this.MathArtsDisp_Container.UseDefaultTimer,this.MathArtsDisp_Container.UseTimer, this.MathArtsDisp_Container.ColorModulator);
             mathArtsPropertiesDialog.PropertiesChanged += mathArtsPropertiesDialog_PropertiesChanged;
 
             //hide math arts frames
@@ -188,12 +221,11 @@ namespace MathArts
 
         }
 
-        void mathArtsPropertiesDialog_PropertiesChanged(object sender, MathArtsPropertiesEventArgs e)
-        {
-            this.MathArtsDisp_Container.ColorModulator = e.ColorModulator;
-            this.MathArtsDisp_Container.RefreshDisplay();
-        }
-
+        /// <summary>
+        /// Opens a marts file and displays its content on the workspace
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuItem_Open_Click(object sender, EventArgs e)
         {
             //set up open file dialog
@@ -204,12 +236,60 @@ namespace MathArts
 
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                loadFromXml(fd.FileName);
+                if(loadFromXml(fd.FileName))
+                {
+                    saved = true;
+                    saveFileName = fd.FileName;
+                }
             }
         }
         #endregion
 
-        #region internal private methods
+        #region private methods
+        /// <summary>
+        /// Initiates the saving of the math arts file
+        /// </summary>
+        /// <param name="martsFile">path of the marts file</param>
+        /// <returns>flag wheater it worked</returns>
+        private bool saveToXml(string martsFile)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                //create xml document
+                XmlDocument xmlDoc = new XmlDocument();
+
+                //add doctype
+                XmlDocumentType doctype;
+                doctype = xmlDoc.CreateDocumentType("MathArts", null, null, "<!ELEMENT MathArts ANY>");
+                xmlDoc.AppendChild(doctype);
+
+                //add properties concerning MathArts main frame
+                XmlNode MathArtsNode = xmlDoc.AppendChild(xmlDoc.CreateElement("MathArts"));
+
+                MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Width")).Value = this.Width.ToString();
+                MathArtsNode.Attributes.Append(xmlDoc.CreateAttribute("Height")).Value = this.Height.ToString();
+
+                //display container will add any further properties
+                xmlDoc = this.MathArtsDisp_Container.SaveMathArtsDisp(xmlDoc);
+
+                xmlDoc.Save(martsFile);
+                this.Cursor = Cursors.Default;
+                return true;
+            }
+            catch
+            {
+                this.Cursor = Cursors.Default;
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// Loads the marts file to the workspace
+        /// </summary>
+        /// <param name="martsFile">path of the marts file</param>
+        /// <returns>flag wheater it worked</returns>
         private bool loadFromXml(string martsFile)
         {
             //clear old workspace
@@ -315,7 +395,7 @@ namespace MathArts
                         }
 
                         //finally load all math art objects in display
-                        this.MathArtsDisp_Container.LoadMathArtObjects(lMathArtsObjs);
+                        this.MathArtsDisp_Container.AddMathArtsObject(lMathArtsObjs);
                     }
                 }
             }
@@ -328,11 +408,75 @@ namespace MathArts
         }
         #endregion
 
+        #region form events
+        /// <summary>
+        /// Updates the properties depending on the changes made inside the property dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void mathArtsPropertiesDialog_PropertiesChanged(object sender, MathArtsPropertiesEventArgs e)
+        {
+            this.MathArtsDisp_Container.ColorModulator = e.ColorModulator;
+            this.MathArtsDisp_Container.UseTimer = e.UseTimer;
+            this.MathArtsDisp_Container.UseDefaultTimer = e.UseDefaultTimer;
+            this.MathArtsDisp_Container.TimerInterval = e.TimerInterval;
+
+            if (e.ChangeType == MathArtsPropertiesEventArgs.ChangeTypes.ColorModulator) this.MathArtsDisp_Container.RefreshDisplay();
+        }
+
+        /// <summary>
+        /// Shows the tracing dialog on form loading (only in debug version)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Frm_MathArts_Load(object sender, EventArgs e)
+        {
+            #region debug
+            showTracingDialog();
+            #endregion
+        }
+
+        /// <summary>
+        /// Disposes the container on form closing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Frm_MathArts_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.MathArtsDisp_Container.Dispose();
+        }
+
+        /// <summary>
+        /// Enables the shortcut Ctrl + S for saving the workspace
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Frm_MathArts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                if (this.saved && this.saveFileName != "")
+                {
+                    this.saved = saveToXml(this.saveFileName);
+                }
+                else
+                {
+                    this.menuItem_Save_Click(this, EventArgs.Empty);
+                }
+
+                e.SuppressKeyPress = true;
+            }
+        }
+        #endregion
+
         #region debug
+        private MathArts.Debug.Frm_MathArtsObjTracing tracingDialog;
+
         [ConditionalAttribute("DEBUG")]
         private void showTracingDialog()
         {
-            MathArts.Debug.Frm_MathArtsObjTracing tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
+            if (tracingDialog != null) tracingDialog.Dispose();
+            tracingDialog = new MathArts.Debug.Frm_MathArtsObjTracing(this);
             tracingDialog.Show();
         } 
         #endregion
